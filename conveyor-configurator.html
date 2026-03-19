@@ -546,19 +546,133 @@ footer{background:var(--dark);padding:48px 48px 32px}
 
 <script>
 
-// ── REVEAL ANIMATION ──────────────────────────────────────
-const reveals = document.querySelectorAll('.reveal');
-if (reveals.length) {
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 60);
-        obs.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
-  reveals.forEach(el => obs.observe(el));
+
+// ── PRODUCTS ──────────────────────────────────────────────
+const PRODUCTS = [
+  { id:'rp',   name:'Roller Powered',     icon:'⚙️', unit:'m', base:212,  perM:1011, minQty:1, defQty:3, note:'24VDC/48VDC · up to 2m/s · ZLP accumulation' },
+  { id:'rnp',  name:'Roller Non-Powered', icon:'⬜', unit:'m', base:186,  perM:497,  minQty:1, defQty:3, note:'Gravity fed · zero energy · accumulation' },
+  { id:'bc',   name:'Belt Conveyor',      icon:'▬',  unit:'m', base:1851, perM:371,  minQty:1, defQty:3, note:'Drum/central motor · variable speed · flat base' },
+  { id:'id',   name:'Incline / Decline',  icon:'↗️', unit:'m', base:1876, perM:461,  minQty:1, defQty:2, note:'Cleated belt option · up to 30° · sealed bearings' },
+  { id:'c45',  name:'Curve 45°',          icon:'↪️', unit:'unit', base:1269, perM:0, minQty:1, defQty:1, note:'£1,269 per unit · 45° direction change' },
+  { id:'c90',  name:'Curve 90°',          icon:'↩️', unit:'unit', base:1900, perM:0, minQty:1, defQty:1, note:'£1,900 per unit · 90° direction change' },
+  { id:'mg',   name:'Merge',              icon:'⇉',  unit:'unit', base:1109, perM:0, minQty:1, defQty:1, note:'£1,109 per unit · 2-into-1 merge' },
+  { id:'ib',   name:'Injector Belt',      icon:'➡️', unit:'unit', base:2637, perM:0, minQty:1, defQty:1, note:'£2,637 per unit · high speed injection' },
+  { id:'xfer', name:'Transfer',           icon:'🔄', unit:'unit', base:2200, perM:0, minQty:1, defQty:1, note:'£2,200 per unit · 90° product transfer' },
+  { id:'turn', name:'Turntable',          icon:'🔃', unit:'unit', base:3200, perM:0, minQty:1, defQty:1, note:'£3,200 per unit · 360° rotation' },
+  { id:'palr', name:'Pallet Roller',      icon:'🏭', unit:'m', base:1200, perM:890, minQty:1, defQty:3, note:'Up to 1,000kg · CHEP/Euro pallet · chain drive' },
+  { id:'palt', name:'Pallet Transfer',    icon:'↕️', unit:'unit', base:4500, perM:0, minQty:1, defQty:1, note:'£4,500 per unit · 90° pallet re-orientation' },
+];
+
+const LEASE_36=0.032, LEASE_60=0.021, INSTALL_RATE=0.18, CONTROLS_BASE=18000, CONTROLS_PER_M=120, LABOUR_HR=12.21, ONCOST=1.25;
+
+let items=[], finance='capital';
+
+// ── HELPERS ───────────────────────────────────────────────
+const fmt  = n=>'£'+Math.round(n).toLocaleString('en-GB');
+const fmtK = n=>n>=1000000?'£'+(n/1000000).toFixed(2)+'m':n>=1000?'£'+Math.round(n/1000)+'k':fmt(n);
+const fmtM = n=>'£'+Math.round(n).toLocaleString('en-GB')+'/mo';
+const eld2 = id=>document.getElementById(id);
+const setv2= (id,v)=>{ const e=eld2(id); if(e) e.textContent=v; };
+function flash2(id){ const e=eld2(id); if(!e)return; e.classList.remove('flash'); void e.offsetWidth; e.classList.add('flash'); setTimeout(()=>e.classList.remove('flash'),600); }
+
+function productSell(prod,qty){ return prod.unit==='m'?prod.base+qty*prod.perM:prod.base*qty; }
+
+// ── PICKER ────────────────────────────────────────────────
+function buildPicker(){
+  const g=eld2('pickerGrid'); if(!g) return; g.innerHTML='';
+  PRODUCTS.forEach(p=>{
+    const b=document.createElement('button'); b.className='product-btn';
+    const ul=p.unit==='m'?'from £'+Math.round(p.base+p.perM)+'/m':'£'+p.base.toLocaleString()+' each';
+    b.innerHTML=`<span class="product-btn-icon">${p.icon}</span><span class="product-btn-name">${p.name}</span><span class="product-btn-price">${ul}</span>`;
+    b.onclick=()=>addItem(p.id); g.appendChild(b);
+  });
 }
+
+// ── ITEMS ─────────────────────────────────────────────────
+function addItem(pid){
+  const prod=PRODUCTS.find(p=>p.id===pid); if(!prod) return;
+  items.push({productId:pid,qty:prod.defQty,id:Date.now()});
+  renderItems(); recalc(); showToast2(prod.name+' added');
+}
+function removeItem(id){ items=items.filter(i=>i.id!==id); renderItems(); recalc(); }
+function updateQty(id,val){ const item=items.find(i=>i.id===id); if(item){item.qty=Math.max(0.5,parseFloat(val)||1);recalc();} }
+function clearAll(){ items=[]; renderItems(); recalc(); }
+
+function renderItems(){
+  const list=eld2('itemsList'); if(!list) return;
+  if(items.length===0){ list.innerHTML='<div class="items-empty">No items yet — click a conveyor type above to add it</div>'; return; }
+  const isSS=eld2('material')?.value==='ss';
+  list.innerHTML=items.map(item=>{
+    const prod=PRODUCTS.find(p=>p.id===item.productId); if(!prod) return '';
+    const ul=prod.unit==='m'?'m length':'qty';
+    const sell=productSell(prod,item.qty)*(isSS?1.25:1);
+    return `<div class="item-row" id="row-${item.id}">
+      <div><div class="item-name">${prod.icon} ${prod.name}</div><div class="item-sub">${prod.note}</div></div>
+      <div class="item-qty"><input type="number" value="${item.qty}" min="${prod.minQty}" step="${prod.unit==='m'?0.5:1}" onchange="updateQty(${item.id},this.value)" style="width:80px"><span style="font-size:10px;color:var(--mid-gray)">${ul}</span></div>
+      <div class="item-price">${fmt(sell)}</div>
+      <button class="item-del" onclick="removeItem(${item.id})">×</button>
+    </div>`;
+  }).join('');
+}
+
+// ── FINANCE ───────────────────────────────────────────────
+function setFinance2(f){
+  finance=f;
+  ['capital','36','60'].forEach(k=>{ const o=eld2('fo-'+k); if(o)o.classList.toggle('active',k===f); });
+  recalc();
+}
+
+// ── RECALC ────────────────────────────────────────────────
+function recalc(){
+  const isSS=eld2('material')?.value==='ss';
+  const incInstall=eld2('includeInstall')?.value==='yes';
+  const incControls=eld2('includeControls')?.value==='yes';
+  const headcount=parseInt(eld2('roi-headcount')?.value)||3;
+  const annualHrs=parseInt(eld2('roi-hours')?.value)||4000;
+  let equipTotal=0,totalMetres=0;
+  const breakdown={};
+  items.forEach(item=>{
+    const prod=PRODUCTS.find(p=>p.id===item.productId); if(!prod) return;
+    let sell=productSell(prod,item.qty)*(isSS?1.25:1);
+    equipTotal+=sell; if(prod.unit==='m') totalMetres+=item.qty;
+    if(!breakdown[prod.name]) breakdown[prod.name]=0;
+    breakdown[prod.name]+=sell;
+  });
+  const controlsCost=incControls?CONTROLS_BASE+(totalMetres*CONTROLS_PER_M):0;
+  const installCost=incInstall?(equipTotal+controlsCost)*INSTALL_RATE:0;
+  const totalCost=equipTotal+controlsCost+installCost;
+  const lease36mo=totalCost*LEASE_36, lease60mo=totalCost*LEASE_60;
+  const labEff=LABOUR_HR*ONCOST, annualLab=headcount*labEff*annualHrs;
+  const labMo=annualLab/12;
+  const paybackMo=totalCost>0?totalCost/labMo:0, paybackYrs=paybackMo/12;
+  const netMo60=labMo-lease60mo;
+  const primary=finance==='capital'?fmtK(totalCost):finance==='36'?fmtM(lease36mo):fmtM(lease60mo);
+  setv2('m-cost',totalCost>0?primary:'—'); flash2('m-cost');
+  setv2('m-36',totalCost>0?fmtM(lease36mo):'—'); flash2('m-36');
+  setv2('m-60',totalCost>0?fmtM(lease60mo):'—'); flash2('m-60');
+  setv2('m-payback',totalCost>0&&paybackYrs>0?(paybackYrs<1?Math.round(paybackMo)+' mo':paybackYrs.toFixed(1)+' yrs'):'—'); flash2('m-payback');
+  setv2('fo-capital-amt',totalCost>0?fmt(totalCost):'—');
+  setv2('fo-36-amt',totalCost>0?fmtM(lease36mo):'—');
+  setv2('fo-60-amt',totalCost>0?fmtM(lease60mo):'—');
+  setv2('roi-saving',annualLab>0?fmtK(annualLab)+'/yr':'—');
+  setv2('roi-payback',totalCost>0&&paybackYrs>0?(paybackYrs<1?Math.round(paybackMo)+' months':paybackYrs.toFixed(1)+' years'):'—');
+  setv2('roi-net',totalCost>0?(netMo60>=0?'+':'')+fmtK(netMo60)+'/mo':'—');
+  const bd=eld2('breakdownBody'); setv2('bd-total-lbl',totalCost>0?fmt(totalCost)+' total':'—');
+  if(!bd) return;
+  if(items.length===0){ bd.innerHTML='<div class="b-row"><span class="b-label">No items added</span><span class="b-value">—</span></div>'; return; }
+  let html=Object.entries(breakdown).map(([name,cost])=>`<div class="b-row"><span class="b-label">${name}</span><span class="b-value">${fmt(cost)}</span></div>`).join('');
+  if(controlsCost>0) html+=`<div class="b-row"><span class="b-label">Controls &amp; WCS</span><span class="b-value">${fmt(controlsCost)}</span></div>`;
+  html+=`<div class="b-row subtotal"><span class="b-label">Equipment subtotal</span><span class="b-value">${fmt(equipTotal+controlsCost)}</span></div>`;
+  if(installCost>0) html+=`<div class="b-row"><span class="b-label">Installation (18%)</span><span class="b-value">${fmt(installCost)}</span></div>`;
+  html+=`<div class="b-row total"><span class="b-label">Total system cost</span><span class="b-value">${fmt(totalCost)}</span></div>`;
+  bd.innerHTML=html;
+}
+
+function showToast2(msg){ const t=eld2('toast'),tm=eld2('toast-msg'); if(t&&tm){tm.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);} }
+
+// ── INIT ──────────────────────────────────────────────────
+buildPicker();
+recalc();
 
 // ── CONFIGURE DROPDOWN ────────────────────────────────────
 function toggleConfigureDropdown() {

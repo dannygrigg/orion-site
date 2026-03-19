@@ -971,19 +971,297 @@ footer{background:var(--dark);padding:48px 48px 32px}
 
 <script>
 
-// ── REVEAL ANIMATION ──────────────────────────────────────
-const reveals = document.querySelectorAll('.reveal');
-if (reveals.length) {
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 60);
-        obs.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
-  reveals.forEach(el => obs.observe(el));
+
+// ── TAB SWITCHING ─────────────────────────────────────────
+function showTab(tab) {
+  ['system','induction','outfeed','addons','roi'].forEach(t => {
+    const btn = document.getElementById('stab-'+t);
+    const panel = document.getElementById('panel-'+t);
+    if(btn) btn.classList.toggle('active', t===tab);
+    if(panel) panel.classList.toggle('hidden', t!==tab);
+  });
 }
+
+// ── STATE ─────────────────────────────────────────────────
+const S = { gapex:1, chute:'gravity', rom:'yes', finance:'capital' };
+
+// ── ADDON FIXED PRICES ────────────────────────────────────
+const ADDONS = {
+  'ao-wms':8500, 'ao-dashboard':4200, 'ao-training':1800,
+  'ao-warranty36':3500, 'ao-maintenance':4800,
+  'ao-printapply':12500, 'ao-checkweigh':8000,
+};
+
+// ── PRICING ───────────────────────────────────────────────
+const P = {
+  helix:{ 5:4079,10:4642,15:5206,19:5669,20:5769,25:6395,30:6958,38:7884,57:10100 },
+  inductPerM:1011, inductBase:212,
+  gapex:6500,
+  camera:{ none:0,basic:4500,vision:12000,dimensioning:18000 },
+  chute:{ gravity:1200,powered:2800,belt:2200 },
+  controlsBase:18000, controlsPerHelix:2200,
+  rom:14000,
+  installRate:0.18,
+  lease36:0.032, lease60:0.021,
+  labourHr:12.21, oncost:1.25,
+};
+
+// ── HELPERS ───────────────────────────────────────────────
+const fmt  = n => '£' + Math.round(n).toLocaleString('en-GB');
+const fmtK = n => n>=1000000?'£'+(n/1000000).toFixed(2)+'m':n>=1000?'£'+Math.round(n/1000)+'k':fmt(n);
+const fmtM = n => '£'+Math.round(n).toLocaleString('en-GB')+'/mo';
+const eld  = id => document.getElementById(id);
+const setv = (id,v) => { const e=eld(id); if(e) e.textContent=v; };
+function flash(id){ const e=eld(id); if(!e)return; e.classList.remove('flash'); void e.offsetWidth; e.classList.add('flash'); setTimeout(()=>e.classList.remove('flash'),600); }
+
+// ── HELIX PRICE LOOKUP ────────────────────────────────────
+function helixSell(wheels) {
+  const keys = Object.keys(P.helix).map(Number).sort((a,b)=>a-b);
+  if(wheels<=keys[0]) return P.helix[keys[0]];
+  if(wheels>=keys[keys.length-1]) return P.helix[keys[keys.length-1]];
+  for(let i=0;i<keys.length-1;i++){
+    if(wheels>=keys[i]&&wheels<=keys[i+1]){
+      const t=(wheels-keys[i])/(keys[i+1]-keys[i]);
+      return P.helix[keys[i]]+t*(P.helix[keys[i+1]]-P.helix[keys[i]]);
+    }
+  }
+  return P.helix[19];
+}
+
+// ── TOGGLES ───────────────────────────────────────────────
+function setGapex(n){ S.gapex=n; [0,1,2].forEach(i=>{ const b=eld('g'+i); if(b)b.classList.toggle('active',i===n); }); recalc(); }
+function setChute(t){ S.chute=t; ['gravity','powered','belt'].forEach(c=>{ const b=eld('chute-'+c); if(b)b.classList.toggle('active',c===t); }); recalc(); }
+function setRom(v){ S.rom=v; const y=eld('rom-yes'),n=eld('rom-no'); if(y)y.classList.toggle('active',v==='yes'); if(n)n.classList.toggle('active',v==='no'); recalc(); }
+function setFinance(m){ S.finance=m; updateFinanceUI(); recalc(); }
+function updateFinanceUI(){
+  const m=S.finance;
+  ['capital','lease36','lease60'].forEach(f=>{ const b=eld('fin-'+f); if(b)b.classList.toggle('active',f===m); });
+  ['capital','36','60'].forEach(k=>{ const c=eld('fc-'+k); if(c)c.classList.toggle('active-card',(k==='capital'&&m==='capital')||(k==='36'&&m==='lease36')||(k==='60'&&m==='lease60')); });
+}
+
+// ── MAIN RECALC ───────────────────────────────────────────
+function recalc() {
+  const parcelLen   = parseInt(eld('parcelLength')?.value||500);
+  const destinations= parseInt(eld('destinations')?.value||10);
+  const throughput  = parseInt(eld('throughputMode')?.value||5000);
+  const manualPPH   = parseInt(eld('manualSortRate')?.value||800);
+  const loadLen     = parseFloat(eld('loadingLength')?.value||6);
+  const cameraType  = eld('cameraType')?.value||'basic';
+  const headcount   = parseInt(eld('headcount')?.value||4);
+  const annualHrs   = parseInt(eld('annualHours')?.value||4000);
+
+  // Sizing
+  const helixCount     = Math.ceil(destinations/2);
+  const modulesPerUnit = Math.max(2,Math.ceil(parcelLen/300));
+  const wheelsPerUnit  = modulesPerUnit===2?19:modulesPerUnit===3?30:38;
+  const helixLen       = modulesPerUnit*0.3;
+  const totalSorterLen = helixCount*helixLen;
+
+  // Add-ons
+  const hasControls = eld('ao-controls')?.checked!==false;
+  const hasFAT      = eld('ao-fat')?.checked!==false;
+  const hasInstall  = eld('ao-install')?.checked!==false;
+  const hasSpares   = !!eld('ao-spares')?.checked;
+  const costControls= hasControls?P.controlsBase+(helixCount*P.controlsPerHelix):0;
+  const fatHrs      = 16+(helixCount*4);
+  const costFAT     = hasFAT?fatHrs*30*1.25:0;
+
+  // Core costs
+  const costHelix  = helixCount*helixSell(wheelsPerUnit);
+  const costLoad   = P.inductBase+(loadLen*P.inductPerM);
+  const costGapex  = S.gapex*P.gapex;
+  const costCamera = P.camera[cameraType]||0;
+  const costChutes = helixCount*2*P.chute[S.chute];
+  const costROM    = S.rom==='yes'?P.rom:0;
+  const equipment  = costHelix+costLoad+costGapex+costCamera+costChutes+costROM;
+  const costInstall= hasInstall?equipment*P.installRate:0;
+  const costSpares = hasSpares?Math.round(equipment*0.035):0;
+
+  // Fixed addons
+  let addonExtras=0, addonLines=[];
+  Object.entries(ADDONS).forEach(([id,price])=>{
+    if(eld(id)?.checked){ addonExtras+=price; const nm=eld(id)?.closest('.addon-row')?.querySelector('.addon-name')?.textContent||id; addonLines.push({nm,price}); }
+  });
+
+  const totalCost = equipment+costControls+costFAT+costInstall+costSpares+addonExtras;
+  const lease36mo = totalCost*P.lease36;
+  const lease60mo = totalCost*P.lease60;
+
+  // ROI
+  const labEff     = P.labourHr*P.oncost;
+  const annualLab  = headcount*labEff*annualHrs;
+  const labMo      = annualLab/12;
+  const paybackMo  = totalCost/labMo;
+  const paybackYrs = paybackMo/12;
+  const netMo60    = labMo-lease60mo;
+  const fiveYrNet  = (annualLab*5)-(lease60mo*60);
+
+  // Update addon price labels
+  if(eld('aop-controls')) eld('aop-controls').textContent=hasControls?fmt(costControls):'Not included';
+  if(eld('aop-fat'))      eld('aop-fat').textContent=hasFAT?fmt(costFAT)+' ('+fatHrs+'hrs)':'Not included';
+  if(eld('aop-install'))  eld('aop-install').textContent=hasInstall?fmt(costInstall):'Not included';
+  if(eld('aop-spares'))   eld('aop-spares').textContent=hasSpares?fmt(costSpares):'Not included';
+
+  // Metrics bar
+  const primary = S.finance==='capital'?fmtK(totalCost):S.finance==='lease36'?fmtM(lease36mo):fmtM(lease60mo);
+  setv('m-cost',primary); flash('m-cost');
+  setv('m-lease36',fmtM(lease36mo)); flash('m-lease36');
+  setv('m-lease60',fmtM(lease60mo)); flash('m-lease60');
+  setv('m-saving',fmtK(annualLab)); flash('m-saving');
+  setv('m-payback',paybackYrs<1?Math.round(paybackMo)+' mo':paybackYrs.toFixed(1)+' yrs'); flash('m-payback');
+
+  // Result cards
+  setv('r-throughput',throughput.toLocaleString('en-GB'));
+  setv('r-helix',helixCount);
+  setv('r-modules',modulesPerUnit+' per unit');
+  setv('r-length',totalSorterLen.toFixed(1)+'m');
+
+  // Breakdown
+  setv('bd-helix',fmt(costHelix)+' ('+helixCount+' units, '+modulesPerUnit+' mods each)');
+  setv('bd-frontend',fmt(costLoad));
+  setv('bd-gapex',S.gapex===0?'Not included':fmt(costGapex)+' ('+S.gapex+' unit'+(S.gapex>1?'s':'')+')');
+  setv('bd-camera',cameraType==='none'?'Not included':fmt(costCamera));
+  setv('bd-chutes',fmt(costChutes)+' ('+(helixCount*2)+' chutes)');
+  setv('bd-controls',hasControls?fmt(costControls):'Not included');
+  setv('bd-rom',S.rom==='yes'?fmt(costROM):'Not included');
+  setv('bd-equipment',fmt(equipment));
+  setv('bd-fat',hasFAT?fmt(costFAT):'Not included');
+  setv('bd-install',hasInstall?fmt(costInstall)+' (18%)':'Not included');
+  setv('bd-addons',addonExtras>0?fmt(addonExtras)+' ('+addonLines.length+' items)':'None selected');
+  setv('bd-total',fmt(totalCost));
+  setv('bd-total-label',fmt(totalCost)+' total');
+
+  // Finance cards
+  setv('fc-capital-amt',fmt(totalCost));
+  setv('fc-36-amt',fmtM(lease36mo));
+  setv('fc-60-amt',fmtM(lease60mo));
+  updateFinanceUI();
+
+  // ROI
+  setv('roi-saving',fmtK(annualLab)+'/yr');
+  setv('roi-payback',paybackYrs<1?Math.round(paybackMo)+' months':paybackYrs.toFixed(1)+' years');
+  setv('roi-net',(netMo60>=0?'+':'')+fmtK(netMo60)+'/mo');
+  setv('roi-5yr',fmtK(fiveYrNet));
+  setv('ra-headcount',headcount);
+  setv('ra-hours',annualHrs.toLocaleString('en-GB'));
+  setv('ra-uplift',Math.round(throughput/manualPPH)+'×');
+
+  // Diagram
+  renderDiagram({helixCount,modulesPerUnit,helixLen,loadLen});
+
+  // Store for PDF
+  window.helixCfg = {destinations,throughput,helixCount,totalCost,lease36mo,lease60mo,annualLab};
+}
+
+// ── DIAGRAM ───────────────────────────────────────────────
+function renderDiagram(cfg) {
+  const d = eld('systemDiagram');
+  if(!d) return;
+  d.innerHTML = '';
+  const row = html => { const r=document.createElement('div'); r.className='diagram-row'; r.innerHTML=html; d.appendChild(r); };
+  const blk = (cls,txt,dim='') => `<div class="d-block ${cls}">${txt}${dim?'<span class="d-dim">'+dim+'</span>':''}</div>`;
+  const arr = () => `<span class="d-arrow">→</span>`;
+  row(blk('d-loading','Loading conveyor',cfg.loadLen+'m'));
+  if(S.gapex>0) for(let i=0;i<S.gapex;i++) row(arr()+blk('d-gapex','GapEx singulation #'+(i+1),'~1,500mm'));
+  const cam = eld('cameraType')?.value;
+  if(cam&&cam!=='none'){ const lbl={basic:'Barcode reader',vision:'Vision camera',dimensioning:'Dimensioning + vision'}[cam]; row(arr()+blk('d-camera',lbl,'overhead')); }
+  for(let i=0;i<cfg.helixCount;i++){
+    row(arr()+`<div class="d-block d-helix">Helix unit ${i+1}<span class="d-helix-sub">(${cfg.modulesPerUnit} modules)</span></div><span class="d-dim">${(cfg.helixLen*1000).toFixed(0)}mm</span>`);
+    row(arr()+blk('d-chute','← Dest '+(i*2+1))+' '+blk('d-chute','Dest '+(i*2+2)+' →'));
+  }
+  if(S.rom==='yes') row(arr()+blk('d-return','Return loop (ROM)','site-specific'));
+}
+
+// ── SAVE / MODAL ──────────────────────────────────────────
+function saveConfig() {
+  const ms = eld('ms-cost'); if(ms) ms.textContent = eld('m-cost')?.textContent||'—';
+  const ml = eld('ms-lease'); if(ml) ml.textContent = eld('m-lease60')?.textContent||'—';
+  const mv = eld('ms-saving'); if(mv) mv.textContent = eld('m-saving')?.textContent||'—';
+  const mp = eld('ms-payback'); if(mp) mp.textContent = eld('m-payback')?.textContent||'—';
+  const mo = eld('saveModal'); if(mo){ const mf=eld('modalForm'),ms2=eld('modalSuccess'); if(mf)mf.style.display='block'; if(ms2)ms2.style.display='none'; mo.classList.add('open'); setTimeout(()=>{ const n=eld('cf-name'); if(n)n.focus(); },300); }
+}
+function closeModal(){ const mo=eld('saveModal'); if(mo)mo.classList.remove('open'); }
+function submitConfig(){
+  const name=eld('cf-name')?.value.trim()||''; const company=eld('cf-company')?.value.trim()||''; const email=eld('cf-email')?.value.trim()||'';
+  if(!name||!company||!email){ showToast('Please fill in name, company and email'); return; }
+  if(!/\S+@\S+\.\S+/.test(email)){ showToast('Please enter a valid email'); return; }
+  const btn=eld('modalSubmitBtn'); if(btn){ btn.classList.add('loading'); btn.textContent='Sending...'; }
+  setTimeout(()=>{ 
+    if(btn){ btn.classList.remove('loading'); }
+    const mf=eld('modalForm'),ms=eld('modalSuccess'); 
+    if(mf)mf.style.display='none'; if(ms)ms.style.display='block';
+    generatePDF(name,company,email);
+  },800);
+}
+function generatePDF(name,company,email){
+  const w=window.open('','_blank','width=800,height=900'); if(!w){window.print();return;}
+  const now=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Helix Config — Orion MIS</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'DM Sans',sans-serif;color:#1d1d1f;padding:40px 48px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .header{display:flex;justify-content:space-between;border-bottom:2px solid #1d1d1f;padding-bottom:20px;margin-bottom:24px}
+  .logo{font-family:'DM Serif Display',serif;font-size:24px}.meta{text-align:right;font-size:11px;color:#86868b}
+  h1{font-family:'DM Serif Display',serif;font-size:30px;margin-bottom:6px}h1 em{font-style:italic;color:#0066cc}
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#e2e2e7;border:1px solid #e2e2e7;border-radius:10px;overflow:hidden;margin-bottom:24px}
+  .metric{background:#1d1d1f;padding:14px 16px}.metric-label{font-size:9px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:4px}
+  .metric-value{font-family:'DM Serif Display',serif;font-size:20px;color:white;line-height:1}.metric.green .metric-value{color:#5dcaa5}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+  .card{border:1px solid #e2e2e7;border-radius:10px;padding:16px 18px}.section-label{font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#0066cc;margin-bottom:12px}
+  .row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f0f0f5;font-size:13px}
+  .row:last-child{border-bottom:none}.row-label{color:#86868b;font-weight:300}.row-value{font-weight:500}
+  .total-row{background:#1d1d1f;border-radius:8px;padding:10px 14px;margin-top:4px;display:flex;justify-content:space-between}
+  .total-row span{color:white;font-weight:500;font-size:14px}
+  .disclaimer{font-size:10px;color:#86868b;line-height:1.6;padding:12px 14px;background:#f5f5f7;border-radius:8px;margin-top:20px}
+  .footer{margin-top:24px;padding-top:16px;border-top:1px solid #e2e2e7;display:flex;justify-content:space-between;font-size:11px;color:#86868b}
+  @media print{body{padding:24px 32px}}</style></head><body>
+  <div class="header"><div><div class="logo">ORION</div><div style="font-size:11px;color:#86868b;margin-top:4px">Helix System Configuration</div></div>
+  <div class="meta"><strong>${name}${company?' — '+company:''}</strong><br>${email}<br>Configured ${now}</div></div>
+  <h1>Helix <em>system summary</em></h1><p style="font-size:13px;font-weight:300;color:#86868b;margin-bottom:20px">Indicative pricing based on your configuration. Subject to site survey and detailed design.</p>
+  <div class="metrics">
+    <div class="metric"><div class="metric-label">System cost</div><div class="metric-value">${eld('m-cost')?.textContent||'—'}</div></div>
+    <div class="metric"><div class="metric-label">60m lease/mo</div><div class="metric-value">${eld('m-lease60')?.textContent||'—'}</div></div>
+    <div class="metric green"><div class="metric-label">Annual saving</div><div class="metric-value">${eld('m-saving')?.textContent||'—'}</div></div>
+    <div class="metric"><div class="metric-label">Payback</div><div class="metric-value">${eld('m-payback')?.textContent||'—'}</div></div>
+  </div>
+  <div class="grid2">
+    <div><div class="section-label">System specification</div><div class="card">
+      <div class="row"><span class="row-label">Sort destinations</span><span class="row-value">${eld('destinations')?.value}</span></div>
+      <div class="row"><span class="row-label">Helix units</span><span class="row-value">${eld('r-helix')?.textContent||'—'}</span></div>
+      <div class="row"><span class="row-label">Total sorter length</span><span class="row-value">${eld('r-length')?.textContent||'—'}</span></div>
+      <div class="row"><span class="row-label">GapEx units</span><span class="row-value">${S.gapex===0?'None':S.gapex}</span></div>
+      <div class="row"><span class="row-label">Chute type</span><span class="row-value">${S.chute.charAt(0).toUpperCase()+S.chute.slice(1)}</span></div>
+      <div class="row"><span class="row-label">Return loop</span><span class="row-value">${S.rom==='yes'?'Included':'Not included'}</span></div>
+    </div></div>
+    <div><div class="section-label">Cost breakdown</div><div class="card">
+      <div class="row"><span class="row-label">Helix modules</span><span class="row-value">${eld('bd-helix')?.textContent?.split(' (')[0]||'—'}</span></div>
+      <div class="row"><span class="row-label">Controls &amp; WCS</span><span class="row-value">${eld('bd-controls')?.textContent||'—'}</span></div>
+      <div class="row"><span class="row-label">FAT &amp; installation</span><span class="row-value">${eld('bd-install')?.textContent||'—'}</span></div>
+      <div class="row"><span class="row-label">Add-ons</span><span class="row-value">${eld('bd-addons')?.textContent||'None'}</span></div>
+      <div class="total-row"><span>Total</span><span>${eld('bd-total')?.textContent||'—'}</span></div>
+    </div></div>
+  </div>
+  <div class="disclaimer"><strong>Important:</strong> All figures are indicative estimates. Final pricing subject to site survey, detailed design and formal quotation. Lease rates subject to finance approval.</div>
+  <div class="footer"><span>Orion MIS Ltd · Number 1 Fontwell Avenue, Fontwell, Chichester PO20 3RU</span><span>+44 333 335 5269 · info@orionmis.co.uk</span></div>
+  <script>window.onload=function(){window.focus();window.print();}<\/script></body></html>`);
+  w.document.close();
+}
+
+// ── LOAD / SAVE STATE ─────────────────────────────────────
+function loadConfig() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('helix_config_v4')||'null');
+    if(!saved) return;
+    ['parcelLength','destinations','throughputMode','manualSortRate','loadingLength','outfeedLength','cameraType','headcount','annualHours','systemWidth'].forEach(k=>{ if(saved[k]&&eld(k)) eld(k).value=saved[k]; });
+    if(saved.gapex!==undefined){ S.gapex=saved.gapex; [0,1,2].forEach(i=>{ const b=eld('g'+i); if(b)b.classList.toggle('active',i===saved.gapex); }); }
+    if(saved.chute){ S.chute=saved.chute; ['gravity','powered','belt'].forEach(c=>{ const b=eld('chute-'+c); if(b)b.classList.toggle('active',c===saved.chute); }); }
+    if(saved.rom){ S.rom=saved.rom; }
+    if(saved.finance){ S.finance=saved.finance; }
+  } catch(e){}
+}
+function showToast(msg){ const t=eld('toast'),tm=eld('toast-msg'); if(t&&tm){tm.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);} }
+
+// ── INIT ─────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => { loadConfig(); recalc(); });
 
 // ── CONFIGURE DROPDOWN ────────────────────────────────────
 function toggleConfigureDropdown() {
