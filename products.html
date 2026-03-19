@@ -1,0 +1,1024 @@
+<!DOCTYPE html><!-- v3 -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Products — Orion MIS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ── NAV ── */
+.announcement-bar{background:#1d1d1f;height:36px;overflow:hidden;position:fixed;top:0;left:0;right:0;z-index:300;border-bottom:1px solid rgba(255,255,255,0.12)}
+.announcement-track{display:flex;align-items:center;height:36px;white-space:nowrap;animation:scrollBanner 35s linear infinite}
+.announcement-track:hover{animation-play-state:paused}
+.announcement-item{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:400;color:rgba(255,255,255,0.8);padding:0 32px;flex-shrink:0;font-family:'DM Sans',sans-serif}
+.announcement-item a{color:#fff;font-weight:500;text-decoration:underline;text-underline-offset:2px}
+.announcement-sep{color:rgba(255,255,255,0.25);font-size:10px;flex-shrink:0}
+@keyframes scrollBanner{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+nav{position:fixed;top:36px;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(255,255,255,0.96);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,0.06)}
+.nav-logo img{height:36px;display:block}
+.nav-links{display:flex;gap:24px;list-style:none;align-items:center;margin:0;padding:0}
+.nav-links a{font-size:14px;color:#1d1d1f;text-decoration:none;opacity:0.7;transition:opacity 0.2s}
+.nav-links a:hover{opacity:1}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-configure{position:relative}
+.nav-configure-btn{display:flex;align-items:center;gap:6px;background:#1d1d1f;color:white;padding:8px 18px;border-radius:980px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;border:none;cursor:pointer;white-space:nowrap;transition:background 0.2s}
+.nav-configure-btn:hover{background:#333}
+.nav-configure-btn.open svg{transform:rotate(180deg)}
+.nav-configure-dropdown{display:none;position:absolute;top:calc(100% + 10px);right:0;background:white;border:1px solid #e2e2e7;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.12);min-width:240px;overflow:hidden;z-index:400}
+.nav-configure-dropdown.open{display:block}
+.nav-configure-dropdown a{display:flex;align-items:center;gap:12px;padding:14px 18px;text-decoration:none;color:#1d1d1f;font-size:13px;font-weight:500;transition:background 0.15s;border-bottom:1px solid #f0f0f5}
+.nav-configure-dropdown a:last-child{border-bottom:none}
+.nav-configure-dropdown a:hover{background:#f5f5f7}
+.nav-configure-dropdown .dd-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-configure-dropdown a.helix-opt .dd-icon{background:#f0f6ff;color:#0066cc}
+.nav-configure-dropdown a.conv-opt .dd-icon{background:#edfaf4;color:#00a86b}
+.nav-configure-dropdown a div{display:flex;flex-direction:column;gap:2px}
+.nav-configure-dropdown a strong{font-size:13px;font-weight:500;color:#1d1d1f;display:block}
+.nav-configure-dropdown a small{font-size:11px;font-weight:300;color:#86868b}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border:none;background:none}
+.hamburger span{display:block;width:22px;height:2px;background:#1d1d1f;border-radius:2px;transition:all 0.3s}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-nav{display:none;position:fixed;top:100px;left:0;right:0;background:rgba(255,255,255,0.99);border-bottom:2px solid #e2e2e7;padding:16px 24px 24px;z-index:500;flex-direction:column;gap:4px}
+.mobile-nav.open{display:flex}
+.mobile-nav a{font-size:16px;color:#1d1d1f;text-decoration:none;padding:12px 0;border-bottom:1px solid #f0f0f5;display:block}
+.mobile-nav a:last-of-type{border-bottom:none}
+.mobile-nav a.mobile-cta{background:#1d1d1f;color:white!important;text-align:center;border-radius:12px;padding:14px;margin-top:8px;font-weight:500;border:none;display:block;text-decoration:none}
+@media(max-width:1000px){nav{padding:0 20px}.hamburger{display:flex}.nav-links{display:none!important}.nav-configure-btn{display:none}}
+/* ── HAMBURGER ── */
+/* ── CONFIGURE DROPDOWN ── */
+/* ── MOBILE NAV (sibling of nav, not inside it) ── */
+/* ── RESPONSIVE ── */
+@media(max-width:1000px){}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white: #ffffff;
+  --off-white: #f5f5f7;
+  --border: #e2e2e7;
+  --border-light: #f0f0f5;
+  --mid-gray: #86868b;
+  --dark: #1d1d1f;
+  --blue: #0066cc;
+  --blue-light: #2997ff;
+  --blue-bg: #f0f6ff;
+  --font-display: 'DM Serif Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--off-white);
+  color: var(--dark);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  padding-top: 100px;
+}
+.nav-cta { background: var(--dark); color: var(--white) !important; opacity: 1 !important; padding: 9px 20px; border-radius: 980px; font-weight: 500 !important; transition: background 0.2s !important; }
+.nav-cta:hover { background: #333 !important; }
+
+/* PAGE HEADER */
+.page-header { background: var(--white); border-bottom: 1px solid var(--border); padding: 108px 48px 64px; }
+.page-header-inner { max-width: 1280px; margin: 0 auto; }
+.breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--mid-gray); margin-bottom: 20px; opacity: 0; animation: fadeUp 0.6s ease 0.05s forwards; }
+.breadcrumb a { color: var(--mid-gray); text-decoration: none; }
+.breadcrumb a:hover { color: var(--blue); }
+.page-eyebrow { font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); display: flex; align-items: center; gap: 8px; margin-bottom: 16px; opacity: 0; animation: fadeUp 0.6s ease 0.1s forwards; }
+.page-eyebrow::before { content: ''; width: 16px; height: 1px; background: var(--blue); }
+.page-header h1 { font-family: var(--font-display); font-size: clamp(40px, 4.5vw, 60px); line-height: 1.06; letter-spacing: -0.02em; color: var(--dark); margin-bottom: 16px; opacity: 0; animation: fadeUp 0.7s ease 0.15s forwards; }
+.page-header h1 em { font-style: italic; color: var(--blue); }
+.page-header-sub { font-size: 18px; font-weight: 300; line-height: 1.65; color: var(--mid-gray); max-width: 580px; opacity: 0; animation: fadeUp 0.7s ease 0.2s forwards; }
+
+/* TAB NAV */
+.tab-nav { background: var(--white); border-bottom: 1px solid var(--border); position: sticky; top: 64px; z-index: 80; }
+.tab-nav-inner { max-width: 1280px; margin: 0 auto; padding: 0 48px; display: flex; gap: 0; overflow-x: auto; }
+.tab-btn { padding: 16px 24px; font-size: 14px; font-weight: 500; color: var(--mid-gray); border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; font-family: var(--font-body); }
+.tab-btn:hover { color: var(--dark); }
+.tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+/* SECTIONS */
+.section { padding: 72px 48px; }
+.section-inner { max-width: 1280px; margin: 0 auto; }
+.section-eyebrow { font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+.section-eyebrow::before { content: ''; width: 16px; height: 1px; background: var(--blue); }
+h2 { font-family: var(--font-display); font-size: clamp(28px, 3.5vw, 42px); line-height: 1.08; letter-spacing: -0.02em; color: var(--dark); margin-bottom: 14px; }
+h2 em { font-style: italic; color: var(--blue); }
+.section-lead { font-size: 17px; font-weight: 300; line-height: 1.65; color: var(--mid-gray); max-width: 580px; margin-bottom: 48px; }
+
+/* SOLUTION HERO CARDS */
+.solution-hero { background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.solution-hero-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+.solution-visual { background: var(--off-white); border: 1px solid var(--border); border-radius: var(--radius-xl); aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.solution-visual img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-xl); }
+.solution-visual-placeholder { font-size: 13px; color: var(--mid-gray); letter-spacing: 0.05em; text-transform: uppercase; font-weight: 500; }
+
+/* PRODUCT GRID */
+.product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 0; }
+.product-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; }
+.product-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: rgba(0,102,204,0.25); }
+.product-card-img { aspect-ratio: 16/9; background: var(--off-white); overflow: hidden; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); }
+.product-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.product-card:hover .product-card-img img { transform: scale(1.04); }
+.product-card-img-placeholder { font-size: 11px; color: var(--mid-gray); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; }
+.product-card-body { padding: 24px 24px 20px; }
+.product-card-title { font-size: 16px; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 8px; }
+.product-card-desc { font-size: 13px; font-weight: 300; color: var(--mid-gray); line-height: 1.65; margin-bottom: 16px; }
+.product-card-specs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.spec-pill { font-size: 11px; font-weight: 500; color: var(--dark); background: var(--off-white); border: 1px solid var(--border); padding: 3px 9px; border-radius: 980px; }
+.product-card-link { font-size: 13px; font-weight: 500; color: var(--blue); text-decoration: none; display: flex; align-items: center; gap: 4px; transition: gap 0.2s; }
+.product-card:hover .product-card-link { gap: 8px; }
+
+/* DARK SOLUTION SECTION */
+.dark-solution { background: var(--dark); padding: 80px 48px; }
+.dark-solution-inner { max-width: 1280px; margin: 0 auto; }
+.dark-solution .section-eyebrow { color: var(--blue-light); }
+.dark-solution .section-eyebrow::before { background: var(--blue-light); }
+.dark-solution h2 { color: var(--white); }
+.dark-solution h2 em { color: var(--blue-light); }
+.dark-solution .section-lead { color: rgba(255,255,255,0.45); }
+
+.challenge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.07); border-radius: var(--radius-lg); overflow: hidden; margin-top: 48px; }
+.challenge-card { background: var(--dark); padding: 36px 32px; }
+.challenge-label { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 16px; }
+.challenge-title { font-size: 17px; font-weight: 500; color: var(--white); margin-bottom: 12px; letter-spacing: -0.01em; line-height: 1.3; }
+.challenge-desc { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.45); line-height: 1.7; margin-bottom: 20px; }
+.challenge-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.challenge-tag { font-size: 11px; font-weight: 500; color: var(--blue-light); background: rgba(41,151,255,0.1); border: 1px solid rgba(41,151,255,0.2); padding: 3px 9px; border-radius: 980px; }
+
+/* MODFLEX HIGHLIGHT */
+.modflex-section { background: var(--off-white); }
+.modflex-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.modflex-content {}
+.modflex-visual { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-xl); aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: var(--shadow-sm); }
+.modflex-visual img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-xl); }
+.modflex-features { display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
+.modflex-feature { display: flex; gap: 14px; align-items: flex-start; }
+.modflex-feature-icon { width: 36px; height: 36px; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.modflex-feature-icon svg { width: 17px; height: 17px; stroke: var(--dark); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.modflex-feature-title { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+.modflex-feature-desc { font-size: 13px; font-weight: 300; color: var(--mid-gray); line-height: 1.6; }
+
+/* BTN */
+.btn { display: inline-flex; align-items: center; gap: 7px; padding: 12px 24px; border-radius: 980px; font-family: var(--font-body); font-size: 15px; font-weight: 500; text-decoration: none; cursor: pointer; border: none; transition: all 0.2s; white-space: nowrap; }
+.btn-primary { background: var(--dark); color: var(--white); }
+.btn-primary:hover { background: #333; transform: translateY(-1px); }
+.btn-outline { background: transparent; color: var(--dark); border: 1px solid var(--border); }
+.btn-outline:hover { border-color: var(--dark); }
+
+/* CTA */
+.cta-section { padding: 72px 48px; }
+.cta-card { max-width: 1280px; margin: 0 auto; background: var(--dark); border-radius: var(--radius-xl); padding: 64px 72px; display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; position: relative; overflow: hidden; }
+.cta-card::before { content: ''; position: absolute; top: -80px; right: -80px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(0,102,204,0.2) 0%, transparent 70%); }
+.cta-card .section-eyebrow { color: var(--blue-light); }
+.cta-card .section-eyebrow::before { background: var(--blue-light); }
+.cta-card h2 { color: var(--white); font-size: clamp(28px, 3vw, 40px); }
+.cta-card .section-lead { color: rgba(255,255,255,0.5); margin-bottom: 0; }
+.btn-white { background: var(--white); color: var(--dark); padding: 13px 28px; border-radius: 980px; font-family: var(--font-body); font-size: 15px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; transition: transform 0.2s, box-shadow 0.2s; position: relative; z-index: 1; }
+.btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.25); }
+
+/* FOOTER */
+footer { background: var(--dark); padding: 64px 48px 40px; }
+.footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
+.footer-logo { margin-bottom: 16px; }
+.footer-logo img { height: 32px; width: auto; filter: brightness(0) invert(1); opacity: 0.85; }
+.footer-desc { font-size: 13px; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,0.4); max-width: 260px; margin-bottom: 24px; }
+.footer-contact { display: flex; flex-direction: column; gap: 8px; }
+.footer-contact a { font-size: 13px; color: rgba(255,255,255,0.4); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s; font-weight: 300; }
+.footer-contact a:hover { color: var(--white); }
+.footer-contact svg { width: 14px; height: 14px; stroke: rgba(255,255,255,0.3); flex-shrink: 0; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.footer-col h4 { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 14px; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.footer-col a { font-size: 13px; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; font-weight: 300; }
+.footer-col a:hover { color: var(--white); }
+.footer-bottom { max-width: 1280px; margin: 40px auto 0; padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: rgba(255,255,255,0.25); }
+
+/* REVEAL */
+.reveal { opacity: 1 !important; transform: none !important; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .page-header { padding: 90px 24px 48px; }
+  .tab-nav-inner { padding: 0 24px; }
+  .section { padding: 56px 24px; }
+  .dark-solution { padding: 56px 24px; }
+  .solution-hero-layout { grid-template-columns: 1fr; gap: 36px; }
+  .product-grid { grid-template-columns: repeat(2, 1fr); }
+  .challenge-grid { grid-template-columns: 1fr; }
+  .modflex-layout { grid-template-columns: 1fr; }
+  .cta-section { padding: 56px 24px; }
+  .cta-card { grid-template-columns: 1fr; padding: 48px 36px; gap: 28px; }
+  footer { padding: 48px 24px 32px; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .product-grid { grid-template-columns: 1fr; }
+}
+
+/* ── HAMBURGER NAV ── */
+.mobile-/* ── MOBILE BREAKPOINT (≤768px) ── */
+
+/* ── SCROLLING BANNER ── */
+100%{transform:translateX(-50%)}}
+
+@media(max-width:768px){
+  /* Hero */
+  .page-header,.hero{padding:88px 20px 44px!important}
+  .page-header h1,.hero h1,h1{font-size:clamp(28px,7vw,42px)!important}
+  .page-header-sub,.hero-sub{font-size:15px!important}
+  
+  /* Stats bar */
+  .stats-bar{padding:0!important}
+  .stats-inner{grid-template-columns:1fr 1fr!important;gap:1px}
+  .stat{padding:16px 14px!important}
+  .stat-num{font-size:26px!important}
+  
+  /* Grids → single column */
+  .product-grid,.news-grid,.social-grid,.vault-grid,
+  .cs-grid,.solution-grid,.features-grid{grid-template-columns:1fr!important}
+  
+  /* Two-col layouts → stack */
+  .product-inner,.solution-inner,.body-inner,.cta-card,
+  .footer-inner,.case-grid{grid-template-columns:1fr!important;direction:ltr!important;gap:24px!important}
+  
+  /* Tab bar → scrollable */
+  .tab-bar{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;white-space:nowrap;padding:0 20px}
+  .tab-bar::-webkit-scrollbar{display:none}
+  .tab-btn{padding:12px 16px!important;font-size:13px!important;white-space:nowrap}
+  
+  /* Cards */
+  .product-card,.news-card,.vault-card,.event-card{border-radius:14px!important}
+  .event-card{grid-template-columns:64px 1fr!important;gap:12px!important}
+  .event-badge{display:none!important}
+  
+  /* CTA sections */
+  .cta-section{padding:48px 20px!important}
+  .cta-card{padding:36px 24px!important;gap:24px!important}
+  .cta-title{font-size:26px!important}
+  .btn-white{width:100%;justify-content:center}
+  
+  /* Sections */
+  .section,.solution-section,.product-section{padding:48px 20px!important}
+  
+  /* Footer */
+  footer{padding:40px 20px 28px!important}
+  .footer-inner{grid-template-columns:1fr 1fr!important;gap:28px!important}
+  .footer-logo{margin-bottom:20px}
+  .footer-bottom{flex-direction:column;gap:6px;text-align:center}
+  
+  /* Configurator */
+  .config-layout{grid-template-columns:1fr!important}
+  .config-panel{position:static!important}
+  
+  /* Contact form */
+  .contact-grid{grid-template-columns:1fr!important}
+  
+  /* Images */
+  .solution-img-grid{grid-template-columns:1fr 1fr!important}
+  .product-gallery .main-img{aspect-ratio:4/3}
+  
+  /* Hub page */
+  .hub-.hub-nav-btn{font-size:12px;padding:7px 14px}
+  
+  /* Sidebar on case studies */
+  .sidebar{margin-top:0}
+  .back-link{margin-bottom:20px}
+}
+
+/* ── SMALL PHONES (≤480px) ── */
+@media(max-width:480px){
+  .stats-inner{grid-template-columns:1fr!important}
+  .footer-inner{grid-template-columns:1fr!important}
+  .solution-img-grid{grid-template-columns:1fr!important}
+  .thumb-row{flex-wrap:wrap}
+  h1{font-size:clamp(24px,8vw,36px)!important}
+}
+</style>
+</head>
+<body>
+<!-- SCROLLING ANNOUNCEMENT BAR -->
+<div class="announcement-bar">
+  <div class="announcement-track">
+    <span class="announcement-item">🇬🇧 Designed &amp; manufactured in the UK</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">⚡ Work out your ROI, monthly lease &amp; system cost — <a href="helix-configurator.html">try the configurator</a></span><span class="announcement-sep">·</span>
+    <span class="announcement-item">📦 Up to 20,000 parcels per hour</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🔧 15-minute mean time to repair</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">💷 Flexible operating lease from £1,000/month</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">✅ 24-month parts &amp; labour warranty</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🚀 Typical installation in under 4 weeks</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🏭 87% UK manufactured components</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🇬🇧 Designed &amp; manufactured in the UK</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">⚡ Work out your ROI, monthly lease &amp; system cost — <a href="helix-configurator.html">try the configurator</a></span><span class="announcement-sep">·</span>
+    <span class="announcement-item">📦 Up to 20,000 parcels per hour</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🔧 15-minute mean time to repair</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">💷 Flexible operating lease from £1,000/month</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">✅ 24-month parts &amp; labour warranty</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🚀 Typical installation in under 4 weeks</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🏭 87% UK manufactured components</span><span class="announcement-sep">·</span>
+  </div>
+<nav id="mainNav">
+  <a href="index.html" class="nav-logo">
+    <img src="https://www.orionmis.co.uk/front/images/comp/logo.png" alt="Orion MIS">
+  </a>
+  <ul class="nav-links">
+    <li><a href="helix-product.html">Helix</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="solutions.html">Solutions</a></li>
+    <li><a href="case-studies.html">Case Studies</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="hub.html">Hub</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-configure" id="navConfigure">
+      <button class="nav-configure-btn" id="navConfigureBtn" onclick="toggleConfigureDropdown()">
+        Configure system
+        <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="nav-configure-dropdown" id="navConfigureDropdown">
+        <a href="helix-configurator.html" class="helix-opt">
+          <span class="dd-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+          <div><strong>Helix sorter</strong><small>High-speed sortation &mdash; up to 20,000 pph</small></div>
+        </a>
+        <a href="conveyor-configurator.html" class="conv-opt">
+          <span class="dd-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span>
+          <div><strong>Conveyor system</strong><small>Unit handling, pallet &amp; food-grade</small></div>
+        </a>
+      </div>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <a href="helix-product.html">Helix</a>
+  <a href="products.html">Products</a>
+  <a href="solutions.html">Solutions</a>
+  <a href="case-studies.html">Case Studies</a>
+  <a href="about.html">About</a>
+  <a href="hub.html">Hub</a>
+  <a href="helix-configurator.html" class="mobile-cta">&#9889; Configure Helix sorter</a>
+  <a href="conveyor-configurator.html" class="mobile-cta" style="background:#0066cc;margin-top:6px">&#128230; Configure conveyor system</a>
+</div>
+</div>
+
+<!-- NAV -->
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <span style="color:var(--dark);">Solutions &amp; Products</span>
+    </div>
+    <div class="page-eyebrow">Our products</div>
+    <h1>Products built for <em>every environment</em></h1>
+    <p class="page-header-sub">From high-speed parcel sortation to pallet handling and food-grade conveyors — Orion MIS designs, manufactures, and integrates systems built around your specific operation.</p>
+  </div>
+</div>
+
+
+<!-- CONFIGURATOR STRIP -->
+<div style="background:var(--dark);padding:20px 48px;border-bottom:1px solid rgba(255,255,255,0.07)">
+  <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+    <div>
+      <div style="font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--blue-light);margin-bottom:4px">Interactive tool</div>
+      <div style="font-size:15px;font-weight:500;color:white;margin-bottom:2px">Build and price your conveyor system instantly</div>
+      <div style="font-size:13px;font-weight:300;color:rgba(255,255,255,0.45)">Add products, set lengths, get a cost estimate and ROI — in under 2 minutes</div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;flex-shrink:0">
+      <a href="conveyor-configurator.html" style="display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:white;padding:11px 22px;border-radius:980px;font-family:var(--font-body);font-size:14px;font-weight:500;text-decoration:none;transition:background 0.2s" onmouseover="this.style.background='#0055b3'" onmouseout="this.style.background='var(--blue)'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        Configure conveyor system
+      </a>
+      <a href="helix-configurator.html" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.08);color:white;padding:11px 22px;border-radius:980px;font-family:var(--font-body);font-size:14px;font-weight:500;text-decoration:none;border:1px solid rgba(255,255,255,0.15);transition:background 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Configure Helix sorter
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- TAB NAV -->
+<div class="tab-nav">
+  <div class="tab-nav-inner">
+    <button class="tab-btn active" onclick="navTo('unit-handling',this)">Unit Handling</button>
+    <button class="tab-btn" onclick="navTo('pallet-heavy',this)">Pallet &amp; Heavy Duty</button>
+    <button class="tab-btn" onclick="navTo('food-beverage',this)">Food &amp; Beverage</button>
+    <button class="tab-btn" onclick="navTo('sortation',this)">Sortation</button>
+    <button class="tab-btn" onclick="navTo('solutions',this)">Solutions</button>
+    <button class="tab-btn" onclick="navTo('modflex',this)">ModFlex</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- UNIT HANDLING -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="section" id="unit-handling" style="background: var(--white); border-bottom: 1px solid var(--border);">
+  <div class="section-inner">
+    <div class="section-eyebrow">Conveyors</div>
+    <h2>Unit handling <em>conveyors</em></h2>
+    <p class="section-lead">Modular, configurable conveyor systems for parcels, totes, and unit loads. Designed for continuous-flow environments with ZLP accumulation control and speeds up to 2m/s.</p>
+
+    <div class="product-grid">
+
+      <div class="product-card reveal">
+        <div class="product-card-img">
+          <img src="https://www.orionmis.co.uk/front/images/product/unithandling (1).png" alt="Powered Roller Conveyor" onerror="this.parentElement.innerHTML='<span class=\'product-card-img-placeholder\'>Powered Roller Conveyor</span>'">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-title">Powered Roller Conveyor</div>
+          <div class="product-card-desc">High-performance roller conveyor with customisable pitch, ZLP accumulation control, and speeds up to 2m/s. Suitable for the full range of unit load applications.</div>
+          <div class="product-card-specs">
+            <span class="spec-pill">Up to 2m/s</span>
+            <span class="spec-pill">ZLP accumulation</span>
+            <span class="spec-pill">24VDC / 48VDC</span>
+          </div>
+          <a href="unit-handling.html#powered-roller" class="product-card-link">View product <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="product-card reveal">
+        <div class="product-card-img">
+          <img src="https://www.orionmis.co.uk/front/images/product/unithandling (2).png" alt="Curve Conveyors" onerror="this.parentElement.innerHTML='<span class=\'product-card-img-placeholder\'>Curve Conveyors</span>'">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-title">Curve Conveyors</div>
+          <div class="product-card-desc">Smooth directional changes without product loss or jams. Available with 24VDC and 48VDC motor drive systems and customisable roller pitch for your specific product profile.</div>
+          <div class="product-card-specs">
+            <span class="spec-pill">24VDC / 48VDC</span>
+            <span class="spec-pill">Custom pitch</span>
+            <span class="spec-pill">ZLP control</span>
+          </div>
+          <a href="unit-handling.html#curve-conveyors" class="product-card-link">View product <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="product-card reveal">
+        <div class="product-card-img">
+          <img src="https://www.orionmis.co.uk/front/images/product/belt (1).png" alt="Alignment Conveyors" onerror="this.parentElement.innerHTML='<span class=\'product-card-img-placeholder\'>Alignment Conveyors</span>'">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-title">Alignment Conveyors</div>
+          <div class="product-card-desc">Orients products to a consistent position before downstream processing, scanning, or sortation. Essential for vision systems and print &amp; apply integration.</div>
+          <div class="product-card-specs">
+            <span class="spec-pill">24VDC / 48VDC</span>
+            <span class="spec-pill">Custom pitch</span>
+            <span class="spec-pill">ZLP control</span>
+          </div>
+          <a href="unit-handling.html#alignment-conveyors" class="product-card-link">View product <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="product-card reveal">
+        <div class="product-card-img">
+          <img src="https://www.orionmis.co.uk/front/images/product/unithandling (3).png" alt="Belt Conveyor" onerror="this.parentElement.innerHTML='<span class=\'product-card-img-placeholder\'>Belt Conveyor</span>'">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-title">Belt Conveyor</div>
+          <div class="product-card-desc">Drum motor, central drive, and head drive configurations available. Range of motor KW options to suit diverse weight and torque requirements across all unit load types.</div>
+          <div class="product-card-specs">
+            <span class="spec-pill">Multiple drive types</span>
+            <span class="spec-pill">Variable KW</span>
+            <span class="spec-pill">Custom lengths</span>
+          </div>
+          <a href="unit-handling.html#belt-conveyor" class="product-card-link">View product <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="product-card reveal">
+        <div class="product-card-img">
+          <img src="https://www.orionmis.co.uk/front/images/product/belt (2).png" alt="Merge Conveyors" onerror="this.parentElement.innerHTML='<span class=\'product-card-img-placeholder\'>Merge Conveyors</span>'">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-title">Merge Conveyors</div>
+          <div class="product-card-desc">Roller merges and finger belt merges for combining multiple product streams into a single controlled flow. Customisable lengths and widths with high-speed application options available.</div>
+          <div class="product-card-specs">
+            <span class="spec-pill">Roller &amp; finger belt</span>
+            <span class="spec-pill">High-speed available</span>
+            <span class="spec-pill">Custom sizes</span>
+          </div>
+          <a href="unit-handling.html#merge-conveyors" class="product-card-link">View product <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="product-card reveal">
+        <div class="product-card-img">
+          <img src="https://www.orionmis.co.uk/front/images/product/belt (3).png" alt="Transfers" onerror="this.parentElement.innerHTML='<span class=\'product-card-img-placeholder\'>Transfers</span>'">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-title">Transfers</div>
+          <div class="product-card-desc">Swivel wheel transfers for continuous flow re-orientation. Customisable width and length, handling products up to 60kg. Ideal for 90° re-routing within tight building layouts.</div>
+          <div class="product-card-specs">
+            <span class="spec-pill">Up to 60kg</span>
+            <span class="spec-pill">Swivel wheel</span>
+            <span class="spec-pill">Continuous flow</span>
+          </div>
+          <a href="unit-handling.html#transfers" class="product-card-link">View product <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+
+      <!-- Configure CTA for unit handling -->
+      <div style="margin-top:28px;padding:18px 24px;background:var(--blue-bg);border:1px solid rgba(0,102,204,0.15);border-radius:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px">
+        <div>
+          <div style="font-size:13px;font-weight:500;color:var(--dark);margin-bottom:1px">Ready to spec your unit handling system?</div>
+          <div style="font-size:12px;font-weight:300;color:var(--mid-gray)">Add products, set lengths, get indicative pricing and ROI in minutes</div>
+        </div>
+        <a href="conveyor-configurator.html" style="display:inline-flex;align-items:center;gap:7px;background:var(--blue);color:white;padding:10px 20px;border-radius:980px;font-family:var(--font-body);font-size:13px;font-weight:500;text-decoration:none;flex-shrink:0">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Configure &amp; price
+        </a>
+      </div>
+
+<!-- PALLET & HEAVY DUTY -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="section" id="pallet-heavy" style="background: var(--off-white);">
+  <div class="section-inner">
+    <div class="section-eyebrow">Pallet handling</div>
+    <h2>Pallet &amp; heavy duty <em>conveyors</em></h2>
+    <p class="section-lead">Robust pallet handling systems for warehouses, manufacturing, and distribution environments. Standard capacity up to 1,000kg with 2,000kg drive upgrade available across the full range.</p>
+
+    <div class="product-grid">
+
+      <div class="product-card reveal">
+        <div class="product-card-img">
+          <img src="https://www.orionmis.co.uk/front/images/product/pallet (1).png" alt="Pallet Conveyor" onerror="this.parentElement.innerHTML='<span class=\'product-card-img-placeholder\'>Pallet Conveyor</span>'">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-title">Pallet Conveyor</div>
+          <div class="product-card-desc">Standard pallet conveyor handling CHEP and Euro pallets as standard. Load capacity up to 1,000kg with optional 2,000kg drive upgrade for heavy industrial applications.</div>
+          <div class="product-card-specs">
+            <span class="spec-pill">Up to 1,000kg</span>
+            <span class="spec-pill">CHEP &amp; Euro</span>
+            <span class="spec-pill">2,000kg upgrade</span>
+          </div>
+          <a href="pallet-heavy.html#pallet-conveyor" class="product-card-link">View product <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="product-card reveal">
+        <div class="product-card-img">
+          <img src="https://www.orionmis.co.uk/front/images/product/pallet-transfer/pallet-transfer.png" alt="Pallet Transfers" onerror="this.parentElement.innerHTML='<span class=\'product-card-img-placeholder\'>Pallet Transfers</span>'">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-title">Pallet Transfers</div>
+          <div class="product-card-desc">90-degree re-orientation of pallets within your facility layout. Handles CHEP and Euro pallets with load capacities up to 1,000kg and optional 2,000kg upgrade.</div>
+          <div class="product-card-specs">
+            <span class="spec-pill">90° re-orientation</span>
+            <span class="spec-pill">Up to 1,000kg</span>
+            <span class="spec-pill">CHEP &amp; Euro</span>
+          </div>
+          <a href="pallet-heavy.html#pallet-transfers" class="product-card-link">View product <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="product-card reveal">
+        <div class="product-card-img">
+          <img src="https://www.orionmis.co.uk/front/images/product/pallet (3).png" alt="Pallet Turntables" onerror="this.parentElement.innerHTML='<span class=\'product-card-img-placeholder\'>Pallet Turntables</span>'">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-title">Pallet Turntables</div>
+          <div class="product-card-desc">Versatile pallet rotation for sorting, accumulation, and routing. Provides adaptable orientation changes within any pallet handling system configuration.</div>
+          <div class="product-card-specs">
+            <span class="spec-pill">Up to 1,000kg</span>
+            <span class="spec-pill">360° rotation</span>
+            <span class="spec-pill">2,000kg upgrade</span>
+          </div>
+          <a href="pallet-heavy.html#pallet-turntables" class="product-card-link">View product <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="product-card reveal">
+        <div class="product-card-img">
+          <img src="https://www.orionmis.co.uk/front/images/product/pallet (2).png" alt="Pallet Chain / Belt Conveyors" onerror="this.parentElement.innerHTML='<span class=\'product-card-img-placeholder\'>Chain / Belt Conveyors</span>'">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-title">Pallet Chain / Belt Conveyors</div>
+          <div class="product-card-desc">Chain and belt configurations for heavy industrial pallet movement. Handles CHEP and Euro pallets up to 1,000kg with robust construction for demanding environments.</div>
+          <div class="product-card-specs">
+            <span class="spec-pill">Chain &amp; belt</span>
+            <span class="spec-pill">Up to 1,000kg</span>
+            <span class="spec-pill">Heavy duty</span>
+          </div>
+          <a href="pallet-heavy.html#pallet-chain-belt" class="product-card-link">View product <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+
+      <!-- Configure CTA for pallet handling -->
+      <div style="margin-top:28px;padding:18px 24px;background:var(--blue-bg);border:1px solid rgba(0,102,204,0.15);border-radius:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px">
+        <div>
+          <div style="font-size:13px;font-weight:500;color:var(--dark);margin-bottom:1px">Ready to spec your pallet handling system?</div>
+          <div style="font-size:12px;font-weight:300;color:var(--mid-gray)">Add products, set lengths, get indicative pricing and ROI in minutes</div>
+        </div>
+        <a href="conveyor-configurator.html" style="display:inline-flex;align-items:center;gap:7px;background:var(--blue);color:white;padding:10px 20px;border-radius:980px;font-family:var(--font-body);font-size:13px;font-weight:500;text-decoration:none;flex-shrink:0">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Configure &amp; price
+        </a>
+      </div>
+
+<!-- FOOD & BEVERAGE -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="section" id="food-beverage" style="background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="section-inner">
+    <div class="section-eyebrow">Food &amp; beverage</div>
+    <h2>Food-grade conveyor <em>systems</em></h2>
+    <p class="section-lead">Hygienic conveyor systems engineered for food and beverage production environments. Designed for washdown conditions, compliance with food safety standards, and continuous-production reliability.</p>
+    <div class="product-grid">
+      <div class="product-card reveal">
+        <div class="product-card-img">
+          <img src="https://www.orionmis.co.uk/front/images/product/unithandling (1).png" alt="Food Grade Belt Conveyor" onerror="this.parentElement.innerHTML='<span class=\'product-card-img-placeholder\'>Food Grade Belt</span>'">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-title">Food Grade Belt Conveyor</div>
+          <div class="product-card-desc">Stainless steel construction with food-safe belt materials. Washdown-ready with sealed bearings and smooth surfaces to eliminate contamination risk.</div>
+          <div class="product-card-specs">
+            <span class="spec-pill">Stainless steel</span>
+            <span class="spec-pill">Washdown ready</span>
+            <span class="spec-pill">Food safe belts</span>
+          </div>
+          <a href="food-beverage.html" class="product-card-link">View range <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <div class="product-card reveal">
+        <div class="product-card-img">
+          <img src="https://www.orionmis.co.uk/front/images/product/unithandling (2).png" alt="Incline / Decline Conveyors" onerror="this.parentElement.innerHTML='<span class=\'product-card-img-placeholder\'>Incline / Decline</span>'">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-title">Incline &amp; Decline Conveyors</div>
+          <div class="product-card-desc">Elevate or lower products between production levels. Cleated belt options available for product retention on steep inclines within food manufacturing environments.</div>
+          <div class="product-card-specs">
+            <span class="spec-pill">Cleated belt option</span>
+            <span class="spec-pill">Variable angle</span>
+            <span class="spec-pill">Food safe</span>
+          </div>
+          <a href="food-beverage.html" class="product-card-link">View range <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <div class="product-card reveal">
+        <div class="product-card-img">
+          <img src="https://www.orionmis.co.uk/front/images/product/unithandling (3).png" alt="Modular Plastic Belt" onerror="this.parentElement.innerHTML='<span class=\'product-card-img-placeholder\'>Modular Plastic Belt</span>'">
+        </div>
+        <div class="product-card-body">
+          <div class="product-card-title">Modular Plastic Belt</div>
+          <div class="product-card-desc">Easy-clean modular plastic belt systems for food-grade applications. Individual segments replace without full belt removal — minimising maintenance downtime in production environments.</div>
+          <div class="product-card-specs">
+            <span class="spec-pill">Easy clean</span>
+            <span class="spec-pill">Segment replace</span>
+            <span class="spec-pill">Low maintenance</span>
+          </div>
+          <a href="food-beverage.html" class="product-card-link">View range <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+      <!-- Configure CTA for food & beverage -->
+      <div style="margin-top:28px;padding:18px 24px;background:var(--blue-bg);border:1px solid rgba(0,102,204,0.15);border-radius:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px">
+        <div>
+          <div style="font-size:13px;font-weight:500;color:var(--dark);margin-bottom:1px">Ready to spec your food & beverage system?</div>
+          <div style="font-size:12px;font-weight:300;color:var(--mid-gray)">Add products, set lengths, get indicative pricing and ROI in minutes</div>
+        </div>
+        <a href="conveyor-configurator.html" style="display:inline-flex;align-items:center;gap:7px;background:var(--blue);color:white;padding:10px 20px;border-radius:980px;font-family:var(--font-body);font-size:13px;font-weight:500;text-decoration:none;flex-shrink:0">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Configure &amp; price
+        </a>
+      </div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SORTATION (DARK) -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="dark-solution" id="sortation">
+  <div class="dark-solution-inner">
+    <div class="section-eyebrow">Sortation</div>
+    <h2>High-speed <em>sortation systems</em></h2>
+    <p class="section-lead">Orion's sortation portfolio spans wheel sorters, print &amp; apply, and the Helix modular sorter — covering everything from barcode reading to physical sort at pace.</p>
+    <div class="challenge-grid">
+      <div class="challenge-card reveal">
+        <div class="challenge-label">Featured product</div>
+        <div class="challenge-title">Helix Modular Sorter</div>
+        <div class="challenge-desc">Compact, high-throughput wheel sorter designed and manufactured in the UK. Up to 9,000 parcels per hour, 3 sort directions, 300mm module pitch, and 24-month warranty as standard.</div>
+        <div class="challenge-tags">
+          <span class="challenge-tag">9,000 pph</span>
+          <span class="challenge-tag">Modular</span>
+          <span class="challenge-tag">UK made</span>
+          <span class="challenge-tag">24mo warranty</span>
+        </div>
+      </div>
+      <div class="challenge-card reveal">
+        <div class="challenge-label">Wheel sorter</div>
+        <div class="challenge-title">Ori-Sort High-Speed Wheel Divert</div>
+        <div class="challenge-desc">Servo-driven wheel divert sorter — the fastest sorting speed available on the European market at the lowest price per sort. Up to 2.5m/s transfer speed, capable of processing up to 7,000 parcels per hour.</div>
+        <div class="challenge-tags">
+          <span class="challenge-tag">7,000 pph</span>
+          <span class="challenge-tag">2.5m/s</span>
+          <span class="challenge-tag">Servo driven</span>
+        </div>
+      </div>
+      <div class="challenge-card reveal">
+        <div class="challenge-label">Label application</div>
+        <div class="challenge-title">Print &amp; Apply Systems</div>
+        <div class="challenge-desc">Automated label printing and application integrated directly into your conveyor system. Reduces manual labelling touchpoints, improves accuracy, and supports high-volume throughput requirements.</div>
+        <div class="challenge-tags">
+          <span class="challenge-tag">Inline integration</span>
+          <span class="challenge-tag">High volume</span>
+          <span class="challenge-tag">Accurate</span>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap;">
+      <a href="helix-product.html" class="btn-white">View Helix product page <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="helix-configurator.html" style="display:inline-flex;align-items:center;gap:7px;padding:13px 24px;border-radius:980px;font-size:15px;font-weight:500;color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.15);text-decoration:none;transition:all 0.2s;" onmouseover="this.style.color='white';this.style.borderColor='rgba(255,255,255,0.4)'" onmouseout="this.style.color='rgba(255,255,255,0.6)';this.style.borderColor='rgba(255,255,255,0.15)'">Configure a Helix system</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SOLUTIONS BY ENVIRONMENT -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="section" id="solutions" style="background: var(--off-white);">
+  <div class="section-inner">
+    <div class="section-eyebrow">By environment</div>
+    <h2>Solutions for <em>your sector</em></h2>
+    <p class="section-lead">Every industry has different demands. Here's how Orion approaches each sector — with specific products, integration approaches, and outcomes.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 0;">
+
+      <div class="product-card reveal" style="display:flex;flex-direction:column;">
+        <div class="product-card-body" style="flex:1;">
+          <div style="display:inline-block;font-size:11px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--blue);background:var(--blue-bg);padding:3px 9px;border-radius:980px;margin-bottom:14px;">E-commerce &amp; Logistics</div>
+          <div class="product-card-title">E-Commerce &amp; Logistics Fulfilment</div>
+          <div class="product-card-desc">High-volume mixed SKU fulfilment requires flexible, scalable automation. Orion integrates sortation, conveyors, and WCS systems to manage peak trading without expanding headcount or floorspace.</div>
+          <div class="product-card-specs">
+            <span class="spec-pill">Helix sortation</span>
+            <span class="spec-pill">WCS integration</span>
+            <span class="spec-pill">Peak-ready</span>
+          </div>
+          <a href="solutions.html#ecommerce" target="_blank" class="product-card-link">Explore solution <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="product-card reveal" style="display:flex;flex-direction:column;">
+        <div class="product-card-body" style="flex:1;">
+          <div style="display:inline-block;font-size:11px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--blue);background:var(--blue-bg);padding:3px 9px;border-radius:980px;margin-bottom:14px;">Parcel Distribution</div>
+          <div class="product-card-title">Parcel Sortation</div>
+          <div class="product-card-desc">Parcel hubs require maximum throughput at minimum cost per sort. Orion's Helix and Ori-Sort systems deliver the speed and accuracy needed for high-volume parcel distribution operations.</div>
+          <div class="product-card-specs">
+            <span class="spec-pill">Up to 9,000 pph</span>
+            <span class="spec-pill">Mixed parcel sizes</span>
+            <span class="spec-pill">Barcode reading</span>
+          </div>
+          <a href="solutions.html#parcel" target="_blank" class="product-card-link">Explore solution <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="product-card reveal" style="display:flex;flex-direction:column;">
+        <div class="product-card-body" style="flex:1;">
+          <div style="display:inline-block;font-size:11px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--blue);background:var(--blue-bg);padding:3px 9px;border-radius:980px;margin-bottom:14px;">Robotics</div>
+          <div class="product-card-title">Robotics &amp; AMR Integration</div>
+          <div class="product-card-desc">AMR fleets, robotic palletising, and integrated controls for flexible warehouse automation. Orion designs systems that combine robotics with conveyor and sortation infrastructure seamlessly.</div>
+          <div class="product-card-specs">
+            <span class="spec-pill">AMR fleets</span>
+            <span class="spec-pill">Robotic palletising</span>
+            <span class="spec-pill">WCS connected</span>
+          </div>
+          <a href="solutions.html#robotics" target="_blank" class="product-card-link">Explore solution <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <div class="product-card reveal" style="display:flex;flex-direction:column;">
+        <div class="product-card-body" style="flex:1;">
+          <div style="display:inline-block;font-size:11px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--blue);background:var(--blue-bg);padding:3px 9px;border-radius:980px;margin-bottom:14px;">Vision</div>
+          <div class="product-card-title">Vision Inspection &amp; Barcode Reading</div>
+          <div class="product-card-desc">Camera-based vision systems for barcode reading, dimensioning, weight capture, and quality inspection. Integrates directly into Orion conveyor and sortation systems as part of the induction process.</div>
+          <div class="product-card-specs">
+            <span class="spec-pill">1D / 2D / QR</span>
+            <span class="spec-pill">Dimensioning</span>
+            <span class="spec-pill">Inline integration</span>
+          </div>
+          <a href="solutions.html#vision" target="_blank" class="product-card-link">Explore solution <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- MODFLEX -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="section modflex-section" id="modflex">
+  <div class="section-inner">
+    <div class="modflex-layout">
+      <div class="modflex-content reveal">
+        <div class="section-eyebrow">Featured platform</div>
+        <h2>Introducing <em>ModFlex</em></h2>
+        <p class="section-lead">Orion's ModFlex conveyor platform brings unparalleled flexibility to material handling. Interchangeable modules, tool-free reconfiguration, and a design that adapts as your operation evolves.</p>
+        <div class="modflex-features">
+          <div class="modflex-feature">
+            <div class="modflex-feature-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+            <div>
+              <div class="modflex-feature-title">Truly modular</div>
+              <div class="modflex-feature-desc">Interchangeable components let you reconfigure, expand, or relocate your conveyor system without specialist tools or extended downtime.</div>
+            </div>
+          </div>
+          <div class="modflex-feature">
+            <div class="modflex-feature-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+            <div>
+              <div class="modflex-feature-title">Adjustable speed controls</div>
+              <div class="modflex-feature-desc">Precise control over conveyance speed to optimise throughput and eliminate bottlenecks across the full system.</div>
+            </div>
+          </div>
+          <div class="modflex-feature">
+            <div class="modflex-feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg></div>
+            <div>
+              <div class="modflex-feature-title">Fast setup, minimal downtime</div>
+              <div class="modflex-feature-desc">Simple assembly and modification means faster setup times, increased operational efficiency, and reduced costs throughout the system lifecycle.</div>
+            </div>
+          </div>
+          <div class="modflex-feature">
+            <div class="modflex-feature-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <div>
+              <div class="modflex-feature-title">Integrated sensing</div>
+              <div class="modflex-feature-desc">Integrated product detection sensors enable automated sorting and routing — reducing manual intervention and errors throughout the operation.</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 32px; display: flex; gap: 12px;">
+          <a href="contact.html" target="_blank" class="btn btn-primary">Enquire about ModFlex</a>
+          <a href="unit-handling.html" target="_blank" class="btn btn-outline">Full conveyor range</a>
+        </div>
+      </div>
+      <div class="modflex-visual reveal">
+        <img src="https://www.orionmis.co.uk/front/images/product/conveyors-unit-hanling.jpg" alt="ModFlex Conveyors" onerror="this.parentElement.innerHTML='<span style=\'font-size:13px;color:var(--mid-gray);text-transform:uppercase;font-weight:500;letter-spacing:0.05em;\'>ModFlex system image</span>'">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-card reveal">
+    <div>
+      <div class="section-eyebrow">Not sure where to start?</div>
+      <h2 style="color:var(--white); margin-bottom:12px;">Talk to our engineering team</h2>
+      <p class="section-lead">Tell us your operation, your volumes, and your constraints. We'll recommend the right system — and back it up with a business case you can take internally.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;position:relative;z-index:1;">
+      <a href="contact.html" target="_blank" class="btn-white">
+        Contact Orion
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="helix-configurator.html" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.85)'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Or configure a Helix system yourself →</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo"><img src="https://www.orionmis.co.uk/front/images/comp/logo.png" alt="Orion MIS"></div>
+      <p class="footer-desc">Warehouse automation systems designed and manufactured in the UK.</p>
+      <div class="footer-contact">
+        <a href="tel:+443333355269"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>+44 333 335 5269</a>
+        <a href="mailto:info@orionmis.co.uk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>info@orionmis.co.uk</a>
+        <a href="https://maps.google.com/?q=Orion+MIS+Fontwell+Chichester" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Fontwell Avenue, Chichester, PO20 3RU</a>
+        <a href="#" onclick="Tawk_API.toggle();return false;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>Live chat available</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Products</h4>
+      <ul>
+        <li><a href="helix-product.html">Helix Sorter</a></li>
+        <li><a href="unit-handling.html">Unit Handling</a></li>
+        <li><a href="pallet-heavy.html">Pallet &amp; Heavy Duty</a></li>
+        <li><a href="food-beverage.html">Food &amp; Beverage</a></li>
+        <li><a href="helix-configurator.html">Configurator</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Solutions</h4>
+      <ul>
+        <li><a href="solutions.html#parcel">Parcel &amp; E-commerce</a></li>
+        <li><a href="solutions.html#asrs">Warehouse &amp; ASRS</a></li>
+        <li><a href="solutions.html#robotics">Robotics &amp; AMR</a></li>
+        <li><a href="solutions.html#pallet-automotive">Automotive</a></li>
+        <li><a href="solutions.html#food-manufacturing">Food &amp; Beverage</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html">About Orion</a></li>
+        <li><a href="case-studies.html">Case Studies</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="hub.html">Orion Hub</a></li>
+        <li><a href="hub.html" target="_blank">News</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Orion MIS Ltd. All rights reserved.</span>
+    <span>Designed &amp; manufactured in the UK</span>
+  </div>
+</footer>
+
+<script>
+
+// ── REVEAL ANIMATION ──────────────────────────────────────
+const reveals = document.querySelectorAll('.reveal');
+if (reveals.length) {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+  reveals.forEach(el => obs.observe(el));
+}
+
+// ── CONFIGURE DROPDOWN ────────────────────────────────────
+function toggleConfigureDropdown() {
+  var btn = document.getElementById('navConfigureBtn');
+  var dd  = document.getElementById('navConfigureDropdown');
+  if (!btn || !dd) return;
+  var isOpen = dd.classList.contains('open');
+  btn.classList.toggle('open', !isOpen);
+  dd.classList.toggle('open', !isOpen);
+}
+
+// ── MOBILE NAV ────────────────────────────────────────────
+function toggleMobileNav() {
+  var h = document.getElementById('hamburger');
+  var m = document.getElementById('mobileNav');
+  if (h) h.classList.toggle('open');
+  if (m) m.classList.toggle('open');
+}
+
+// ── CLOSE ON OUTSIDE CLICK ────────────────────────────────
+document.addEventListener('click', function(e) {
+  var cfg = document.getElementById('navConfigure');
+  if (cfg && !cfg.contains(e.target)) {
+    var b = document.getElementById('navConfigureBtn');
+    var d = document.getElementById('navConfigureDropdown');
+    if (b) b.classList.remove('open');
+    if (d) d.classList.remove('open');
+  }
+  var mob = document.getElementById('mobileNav');
+  var ham = document.getElementById('hamburger');
+  if (mob && ham && !mob.contains(e.target) && !ham.contains(e.target)) {
+    mob.classList.remove('open');
+    ham.classList.remove('open');
+  }
+});
+
+// ── NAV SHADOW ON SCROLL ──────────────────────────────────
+window.addEventListener('scroll', function() {
+  var n = document.getElementById('mainNav');
+  if (n) n.style.boxShadow = window.scrollY > 10 ? '0 2px 20px rgba(0,0,0,0.08)' : 'none';
+});
+
+</script>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/69bab551f1726d1c37ecec82/1jk0l8hp5';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+<script>
+  

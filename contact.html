@@ -1,0 +1,578 @@
+<!DOCTYPE html><!-- v3 -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Orion MIS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ── NAV ── */
+.announcement-bar{background:#1d1d1f;height:36px;overflow:hidden;position:fixed;top:0;left:0;right:0;z-index:300;border-bottom:1px solid rgba(255,255,255,0.12)}
+.announcement-track{display:flex;align-items:center;height:36px;white-space:nowrap;animation:scrollBanner 35s linear infinite}
+.announcement-track:hover{animation-play-state:paused}
+.announcement-item{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:400;color:rgba(255,255,255,0.8);padding:0 32px;flex-shrink:0;font-family:'DM Sans',sans-serif}
+.announcement-item a{color:#fff;font-weight:500;text-decoration:underline;text-underline-offset:2px}
+.announcement-sep{color:rgba(255,255,255,0.25);font-size:10px;flex-shrink:0}
+@keyframes scrollBanner{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+nav{position:fixed;top:36px;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(255,255,255,0.96);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,0.06)}
+.nav-logo img{height:36px;display:block}
+.nav-links{display:flex;gap:24px;list-style:none;align-items:center;margin:0;padding:0}
+.nav-links a{font-size:14px;color:#1d1d1f;text-decoration:none;opacity:0.7;transition:opacity 0.2s}
+.nav-links a:hover{opacity:1}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-configure{position:relative}
+.nav-configure-btn{display:flex;align-items:center;gap:6px;background:#1d1d1f;color:white;padding:8px 18px;border-radius:980px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;border:none;cursor:pointer;white-space:nowrap;transition:background 0.2s}
+.nav-configure-btn:hover{background:#333}
+.nav-configure-btn.open svg{transform:rotate(180deg)}
+.nav-configure-dropdown{display:none;position:absolute;top:calc(100% + 10px);right:0;background:white;border:1px solid #e2e2e7;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.12);min-width:240px;overflow:hidden;z-index:400}
+.nav-configure-dropdown.open{display:block}
+.nav-configure-dropdown a{display:flex;align-items:center;gap:12px;padding:14px 18px;text-decoration:none;color:#1d1d1f;font-size:13px;font-weight:500;transition:background 0.15s;border-bottom:1px solid #f0f0f5}
+.nav-configure-dropdown a:last-child{border-bottom:none}
+.nav-configure-dropdown a:hover{background:#f5f5f7}
+.nav-configure-dropdown .dd-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-configure-dropdown a.helix-opt .dd-icon{background:#f0f6ff;color:#0066cc}
+.nav-configure-dropdown a.conv-opt .dd-icon{background:#edfaf4;color:#00a86b}
+.nav-configure-dropdown a div{display:flex;flex-direction:column;gap:2px}
+.nav-configure-dropdown a strong{font-size:13px;font-weight:500;color:#1d1d1f;display:block}
+.nav-configure-dropdown a small{font-size:11px;font-weight:300;color:#86868b}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border:none;background:none}
+.hamburger span{display:block;width:22px;height:2px;background:#1d1d1f;border-radius:2px;transition:all 0.3s}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-nav{display:none;position:fixed;top:100px;left:0;right:0;background:rgba(255,255,255,0.99);border-bottom:2px solid #e2e2e7;padding:16px 24px 24px;z-index:500;flex-direction:column;gap:4px}
+.mobile-nav.open{display:flex}
+.mobile-nav a{font-size:16px;color:#1d1d1f;text-decoration:none;padding:12px 0;border-bottom:1px solid #f0f0f5;display:block}
+.mobile-nav a:last-of-type{border-bottom:none}
+.mobile-nav a.mobile-cta{background:#1d1d1f;color:white!important;text-align:center;border-radius:12px;padding:14px;margin-top:8px;font-weight:500;border:none;display:block;text-decoration:none}
+@media(max-width:1000px){nav{padding:0 20px}.hamburger{display:flex}.nav-links{display:none!important}.nav-configure-btn{display:none}}
+/* ── HAMBURGER ── */
+/* ── CONFIGURE DROPDOWN ── */
+/* ── MOBILE NAV (sibling of nav, not inside it) ── */
+/* ── RESPONSIVE ── */
+@media(max-width:1000px){}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --white:#ffffff;--off-white:#f5f5f7;--border:#e2e2e7;--border-light:#f0f0f5;
+  --mid-gray:#86868b;--dark:#1d1d1f;--blue:#0066cc;--blue-light:#2997ff;--blue-bg:#f0f6ff;
+  --green:#00a86b;--green-bg:#edfaf4;
+  --font-display:'DM Serif Display',serif;--font-body:'DM Sans',sans-serif;
+  --radius-sm:10px;--radius-md:16px;--radius-lg:20px;--radius-xl:28px;
+  --shadow-sm:0 1px 4px rgba(0,0,0,0.04),0 4px 12px rgba(0,0,0,0.04);
+  --shadow-md:0 2px 8px rgba(0,0,0,0.06),0 8px 24px rgba(0,0,0,0.08);
+}
+html{scroll-behavior:smooth}
+body {
+  font-family: var(--font-body);
+  background: var(--off-white);
+  color: var(--dark);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  padding-top: 100px;
+}
+.nav-cta{background:var(--dark);color:var(--white)!important;opacity:1!important;padding:9px 20px;border-radius:980px;font-weight:500!important}
+.nav-cta:hover{background:#333!important}
+
+.page-header{background:var(--white);border-bottom:1px solid var(--border);padding:108px 48px 64px}
+.page-header-inner{max-width:1280px;margin:0 auto}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mid-gray);margin-bottom:20px;opacity:0;animation:fadeUp 0.6s ease 0.05s forwards}
+.breadcrumb a{color:var(--mid-gray);text-decoration:none}
+.page-eyebrow{font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--blue);display:flex;align-items:center;gap:8px;margin-bottom:16px;opacity:0;animation:fadeUp 0.6s ease 0.1s forwards}
+.page-eyebrow::before{content:'';width:16px;height:1px;background:var(--blue)}
+.page-header h1{font-family:var(--font-display);font-size:clamp(40px,4.5vw,58px);line-height:1.06;letter-spacing:-0.02em;margin-bottom:16px;opacity:0;animation:fadeUp 0.7s ease 0.15s forwards}
+.page-header h1 em{font-style:italic;color:var(--blue)}
+.page-header-sub{font-size:18px;font-weight:300;line-height:1.65;color:var(--mid-gray);max-width:560px;opacity:0;animation:fadeUp 0.7s ease 0.2s forwards}
+
+/* CONTACT LAYOUT */
+.contact-section{padding:64px 48px 80px;background:var(--white);border-bottom:1px solid var(--border)}
+.contact-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:start}
+
+/* CONTACT DETAILS */
+.contact-details{}
+.section-eyebrow{font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--blue);display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.section-eyebrow::before{content:'';width:16px;height:1px;background:var(--blue)}
+h2{font-family:var(--font-display);font-size:clamp(26px,3vw,38px);line-height:1.1;letter-spacing:-0.02em;color:var(--dark);margin-bottom:12px}
+h2 em{font-style:italic;color:var(--blue)}
+.contact-intro{font-size:15px;font-weight:300;color:var(--mid-gray);line-height:1.7;margin-bottom:36px}
+.contact-items{display:flex;flex-direction:column;gap:12px;margin-bottom:36px}
+.contact-item{background:var(--off-white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px;display:flex;align-items:center;gap:16px;text-decoration:none;color:var(--dark);transition:all 0.2s}
+.contact-item:hover{border-color:rgba(0,102,204,0.3);background:var(--blue-bg);transform:translateX(4px)}
+.contact-item-icon{width:40px;height:40px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.contact-item-icon svg{width:18px;height:18px;stroke:var(--dark);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.contact-item:hover .contact-item-icon{background:var(--blue);border-color:var(--blue)}
+.contact-item:hover .contact-item-icon svg{stroke:white}
+.contact-item-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:var(--mid-gray);margin-bottom:2px}
+.contact-item:hover .contact-item-label{color:var(--blue)}
+.contact-item-value{font-size:15px;font-weight:500;color:var(--dark)}
+
+.whatsapp-btn{background:#25d366;color:white;border-radius:var(--radius-lg);padding:18px 24px;display:flex;align-items:center;gap:14px;text-decoration:none;font-weight:500;font-size:15px;transition:all 0.2s}
+.whatsapp-btn:hover{background:#1db954;transform:translateY(-2px);box-shadow:0 6px 24px rgba(37,211,102,0.3)}
+.whatsapp-btn svg{width:24px;height:24px;flex-shrink:0}
+
+.response-note{margin-top:24px;padding:14px 18px;background:var(--green-bg);border:1px solid rgba(0,168,107,0.2);border-radius:var(--radius-md);font-size:13px;font-weight:300;color:var(--green);display:flex;align-items:center;gap:10px}
+.response-note::before{content:'';width:8px;height:8px;background:var(--green);border-radius:50%;flex-shrink:0}
+
+/* FORM */
+.contact-form-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-xl);padding:40px;box-shadow:var(--shadow-md)}
+.form-title{font-size:20px;font-weight:500;letter-spacing:-0.01em;margin-bottom:6px}
+.form-sub{font-size:14px;font-weight:300;color:var(--mid-gray);margin-bottom:28px;line-height:1.6}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-field{display:flex;flex-direction:column;gap:6px}
+.form-field.full{grid-column:1/-1}
+.form-field label{font-size:12px;font-weight:500;color:var(--mid-gray)}
+.form-field input,.form-field select,.form-field textarea{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font-body);font-size:14px;color:var(--dark);background:var(--white);outline:none;transition:border-color 0.2s,box-shadow 0.2s;resize:none}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,102,204,0.1)}
+.form-field select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2386868b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer}
+.form-field textarea{height:120px}
+.form-submit{width:100%;margin-top:4px;padding:14px;background:var(--dark);color:var(--white);border:none;border-radius:980px;font-family:var(--font-body);font-size:15px;font-weight:500;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.form-submit:hover{background:#333;transform:translateY(-1px)}
+.form-disclaimer{font-size:11px;color:var(--mid-gray);text-align:center;margin-top:10px;font-weight:300;line-height:1.5}
+
+/* SUCCESS STATE */
+.form-success{display:none;text-align:center;padding:48px 24px}
+.form-success-icon{width:56px;height:56px;background:var(--green-bg);border:1px solid rgba(0,168,107,0.3);border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center}
+.form-success-icon svg{width:26px;height:26px;stroke:var(--green);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.form-success h3{font-size:20px;font-weight:500;margin-bottom:8px}
+.form-success p{font-size:14px;color:var(--mid-gray);font-weight:300;line-height:1.6}
+
+/* MAP */
+.map-section{padding:0}
+.map-wrap{height:360px;background:var(--off-white);overflow:hidden}
+.map-wrap iframe{width:100%;height:100%;border:none;display:block}
+
+/* CONFIGURATOR PROMPT */
+.config-prompt{background:var(--dark);padding:64px 48px}
+.config-prompt-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center}
+.config-prompt .section-eyebrow{color:var(--blue-light)}
+.config-prompt .section-eyebrow::before{background:var(--blue-light)}
+.config-prompt h2{color:var(--white);font-size:clamp(24px,3vw,36px)}
+.config-prompt h2 em{color:var(--blue-light)}
+.config-prompt p{font-size:15px;font-weight:300;color:rgba(255,255,255,0.45);line-height:1.65}
+.btn-white{background:var(--white);color:var(--dark);padding:13px 28px;border-radius:980px;font-family:var(--font-body);font-size:15px;font-weight:500;text-decoration:none;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;transition:all 0.2s;position:relative;z-index:1}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.25)}
+
+footer{background:var(--dark);padding:64px 48px 40px}
+.footer-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px}
+.footer-logo img{height:32px;filter:brightness(0) invert(1);opacity:0.85;margin-bottom:14px;display:block}
+.footer-desc{font-size:13px;font-weight:300;color:rgba(255,255,255,0.4);max-width:260px;line-height:1.7;margin-bottom:20px}
+.footer-contact a{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,0.4);text-decoration:none;margin-bottom:8px;transition:color 0.2s;font-weight:300}
+.footer-contact a:hover{color:white}
+.footer-contact svg{width:13px;height:13px;stroke:rgba(255,255,255,0.3);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.footer-col h4{font-size:11px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:12px}
+.footer-col ul{list-style:none}
+.footer-col li{margin-bottom:8px}
+.footer-col a{font-size:13px;color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s;font-weight:300}
+.footer-col a:hover{color:white}
+.footer-bottom{max-width:1280px;margin:36px auto 0;padding-top:24px;border-top:1px solid rgba(255,255,255,0.07);display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.22)}
+
+.reveal { opacity: 1 !important; transform: none !important; }
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+
+/* ── SCROLLING BANNER ── */
+100%{transform:translateX(-50%)}}
+
+@media(max-width:1024px){
+  .page-header{padding:90px 24px 48px}
+  .contact-section{padding:56px 24px 64px}
+  .contact-inner{grid-template-columns:1fr;gap:40px}
+  .config-prompt{padding:56px 24px}
+  .config-prompt-inner{grid-template-columns:1fr;gap:24px}
+  footer{padding:48px 24px 32px}
+  .footer-inner{grid-template-columns:1fr 1fr}
+}
+
+/* ── HAMBURGER NAV ── */
+.mobile-/* ── MOBILE BREAKPOINT (≤768px) ── */
+@media(max-width:768px){
+  /* Hero */
+  .page-header,.hero{padding:88px 20px 44px!important}
+  .page-header h1,.hero h1,h1{font-size:clamp(28px,7vw,42px)!important}
+  .page-header-sub,.hero-sub{font-size:15px!important}
+  
+  /* Stats bar */
+  .stats-bar{padding:0!important}
+  .stats-inner{grid-template-columns:1fr 1fr!important;gap:1px}
+  .stat{padding:16px 14px!important}
+  .stat-num{font-size:26px!important}
+  
+  /* Grids → single column */
+  .product-grid,.news-grid,.social-grid,.vault-grid,
+  .cs-grid,.solution-grid,.features-grid{grid-template-columns:1fr!important}
+  
+  /* Two-col layouts → stack */
+  .product-inner,.solution-inner,.body-inner,.cta-card,
+  .footer-inner,.case-grid{grid-template-columns:1fr!important;direction:ltr!important;gap:24px!important}
+  
+  /* Tab bar → scrollable */
+  .tab-bar{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;white-space:nowrap;padding:0 20px}
+  .tab-bar::-webkit-scrollbar{display:none}
+  .tab-btn{padding:12px 16px!important;font-size:13px!important;white-space:nowrap}
+  
+  /* Cards */
+  .product-card,.news-card,.vault-card,.event-card{border-radius:14px!important}
+  .event-card{grid-template-columns:64px 1fr!important;gap:12px!important}
+  .event-badge{display:none!important}
+  
+  /* CTA sections */
+  .cta-section{padding:48px 20px!important}
+  .cta-card{padding:36px 24px!important;gap:24px!important}
+  .cta-title{font-size:26px!important}
+  .btn-white{width:100%;justify-content:center}
+  
+  /* Sections */
+  .section,.solution-section,.product-section{padding:48px 20px!important}
+  
+  /* Footer */
+  footer{padding:40px 20px 28px!important}
+  .footer-inner{grid-template-columns:1fr 1fr!important;gap:28px!important}
+  .footer-logo{margin-bottom:20px}
+  .footer-bottom{flex-direction:column;gap:6px;text-align:center}
+  
+  /* Configurator */
+  .config-layout{grid-template-columns:1fr!important}
+  .config-panel{position:static!important}
+  
+  /* Contact form */
+  .contact-grid{grid-template-columns:1fr!important}
+  
+  /* Images */
+  .solution-img-grid{grid-template-columns:1fr 1fr!important}
+  .product-gallery .main-img{aspect-ratio:4/3}
+  
+  /* Hub page */
+  .hub-.hub-nav-btn{font-size:12px;padding:7px 14px}
+  
+  /* Sidebar on case studies */
+  .sidebar{margin-top:0}
+  .back-link{margin-bottom:20px}
+}
+
+/* ── SMALL PHONES (≤480px) ── */
+@media(max-width:480px){
+  .stats-inner{grid-template-columns:1fr!important}
+  .footer-inner{grid-template-columns:1fr!important}
+  .solution-img-grid{grid-template-columns:1fr!important}
+  .thumb-row{flex-wrap:wrap}
+  h1{font-size:clamp(24px,8vw,36px)!important}
+}
+</style>
+</head>
+<body>
+<!-- SCROLLING ANNOUNCEMENT BAR -->
+<div class="announcement-bar">
+  <div class="announcement-track">
+    <span class="announcement-item">🇬🇧 Designed &amp; manufactured in the UK</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">⚡ Work out your ROI, monthly lease &amp; system cost — <a href="helix-configurator.html">try the configurator</a></span><span class="announcement-sep">·</span>
+    <span class="announcement-item">📦 Up to 20,000 parcels per hour</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🔧 15-minute mean time to repair</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">💷 Flexible operating lease from £1,000/month</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">✅ 24-month parts &amp; labour warranty</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🚀 Typical installation in under 4 weeks</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🏭 87% UK manufactured components</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🇬🇧 Designed &amp; manufactured in the UK</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">⚡ Work out your ROI, monthly lease &amp; system cost — <a href="helix-configurator.html">try the configurator</a></span><span class="announcement-sep">·</span>
+    <span class="announcement-item">📦 Up to 20,000 parcels per hour</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🔧 15-minute mean time to repair</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">💷 Flexible operating lease from £1,000/month</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">✅ 24-month parts &amp; labour warranty</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🚀 Typical installation in under 4 weeks</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🏭 87% UK manufactured components</span><span class="announcement-sep">·</span>
+  </div>
+<nav id="mainNav">
+  <a href="index.html" class="nav-logo">
+    <img src="https://www.orionmis.co.uk/front/images/comp/logo.png" alt="Orion MIS">
+  </a>
+  <ul class="nav-links">
+    <li><a href="helix-product.html">Helix</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="solutions.html">Solutions</a></li>
+    <li><a href="case-studies.html">Case Studies</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="hub.html">Hub</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-configure" id="navConfigure">
+      <button class="nav-configure-btn" id="navConfigureBtn" onclick="toggleConfigureDropdown()">
+        Configure system
+        <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="nav-configure-dropdown" id="navConfigureDropdown">
+        <a href="helix-configurator.html" class="helix-opt">
+          <span class="dd-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+          <div><strong>Helix sorter</strong><small>High-speed sortation &mdash; up to 20,000 pph</small></div>
+        </a>
+        <a href="conveyor-configurator.html" class="conv-opt">
+          <span class="dd-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span>
+          <div><strong>Conveyor system</strong><small>Unit handling, pallet &amp; food-grade</small></div>
+        </a>
+      </div>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <a href="helix-product.html">Helix</a>
+  <a href="products.html">Products</a>
+  <a href="solutions.html">Solutions</a>
+  <a href="case-studies.html">Case Studies</a>
+  <a href="about.html">About</a>
+  <a href="hub.html">Hub</a>
+  <a href="helix-configurator.html" class="mobile-cta">&#9889; Configure Helix sorter</a>
+  <a href="conveyor-configurator.html" class="mobile-cta" style="background:#0066cc;margin-top:6px">&#128230; Configure conveyor system</a>
+</div>
+</div>
+
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><span style="color:var(--dark)">Contact</span></div>
+    <div class="page-eyebrow">Get in touch</div>
+    <h1>Talk to our <em>engineering team</em></h1>
+    <p class="page-header-sub">Whether you have a specific project in mind or just want to understand what's possible — we'll give you a straight answer, not a sales pitch.</p>
+  </div>
+</div>
+
+<section class="contact-section">
+  <div class="contact-inner">
+
+    <!-- CONTACT DETAILS -->
+    <div class="reveal">
+      <div class="section-eyebrow">Contact details</div>
+      <h2>Reach us <em>directly</em></h2>
+      <p class="contact-intro">Our team is based in Chichester. For general enquiries, system questions, or to request a site visit — get in touch using any of the options below.</p>
+
+      <div class="contact-items">
+        <a href="tel:+443333355269" class="contact-item">
+          <div class="contact-item-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg></div>
+          <div><div class="contact-item-label">Phone</div><div class="contact-item-value">+44 333 335 5269</div></div>
+        </a>
+        <a href="mailto:info@orionmis.co.uk" class="contact-item">
+          <div class="contact-item-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div><div class="contact-item-label">Email</div><div class="contact-item-value">info@orionmis.co.uk</div></div>
+        </a>
+        <div class="contact-item" style="cursor:default">
+          <div class="contact-item-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div><div class="contact-item-label">Address</div><div class="contact-item-value">No. 1 Fontwell Avenue, Fontwell, Chichester, PO20 3RU</div></div>
+        </div>
+      </div>
+
+      <a href="#" onclick="Tawk_API.toggle();return false;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Talk to us — live chat</a>
+
+      <div class="response-note">We typically respond to enquiries within 4 working hours</div>
+    </div>
+
+    <!-- FORM -->
+    <div class="contact-form-card reveal" id="formCard">
+      <div id="formContent">
+        <div class="form-title">Send us an enquiry</div>
+        <p class="form-sub">Tell us about your operation and what you're looking to achieve. We'll come back to you with honest, practical advice — no pressure.</p>
+        <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="netlifyForm" onsubmit="submitNetlify(event)">
+        <input type="hidden" name="form-name" value="contact">
+    <input type="hidden" name="_to" value="danny.grigg@orionmis.co.uk">
+        <input type="hidden" name="bot-field" style="display:none">
+        <div class="form-grid">
+          <div class="form-field">
+            <label>First name *</label>
+            <input type="text" name="first-name" placeholder="Danny" id="firstName" required>
+          </div>
+          <div class="form-field">
+            <label>Last name *</label>
+            <input type="text" name="last-name" placeholder="Grigg" id="lastName" required>
+          </div>
+          <div class="form-field full">
+            <label>Company *</label>
+            <input type="text" name="company" placeholder="Your company name" id="company" required>
+          </div>
+          <div class="form-field full">
+            <label>Email address *</label>
+            <input type="email" name="email" placeholder="you@company.com" id="email" required>
+          </div>
+          <div class="form-field full">
+            <label>Phone number</label>
+            <input type="tel" name="phone" placeholder="+44 7700 900000" id="phone">
+          </div>
+          <div class="form-field full">
+            <label>What's this about?</label>
+            <select name="subject" id="subject">
+              <option value="">Select a topic…</option>
+              <option value="helix">Helix sortation system</option>
+              <option value="conveyors">Conveyor systems</option>
+              <option value="quote">Request a quote</option>
+              <option value="site-visit">Site visit / consultation</option>
+              <option value="maintenance">Maintenance &amp; support</option>
+              <option value="other">Something else</option>
+            </select>
+          </div>
+          <div class="form-field full">
+            <label>Tell us about your operation</label>
+            <textarea name="message" placeholder="What do you currently handle? What volumes? What challenges are you trying to solve?" id="message"></textarea>
+          </div>
+          <div class="form-field full" style="display:flex;align-items:flex-start;gap:10px;flex-direction:row">
+            <input type="checkbox" id="consent" required style="width:16px;height:16px;margin-top:2px;flex-shrink:0;accent-color:var(--blue)">
+            <label for="consent" style="font-size:13px;font-weight:300;color:var(--mid-gray);cursor:pointer;line-height:1.5">I'm happy for Orion MIS to contact me about my enquiry and relevant products and services.</label>
+          </div>
+        </div>
+        <button type="submit" class="form-submit">
+          Send enquiry
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <p class="form-disclaimer">Your information is kept private and will only be used to respond to your enquiry.</p>
+        </form>
+      </div>
+      <div class="form-success" id="formSuccess">
+        <div class="form-success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <h3>Enquiry sent</h3>
+        <p>Thanks — we'll be in touch within 4 working hours. In the meantime, you can <a href="helix-configurator.html" style="color:var(--blue)">configure a Helix system</a> to get a live cost estimate.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MAP -->
+<div class="map-section">
+  <div class="map-wrap">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2511.832623!2d-0.6914!3d50.8534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487441b4e9b0e4c5%3A0x0!2zNTDCsDUxJzEyLjIiTiAwwrA0MScyOS41Ilc!5e0!3m2!1sen!2suk!4v1234567890" allowfullscreen loading="lazy"></iframe>
+  </div>
+</div>
+
+<!-- CONFIGURATOR PROMPT -->
+<div class="config-prompt">
+  <div class="config-prompt-inner reveal">
+    <div>
+      <div class="section-eyebrow">Before you call</div>
+      <h2>Run the numbers <em>yourself first</em></h2>
+      <p>Use the Helix configurator to size your system and get a live cost and ROI estimate. It takes 3 minutes and gives you something concrete to discuss with us — or take to your board.</p>
+    </div>
+    <a href="helix-configurator.html" class="btn-white">Open configurator <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo"><img src="https://www.orionmis.co.uk/front/images/comp/logo.png" alt="Orion MIS"></div>
+      <p class="footer-desc">Warehouse automation systems designed and manufactured in the UK.</p>
+      <div class="footer-contact">
+        <a href="tel:+443333355269"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>+44 333 335 5269</a>
+        <a href="mailto:info@orionmis.co.uk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>info@orionmis.co.uk</a>
+        <a href="https://maps.google.com/?q=Orion+MIS+Fontwell+Chichester" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Fontwell Avenue, Chichester, PO20 3RU</a>
+        <a href="#" onclick="Tawk_API.toggle();return false;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>Live chat available</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Products</h4>
+      <ul>
+        <li><a href="helix-product.html">Helix Sorter</a></li>
+        <li><a href="unit-handling.html">Unit Handling</a></li>
+        <li><a href="pallet-heavy.html">Pallet &amp; Heavy Duty</a></li>
+        <li><a href="food-beverage.html">Food &amp; Beverage</a></li>
+        <li><a href="helix-configurator.html">Configurator</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Solutions</h4>
+      <ul>
+        <li><a href="solutions.html#parcel">Parcel &amp; E-commerce</a></li>
+        <li><a href="solutions.html#asrs">Warehouse &amp; ASRS</a></li>
+        <li><a href="solutions.html#robotics">Robotics &amp; AMR</a></li>
+        <li><a href="solutions.html#pallet-automotive">Automotive</a></li>
+        <li><a href="solutions.html#food-manufacturing">Food &amp; Beverage</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html">About Orion</a></li>
+        <li><a href="case-studies.html">Case Studies</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="hub.html">Orion Hub</a></li>
+        <li><a href="hub.html" target="_blank">News</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Orion MIS Ltd. All rights reserved.</span>
+    <span>Designed &amp; manufactured in the UK</span>
+  </div>
+</footer>
+
+<script>
+
+// ── REVEAL ANIMATION ──────────────────────────────────────
+const reveals = document.querySelectorAll('.reveal');
+if (reveals.length) {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+  reveals.forEach(el => obs.observe(el));
+}
+
+// ── CONFIGURE DROPDOWN ────────────────────────────────────
+function toggleConfigureDropdown() {
+  var btn = document.getElementById('navConfigureBtn');
+  var dd  = document.getElementById('navConfigureDropdown');
+  if (!btn || !dd) return;
+  var isOpen = dd.classList.contains('open');
+  btn.classList.toggle('open', !isOpen);
+  dd.classList.toggle('open', !isOpen);
+}
+
+// ── MOBILE NAV ────────────────────────────────────────────
+function toggleMobileNav() {
+  var h = document.getElementById('hamburger');
+  var m = document.getElementById('mobileNav');
+  if (h) h.classList.toggle('open');
+  if (m) m.classList.toggle('open');
+}
+
+// ── CLOSE ON OUTSIDE CLICK ────────────────────────────────
+document.addEventListener('click', function(e) {
+  var cfg = document.getElementById('navConfigure');
+  if (cfg && !cfg.contains(e.target)) {
+    var b = document.getElementById('navConfigureBtn');
+    var d = document.getElementById('navConfigureDropdown');
+    if (b) b.classList.remove('open');
+    if (d) d.classList.remove('open');
+  }
+  var mob = document.getElementById('mobileNav');
+  var ham = document.getElementById('hamburger');
+  if (mob && ham && !mob.contains(e.target) && !ham.contains(e.target)) {
+    mob.classList.remove('open');
+    ham.classList.remove('open');
+  }
+});
+
+// ── NAV SHADOW ON SCROLL ──────────────────────────────────
+window.addEventListener('scroll', function() {
+  var n = document.getElementById('mainNav');
+  if (n) n.style.boxShadow = window.scrollY > 10 ? '0 2px 20px rgba(0,0,0,0.08)' : 'none';
+});
+
+</script>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/69bab551f1726d1c37ecec82/1jk0l8hp5';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+<script>
+  

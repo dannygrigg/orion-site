@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gompels Healthcare — Orion MIS Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ── NAV ── */
+.announcement-bar{background:#1d1d1f;height:36px;overflow:hidden;position:fixed;top:0;left:0;right:0;z-index:300;border-bottom:1px solid rgba(255,255,255,0.12)}
+.announcement-track{display:flex;align-items:center;height:36px;white-space:nowrap;animation:scrollBanner 35s linear infinite}
+.announcement-track:hover{animation-play-state:paused}
+.announcement-item{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:400;color:rgba(255,255,255,0.8);padding:0 32px;flex-shrink:0;font-family:'DM Sans',sans-serif}
+.announcement-item a{color:#fff;font-weight:500;text-decoration:underline;text-underline-offset:2px}
+.announcement-sep{color:rgba(255,255,255,0.25);font-size:10px;flex-shrink:0}
+@keyframes scrollBanner{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+nav{position:fixed;top:36px;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(255,255,255,0.96);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,0.06)}
+.nav-logo img{height:36px;display:block}
+.nav-links{display:flex;gap:24px;list-style:none;align-items:center;margin:0;padding:0}
+.nav-links a{font-size:14px;color:#1d1d1f;text-decoration:none;opacity:0.7;transition:opacity 0.2s}
+.nav-links a:hover{opacity:1}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-configure{position:relative}
+.nav-configure-btn{display:flex;align-items:center;gap:6px;background:#1d1d1f;color:white;padding:8px 18px;border-radius:980px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;border:none;cursor:pointer;white-space:nowrap;transition:background 0.2s}
+.nav-configure-btn:hover{background:#333}
+.nav-configure-btn.open svg{transform:rotate(180deg)}
+.nav-configure-dropdown{display:none;position:absolute;top:calc(100% + 10px);right:0;background:white;border:1px solid #e2e2e7;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.12);min-width:240px;overflow:hidden;z-index:400}
+.nav-configure-dropdown.open{display:block}
+.nav-configure-dropdown a{display:flex;align-items:center;gap:12px;padding:14px 18px;text-decoration:none;color:#1d1d1f;font-size:13px;font-weight:500;transition:background 0.15s;border-bottom:1px solid #f0f0f5}
+.nav-configure-dropdown a:last-child{border-bottom:none}
+.nav-configure-dropdown a:hover{background:#f5f5f7}
+.nav-configure-dropdown .dd-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-configure-dropdown a.helix-opt .dd-icon{background:#f0f6ff;color:#0066cc}
+.nav-configure-dropdown a.conv-opt .dd-icon{background:#edfaf4;color:#00a86b}
+.nav-configure-dropdown a div{display:flex;flex-direction:column;gap:2px}
+.nav-configure-dropdown a strong{font-size:13px;font-weight:500;color:#1d1d1f;display:block}
+.nav-configure-dropdown a small{font-size:11px;font-weight:300;color:#86868b}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border:none;background:none}
+.hamburger span{display:block;width:22px;height:2px;background:#1d1d1f;border-radius:2px;transition:all 0.3s}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-nav{display:none;position:fixed;top:100px;left:0;right:0;background:rgba(255,255,255,0.99);border-bottom:2px solid #e2e2e7;padding:16px 24px 24px;z-index:500;flex-direction:column;gap:4px}
+.mobile-nav.open{display:flex}
+.mobile-nav a{font-size:16px;color:#1d1d1f;text-decoration:none;padding:12px 0;border-bottom:1px solid #f0f0f5;display:block}
+.mobile-nav a:last-of-type{border-bottom:none}
+.mobile-nav a.mobile-cta{background:#1d1d1f;color:white!important;text-align:center;border-radius:12px;padding:14px;margin-top:8px;font-weight:500;border:none;display:block;text-decoration:none}
+@media(max-width:1000px){nav{padding:0 20px}.hamburger{display:flex}.nav-links{display:none!important}.nav-configure-btn{display:none}}
+/* ── HAMBURGER ── */
+/* ── CONFIGURE DROPDOWN ── */
+/* ── MOBILE NAV (sibling of nav, not inside it) ── */
+/* ── RESPONSIVE ── */
+@media(max-width:1000px){}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--white:#fff;--off-white:#f5f5f7;--border:#e2e2e7;--mid-gray:#86868b;--dark:#1d1d1f;--blue:#0066cc;--blue-light:#2997ff;--blue-bg:#f0f6ff;--green:#00a86b;--green-bg:#edfaf4;--font-display:'DM Serif Display',serif;--font-body:'DM Sans',sans-serif;--radius-lg:20px;--radius-xl:28px;--shadow-sm:0 1px 4px rgba(0,0,0,0.04),0 4px 12px rgba(0,0,0,0.04)}
+html{scroll-behavior:smooth}body {
+  font-family: var(--font-body);
+  background: var(--off-white);
+  color: var(--dark);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  padding-top: 100px;
+}
+.nav-cta{background:var(--dark);color:var(--white)!important;opacity:1!important;padding:9px 20px;border-radius:980px;font-weight:500!important}
+.hero{background:var(--dark);padding:100px 48px 64px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(0,102,204,0.15) 0%,transparent 70%)}
+.hero-inner{max-width:1280px;margin:0 auto;position:relative;z-index:1}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:20px}
+.breadcrumb a{color:rgba(255,255,255,0.4);text-decoration:none}.breadcrumb a:hover{color:white}
+.eyebrow{font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--blue-light);display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.eyebrow::before{content:'';width:16px;height:1px;background:var(--blue-light)}
+h1{font-family:var(--font-display);font-size:clamp(32px,4vw,52px);line-height:1.06;letter-spacing:-0.02em;color:var(--white);margin-bottom:16px}
+h1 em{font-style:italic;color:var(--blue-light)}
+.hero-sub{font-size:17px;font-weight:300;color:rgba(255,255,255,0.5);max-width:580px;line-height:1.65}
+.stats-bar{background:rgba(255,255,255,0.04);border-top:1px solid rgba(255,255,255,0.08);padding:28px 48px}
+.stats-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,0.08)}
+.stat{background:#1d1d1f;padding:20px 28px}
+.stat-num{font-family:var(--font-display);font-size:36px;color:var(--white);line-height:1;margin-bottom:4px;letter-spacing:-0.02em}
+.stat-label{font-size:12px;color:rgba(255,255,255,0.4);font-weight:300}
+.body{padding:64px 48px}
+.body-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr;gap:64px;align-items:start}
+.images{display:flex;flex-direction:column;gap:12px;margin-bottom:40px}
+.images img{width:100%;border-radius:var(--radius-lg);border:1px solid var(--border)}
+.section-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;margin-bottom:16px;box-shadow:var(--shadow-sm)}
+.section-card h3{font-size:13px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--blue);margin-bottom:14px}
+.section-card ol,.section-card ul{padding-left:18px;display:flex;flex-direction:column;gap:8px}
+.section-card li{font-size:14px;font-weight:300;line-height:1.65;color:var(--dark)}
+.testimonial{background:var(--dark);border-radius:var(--radius-xl);padding:36px;margin-top:24px}
+.testimonial blockquote{font-size:16px;font-weight:300;line-height:1.75;color:rgba(255,255,255,0.7);font-style:italic;margin-bottom:20px}
+.testimonial cite{font-size:13px;font-weight:500;color:var(--white);display:block}.testimonial cite span{color:rgba(255,255,255,0.4);font-weight:300;display:block;margin-top:2px}
+.sidebar{}
+.sidebar-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:16px;box-shadow:var(--shadow-sm)}
+.sidebar-card h4{font-size:11px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--mid-gray);margin-bottom:14px}
+.tag{display:inline-block;font-size:11px;font-weight:500;padding:4px 10px;border-radius:980px;background:var(--blue-bg);color:var(--blue);margin:2px}
+.result-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;font-weight:300}
+.result-item:last-child{border-bottom:none}
+.result-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:6px}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:500;color:var(--blue);text-decoration:none;margin-bottom:32px}
+footer{background:var(--dark);padding:40px 48px;margin-top:0}
+.footer-bottom{max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.25)}
+
+/* ── SCROLLING BANNER ── */
+100%{transform:translateX(-50%)}}
+
+@media(max-width:1024px){.hero{padding:90px 24px 48px}.stats-inner{grid-template-columns:1fr 1fr}.body{padding:48px 24px}.body-inner{grid-template-columns:1fr}.stats-bar{padding:24px}.footer-bottom{flex-direction:column;gap:8px}}
+
+footer{background:var(--dark);padding:56px 48px 36px}
+.footer-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px}
+.footer-logo img{height:30px;filter:brightness(0) invert(1);opacity:0.8;margin-bottom:14px;display:block}
+.footer-desc{font-size:13px;font-weight:300;color:rgba(255,255,255,0.4);max-width:240px;line-height:1.7;margin-bottom:20px}
+.footer-contact{display:flex;flex-direction:column;gap:8px}
+.footer-contact a{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,0.4);text-decoration:none;font-weight:300;transition:color 0.2s}
+.footer-contact a:hover{color:white}
+.footer-contact svg{width:13px;height:13px;flex-shrink:0}
+.footer-col h4{font-size:11px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:12px}
+.footer-col ul{list-style:none}
+.footer-col li{margin-bottom:8px}
+.footer-col a{font-size:13px;color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s;font-weight:300}
+.footer-col a:hover{color:white}
+.footer-bottom{max-width:1280px;margin:32px auto 0;padding-top:24px;border-top:1px solid rgba(255,255,255,0.07);display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.22)}
+@media(max-width:1024px){.footer-inner{grid-template-columns:1fr 1fr}}
+
+/* ── HAMBURGER NAV ── */
+.mobile-/* ── MOBILE BREAKPOINT (≤768px) ── */
+@media(max-width:768px){
+  /* Hero */
+  .page-header,.hero{padding:88px 20px 44px!important}
+  .page-header h1,.hero h1,h1{font-size:clamp(28px,7vw,42px)!important}
+  .page-header-sub,.hero-sub{font-size:15px!important}
+  
+  /* Stats bar */
+  .stats-bar{padding:0!important}
+  .stats-inner{grid-template-columns:1fr 1fr!important;gap:1px}
+  .stat{padding:16px 14px!important}
+  .stat-num{font-size:26px!important}
+  
+  /* Grids → single column */
+  .product-grid,.news-grid,.social-grid,.vault-grid,
+  .cs-grid,.solution-grid,.features-grid{grid-template-columns:1fr!important}
+  
+  /* Two-col layouts → stack */
+  .product-inner,.solution-inner,.body-inner,.cta-card,
+  .footer-inner,.case-grid{grid-template-columns:1fr!important;direction:ltr!important;gap:24px!important}
+  
+  /* Tab bar → scrollable */
+  .tab-bar{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;white-space:nowrap;padding:0 20px}
+  .tab-bar::-webkit-scrollbar{display:none}
+  .tab-btn{padding:12px 16px!important;font-size:13px!important;white-space:nowrap}
+  
+  /* Cards */
+  .product-card,.news-card,.vault-card,.event-card{border-radius:14px!important}
+  .event-card{grid-template-columns:64px 1fr!important;gap:12px!important}
+  .event-badge{display:none!important}
+  
+  /* CTA sections */
+  .cta-section{padding:48px 20px!important}
+  .cta-card{padding:36px 24px!important;gap:24px!important}
+  .cta-title{font-size:26px!important}
+  .btn-white{width:100%;justify-content:center}
+  
+  /* Sections */
+  .section,.solution-section,.product-section{padding:48px 20px!important}
+  
+  /* Footer */
+  footer{padding:40px 20px 28px!important}
+  .footer-inner{grid-template-columns:1fr 1fr!important;gap:28px!important}
+  .footer-logo{margin-bottom:20px}
+  .footer-bottom{flex-direction:column;gap:6px;text-align:center}
+  
+  /* Configurator */
+  .config-layout{grid-template-columns:1fr!important}
+  .config-panel{position:static!important}
+  
+  /* Contact form */
+  .contact-grid{grid-template-columns:1fr!important}
+  
+  /* Images */
+  .solution-img-grid{grid-template-columns:1fr 1fr!important}
+  .product-gallery .main-img{aspect-ratio:4/3}
+  
+  /* Hub page */
+  .hub-.hub-nav-btn{font-size:12px;padding:7px 14px}
+  
+  /* Sidebar on case studies */
+  .sidebar{margin-top:0}
+  .back-link{margin-bottom:20px}
+}
+
+/* ── SMALL PHONES (≤480px) ── */
+@media(max-width:480px){
+  .stats-inner{grid-template-columns:1fr!important}
+  .footer-inner{grid-template-columns:1fr!important}
+  .solution-img-grid{grid-template-columns:1fr!important}
+  .thumb-row{flex-wrap:wrap}
+  h1{font-size:clamp(24px,8vw,36px)!important}
+}
+</style>
+</head>
+<body>
+<!-- SCROLLING ANNOUNCEMENT BAR -->
+<div class="announcement-bar">
+  <div class="announcement-track">
+    <span class="announcement-item">🇬🇧 Designed &amp; manufactured in the UK</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">⚡ Work out your ROI, monthly lease &amp; system cost — <a href="helix-configurator.html">try the configurator</a></span><span class="announcement-sep">·</span>
+    <span class="announcement-item">📦 Up to 20,000 parcels per hour</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🔧 15-minute mean time to repair</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">💷 Flexible operating lease from £1,000/month</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">✅ 24-month parts &amp; labour warranty</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🚀 Typical installation in under 4 weeks</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🏭 87% UK manufactured components</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🇬🇧 Designed &amp; manufactured in the UK</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">⚡ Work out your ROI, monthly lease &amp; system cost — <a href="helix-configurator.html">try the configurator</a></span><span class="announcement-sep">·</span>
+    <span class="announcement-item">📦 Up to 20,000 parcels per hour</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🔧 15-minute mean time to repair</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">💷 Flexible operating lease from £1,000/month</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">✅ 24-month parts &amp; labour warranty</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🚀 Typical installation in under 4 weeks</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🏭 87% UK manufactured components</span><span class="announcement-sep">·</span>
+  </div>
+<nav id="mainNav">
+  <a href="index.html" class="nav-logo">
+    <img src="https://www.orionmis.co.uk/front/images/comp/logo.png" alt="Orion MIS">
+  </a>
+  <ul class="nav-links">
+    <li><a href="helix-product.html">Helix</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="solutions.html">Solutions</a></li>
+    <li><a href="case-studies.html">Case Studies</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="hub.html">Hub</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-configure" id="navConfigure">
+      <button class="nav-configure-btn" id="navConfigureBtn" onclick="toggleConfigureDropdown()">
+        Configure system
+        <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="nav-configure-dropdown" id="navConfigureDropdown">
+        <a href="helix-configurator.html" class="helix-opt">
+          <span class="dd-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+          <div><strong>Helix sorter</strong><small>High-speed sortation &mdash; up to 20,000 pph</small></div>
+        </a>
+        <a href="conveyor-configurator.html" class="conv-opt">
+          <span class="dd-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span>
+          <div><strong>Conveyor system</strong><small>Unit handling, pallet &amp; food-grade</small></div>
+        </a>
+      </div>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <a href="helix-product.html">Helix</a>
+  <a href="products.html">Products</a>
+  <a href="solutions.html">Solutions</a>
+  <a href="case-studies.html">Case Studies</a>
+  <a href="about.html">About</a>
+  <a href="hub.html">Hub</a>
+  <a href="helix-configurator.html" class="mobile-cta">&#9889; Configure Helix sorter</a>
+  <a href="conveyor-configurator.html" class="mobile-cta" style="background:#0066cc;margin-top:6px">&#128230; Configure conveyor system</a>
+</div>
+</div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="case-studies.html" style="opacity:1;color:var(--blue);font-weight:500">Case Studies</a><span>›</span><span>Gompels Healthcare</span></div>
+    <div class="eyebrow">Case study — Healthcare distribution</div>
+    <h1>Gompels Healthcare automates their <em>outbound pack and sort</em> process</h1>
+    <p class="hero-sub">Orion implemented a pick & pack solution handling up to 400 units per hour — with over 50% of materials sourced from recycled content.</p>
+  </div>
+</div>
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-num">7</div><div class="stat-label">System integrations delivered</div></div>
+    <div class="stat"><div class="stat-num">0</div><div class="stat-label">Downtime during installation</div></div>
+    <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Automation technologies integrated</div></div>
+  </div>
+</div>
+<div class="body">
+  <div class="body-inner">
+    <div>
+      <div class="images">
+        <img src="https://www.orionmis.co.uk/front/images/case study/casestudyslider (1).png" alt="Gompels system">
+        <img src="https://www.orionmis.co.uk/front/images/case study/casestudyslider (2).png" alt="Gompels conveyor">
+        <img src="https://www.orionmis.co.uk/front/images/case study/casestudyslider (3).png" alt="Gompels detail">
+      </div>
+      <div class="section-card">
+        <h3>Overview</h3>
+        <p style="font-size:15px;font-weight:300;line-height:1.75;color:var(--mid-gray)">The customer needed to increase throughput and quality of their existing system to keep up with client demand. Orion implemented a pick & pack solution able to handle client orders of up to 400 units per hour. Notably, over 50% of the solution is made from recycled materials, providing significant cost savings for the client.</p>
+      </div>
+      <div class="section-card">
+        <h3>Challenges</h3>
+        <ol>
+          <li>Limited space for solution implementation</li>
+          <li>Integration of multi-tier receive lines with custom lifts</li>
+          <li>Deployment of multiple print-and-apply systems for order tracking</li>
+          <li>Implementation of a check weigh QA process</li>
+          <li>Creation of a bespoke void fill station with adjustable ergonomics</li>
+          <li>Automation of carton sealing processes</li>
+          <li>Sorting mechanism for efficient dispatch by courier</li>
+        </ol>
+      </div>
+      <div class="section-card">
+        <h3>Solutions</h3>
+        <ol>
+          <li>Bespoke conveyor system with carton lift to receive orders from trolley system</li>
+          <li>Weber print-and-apply machines for efficient order tracking</li>
+          <li>Bizerba dynamic check weigher for quality assurance</li>
+          <li>Bespoke void fill station with servo-assisted height adjustment</li>
+          <li>Automatic tape sealer for carton sealing</li>
+          <li>Keyence Vision Inspection and Barcode Reading throughout</li>
+          <li>Swivel wheel lane sorter to group orders by courier lane</li>
+        </ol>
+      </div>
+      <div class="testimonial">
+        <blockquote>"Orion helped us boil down our slightly chaotic requirements into a workable, efficient conveyor system that is now a successful part of our picking process. Chris was great at making sure it all runs as expected and was able to advise on enhancements that really made a difference. All in, a great choice and way less arrogant than some of the other companies that we spoke to."</blockquote>
+        <cite>Sam Gompels<span>Gompels Healthcare Ltd</span></cite>
+      </div>
+    </div>
+    <div class="sidebar">
+      <a href="case-studies.html" class="back-link"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M13 8H3M7 4l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> All case studies</a>
+      <div class="sidebar-card">
+        <h4>Sector</h4>
+        <span class="tag">Global Logistics</span>
+        <span class="tag">E-Commerce</span>
+        <span class="tag">Pick & Pack</span>
+      </div>
+      <div class="sidebar-card">
+        <h4>Technologies used</h4>
+        <span class="tag">Print &amp; Apply</span>
+        <span class="tag">Check weighing</span>
+        <span class="tag">Void fill</span>
+        <span class="tag">Swivel wheel sorter</span>
+        <span class="tag">Keyence vision</span>
+        <span class="tag">WCS integration</span>
+      </div>
+      <div class="sidebar-card">
+        <h4>Key results</h4>
+        <div class="result-item"><div class="result-dot"></div>Orders processed within working day</div>
+        <div class="result-item"><div class="result-dot"></div>Headcount significantly reduced</div>
+        <div class="result-item"><div class="result-dot"></div>Throughput substantially increased</div>
+        <div class="result-item"><div class="result-dot"></div>Full WCS tracking throughout</div>
+        <div class="result-item"><div class="result-dot"></div>Bespoke engineering solution delivered</div>
+      </div>
+      <div class="sidebar-card" style="background:var(--blue-bg);border-color:rgba(0,102,204,0.2)">
+        <h4 style="color:var(--blue)">Want similar results?</h4>
+        <p style="font-size:13px;font-weight:300;line-height:1.6;color:var(--mid-gray);margin-bottom:14px">Talk to our engineering team about automating your pick and pack operation.</p>
+        <a href="contact.html" style="display:inline-flex;align-items:center;gap:6px;background:var(--dark);color:white;padding:10px 18px;border-radius:980px;font-size:13px;font-weight:500;text-decoration:none">Contact Orion <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo"><img src="https://www.orionmis.co.uk/front/images/comp/logo.png" alt="Orion MIS"></div>
+      <p class="footer-desc">Warehouse automation systems designed and manufactured in the UK.</p>
+      <div class="footer-contact">
+        <a href="tel:+443333355269"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>+44 333 335 5269</a>
+        <a href="mailto:info@orionmis.co.uk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>info@orionmis.co.uk</a>
+        <a href="https://maps.google.com/?q=Orion+MIS+Fontwell+Chichester" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Fontwell Avenue, Chichester, PO20 3RU</a>
+        <a href="#" onclick="Tawk_API.toggle();return false;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>Live chat available</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Products</h4>
+      <ul>
+        <li><a href="helix-product.html">Helix Sorter</a></li>
+        <li><a href="unit-handling.html">Unit Handling</a></li>
+        <li><a href="pallet-heavy.html">Pallet &amp; Heavy Duty</a></li>
+        <li><a href="food-beverage.html">Food &amp; Beverage</a></li>
+        <li><a href="helix-configurator.html">Configurator</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Solutions</h4>
+      <ul>
+        <li><a href="solutions.html#parcel">Parcel &amp; E-commerce</a></li>
+        <li><a href="solutions.html#asrs">Warehouse &amp; ASRS</a></li>
+        <li><a href="solutions.html#robotics">Robotics &amp; AMR</a></li>
+        <li><a href="solutions.html#pallet-automotive">Automotive</a></li>
+        <li><a href="solutions.html#food-manufacturing">Food &amp; Beverage</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html">About Orion</a></li>
+        <li><a href="case-studies.html">Case Studies</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="hub.html">Orion Hub</a></li>
+        <li><a href="hub.html" target="_blank">News</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Orion MIS Ltd. All rights reserved.</span>
+    <span>Designed &amp; manufactured in the UK</span>
+  </div>
+</footer>
+
+<script>
+
+// ── REVEAL ANIMATION ──────────────────────────────────────
+const reveals = document.querySelectorAll('.reveal');
+if (reveals.length) {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+  reveals.forEach(el => obs.observe(el));
+}
+
+// ── CONFIGURE DROPDOWN ────────────────────────────────────
+function toggleConfigureDropdown() {
+  var btn = document.getElementById('navConfigureBtn');
+  var dd  = document.getElementById('navConfigureDropdown');
+  if (!btn || !dd) return;
+  var isOpen = dd.classList.contains('open');
+  btn.classList.toggle('open', !isOpen);
+  dd.classList.toggle('open', !isOpen);
+}
+
+// ── MOBILE NAV ────────────────────────────────────────────
+function toggleMobileNav() {
+  var h = document.getElementById('hamburger');
+  var m = document.getElementById('mobileNav');
+  if (h) h.classList.toggle('open');
+  if (m) m.classList.toggle('open');
+}
+
+// ── CLOSE ON OUTSIDE CLICK ────────────────────────────────
+document.addEventListener('click', function(e) {
+  var cfg = document.getElementById('navConfigure');
+  if (cfg && !cfg.contains(e.target)) {
+    var b = document.getElementById('navConfigureBtn');
+    var d = document.getElementById('navConfigureDropdown');
+    if (b) b.classList.remove('open');
+    if (d) d.classList.remove('open');
+  }
+  var mob = document.getElementById('mobileNav');
+  var ham = document.getElementById('hamburger');
+  if (mob && ham && !mob.contains(e.target) && !ham.contains(e.target)) {
+    mob.classList.remove('open');
+    ham.classList.remove('open');
+  }
+});
+
+// ── NAV SHADOW ON SCROLL ──────────────────────────────────
+window.addEventListener('scroll', function() {
+  var n = document.getElementById('mainNav');
+  if (n) n.style.boxShadow = window.scrollY > 10 ? '0 2px 20px rgba(0,0,0,0.08)' : 'none';
+});
+
+</script>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/69bab551f1726d1c37ecec82/1jk0l8hp5';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+<script>
+  
