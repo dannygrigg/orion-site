@@ -1,0 +1,17 @@
+{
+  "hero_video_url": "https://www.youtube.com/embed/53RZuWy3kXI?autoplay=1&mute=1&loop=1&playlist=53RZuWy3kXI&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1",
+  "hero_headline": "Your throughput is growing.",
+  "hero_subheadline": "Your building isn't.",
+  "hero_body": "Increase sortation capacity inside your existing facility. Compact, modular, and designed and manufactured in the UK. Available on flexible lease —",
+  "hero_lease_price": "from £1,000/month",
+  "announcement_items": [
+    { "text": "🇬🇧 Designed & manufactured in the UK" },
+    { "text": "⚡ Work out your ROI, monthly lease & system cost —", "link_url": "helix-configurator.html", "link_text": "try the configurator" },
+    { "text": "📦 Up to 20,000 parcels per hour" },
+    { "text": "🔧 15-minute mean time to repair" },
+    { "text": "💷 Flexible operating lease from £1,000/month" },
+    { "text": "✅ 24-month parts & labour warranty" },
+    { "text": "🚀 Typical installation in under 4 weeks" },
+    { "text": "🏭 87% UK manufactured components" }
+  ]
+}

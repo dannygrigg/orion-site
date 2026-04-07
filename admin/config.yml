@@ -1,0 +1,145 @@
+backend:
+  name: github
+  repo: dannygrigg/orion-site
+  branch: main
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+
+publish_mode: simple
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+site_url: https://dannygrigg.github.io/orion-site
+
+collections:
+
+  - name: "homepage"
+    label: "🏠 Homepage"
+    files:
+      - name: "homepage"
+        label: "Homepage content"
+        file: "_data/homepage.json"
+        fields:
+          - label: "Hero video (YouTube embed URL)"
+            name: "hero_video_url"
+            widget: "string"
+            hint: "https://www.youtube.com/embed/VIDEO_ID?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID&controls=0"
+            default: "https://www.youtube.com/embed/53RZuWy3kXI?autoplay=1&mute=1&loop=1&playlist=53RZuWy3kXI&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+          - { label: "Hero headline line 1", name: "hero_line1", widget: "string", default: "Your throughput is growing." }
+          - { label: "Hero headline line 2 (italic blue)", name: "hero_line2", widget: "string", default: "Your building isn't." }
+          - { label: "Hero body text", name: "hero_body", widget: "text" }
+          - { label: "Lease price text", name: "hero_lease", widget: "string", default: "from £1,000/month" }
+          - label: "Announcement bar messages"
+            name: "announcements"
+            widget: "list"
+            summary: "{{fields.text}}"
+            fields:
+              - { label: "Message", name: "text", widget: "string" }
+              - { label: "Link URL (optional)", name: "link_url", widget: "string", required: false }
+              - { label: "Link label (optional)", name: "link_label", widget: "string", required: false }
+
+  - name: "global_settings"
+    label: "⚙️ Site Settings"
+    files:
+      - name: "global"
+        label: "Contact & Global"
+        file: "_data/global.json"
+        fields:
+          - { label: "Phone", name: "phone", widget: "string" }
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "Address", name: "address", widget: "string" }
+
+  - name: "news"
+    label: "📰 News & Events"
+    folder: "_data/news"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    identifier_field: "title"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - label: "Type"
+        name: "type"
+        widget: "select"
+        options: ["news", "event", "press", "award"]
+        default: "news"
+      - { label: "Date", name: "date", widget: "datetime", date_format: "DD/MM/YYYY", time_format: false }
+      - { label: "Summary", name: "summary", widget: "text" }
+      - { label: "Image URL", name: "image", widget: "string", required: false }
+      - { label: "Read more link", name: "link", widget: "string", required: false }
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options: ["published", "draft"]
+        default: "published"
+
+  - name: "vault"
+    label: "🔒 Vault"
+    folder: "_data/vault"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{name}}"
+    identifier_field: "name"
+    fields:
+      - { label: "Document name", name: "name", widget: "string" }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options: ["technical", "commercial", "marketing", "compliance", "training"]
+      - label: "File type"
+        name: "filetype"
+        widget: "select"
+        options: ["pdf", "doc", "xls", "ppt", "dwg", "zip", "link"]
+        default: "pdf"
+      - { label: "URL", name: "url", widget: "string" }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - label: "Access"
+        name: "access"
+        widget: "select"
+        options: ["public", "partner", "internal"]
+        default: "public"
+      - { label: "Version", name: "version", widget: "string", required: false }
+
+  - name: "images"
+    label: "🖼️ Images & Media"
+    folder: "_data/images"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{label}} — {{page}}"
+    identifier_field: "label"
+    fields:
+      - { label: "Label", name: "label", widget: "string" }
+      - { label: "Image URL", name: "url", widget: "string" }
+      - label: "Page"
+        name: "page"
+        widget: "select"
+        options:
+          - { label: "Homepage", value: "home" }
+          - { label: "Helix product", value: "helix" }
+          - { label: "Products", value: "products" }
+          - { label: "Solutions", value: "solutions" }
+          - { label: "Case studies", value: "case-studies" }
+          - { label: "About", value: "about" }
+          - { label: "Hub", value: "hub" }
+          - { label: "All pages", value: "all" }
+      - { label: "Section", name: "section", widget: "string", required: false }
+      - { label: "Alt text", name: "alt", widget: "string", required: false }
+
+  - name: "social"
+    label: "📱 Social Feed"
+    folder: "_data/social"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{platform}} — {{caption}}"
+    identifier_field: "caption"
+    fields:
+      - label: "Platform"
+        name: "platform"
+        widget: "select"
+        options: ["linkedin", "twitter", "instagram", "youtube"]
+        default: "linkedin"
+      - { label: "Caption", name: "caption", widget: "text" }
+      - { label: "Date", name: "date", widget: "datetime", date_format: "DD/MM/YYYY", time_format: false }
+      - { label: "Post URL", name: "url", widget: "string", required: false }
+      - { label: "Image URL", name: "image", widget: "string", required: false }
