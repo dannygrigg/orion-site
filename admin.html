@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Orion MIS — Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --dark:#1d1d1f;--white:#fff;--off:#f5f5f7;--border:#e2e2e7;--mid:#86868b;
+  --blue:#0066cc;--blue-bg:#f0f6ff;--green:#00a86b;--green-bg:#edfaf4;
+  --red:#e53e3e;--red-bg:#fff5f5;--yellow:#f59e0b;
+  --font:'DM Sans',sans-serif;--display:'DM Serif Display',serif;
+  --r:12px;--r-lg:18px;
+}
+html{height:100%}
+body{font-family:var(--font);background:var(--off);color:var(--dark);min-height:100%;-webkit-font-smoothing:antialiased}
+
+/* ── LOGIN ── */
+#loginScreen{position:fixed;inset:0;background:var(--dark);display:flex;align-items:center;justify-content:center;z-index:1000;flex-direction:column;gap:0}
+.login-card{background:white;border-radius:24px;padding:48px;width:380px;text-align:center}
+.login-logo{font-family:var(--display);font-size:32px;letter-spacing:-0.02em;margin-bottom:4px}
+.login-sub{font-size:13px;color:var(--mid);font-weight:300;margin-bottom:32px}
+.login-label{font-size:11px;font-weight:500;color:var(--mid);text-align:left;display:block;margin-bottom:5px;letter-spacing:0.04em;text-transform:uppercase}
+.login-input{width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:var(--r);font-family:var(--font);font-size:16px;letter-spacing:4px;text-align:center;outline:none;transition:border 0.2s;margin-bottom:16px}
+.login-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,102,204,0.1)}
+.login-btn{width:100%;background:var(--dark);color:white;border:none;border-radius:980px;padding:14px;font-family:var(--font);font-size:15px;font-weight:500;cursor:pointer;transition:background 0.2s}
+.login-btn:hover{background:#333}
+.login-error{color:var(--red);font-size:13px;margin-top:10px;display:none}
+.login-hint{font-size:11px;color:var(--mid);margin-top:16px;font-weight:300}
+
+/* ── LAYOUT ── */
+#app{display:none;height:100vh;overflow:hidden}
+.sidebar{width:220px;height:100vh;background:var(--dark);position:fixed;left:0;top:0;display:flex;flex-direction:column;overflow-y:auto}
+.sidebar-logo{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.sidebar-logo-text{font-family:var(--display);font-size:22px;color:white;letter-spacing:-0.02em}
+.sidebar-logo-sub{font-size:10px;color:rgba(255,255,255,0.4);font-weight:300;margin-top:2px}
+.sidebar-section{padding:16px 12px 4px;font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.3)}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;margin:2px 8px;cursor:pointer;transition:background 0.15s;color:rgba(255,255,255,0.6);font-size:13px;font-weight:400;text-decoration:none;border:none;background:none;width:calc(100% - 16px);text-align:left;font-family:var(--font)}
+.nav-item:hover{background:rgba(255,255,255,0.08);color:white}
+.nav-item.active{background:rgba(255,255,255,0.12);color:white}
+.nav-item svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.sidebar-bottom{margin-top:auto;padding:16px}
+.logout-btn{width:100%;padding:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:var(--r);color:rgba(255,255,255,0.5);font-family:var(--font);font-size:13px;cursor:pointer;transition:all 0.2s}
+.logout-btn:hover{background:rgba(255,0,0,0.15);color:#ff6b6b;border-color:rgba(255,0,0,0.3)}
+
+.main{margin-left:220px;height:100vh;overflow-y:auto}
+.topbar{background:white;border-bottom:1px solid var(--border);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.topbar-title{font-size:18px;font-weight:500;letter-spacing:-0.01em}
+.topbar-actions{display:flex;gap:10px;align-items:center}
+.content{padding:28px 32px 48px}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:980px;font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all 0.2s;text-decoration:none}
+.btn-primary{background:var(--dark);color:white}.btn-primary:hover{background:#333}
+.btn-blue{background:var(--blue);color:white}.btn-blue:hover{background:#0055b3}
+.btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--dark)}.btn-outline:hover{border-color:var(--dark)}
+.btn-danger{background:var(--red-bg);color:var(--red);border:1px solid rgba(229,62,62,0.2)}.btn-danger:hover{background:#fed7d7}
+.btn-sm{padding:6px 12px;font-size:12px}
+.btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn-green{background:var(--green-bg);color:var(--green);border:1px solid rgba(0,168,107,0.2)}.btn-green:hover{background:#c6f6e4}
+
+/* ── CARDS ── */
+.card{background:white;border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;margin-bottom:20px}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.card-title{font-size:15px;font-weight:500;letter-spacing:-0.01em}
+.card-sub{font-size:12px;color:var(--mid);font-weight:300;margin-top:2px}
+
+/* ── STATS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat-card{background:white;border:1px solid var(--border);border-radius:var(--r-lg);padding:20px}
+.stat-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.07em;color:var(--mid);margin-bottom:6px}
+.stat-value{font-family:var(--display);font-size:28px;letter-spacing:-0.02em;color:var(--dark)}
+.stat-note{font-size:11px;color:var(--mid);margin-top:3px;font-weight:300}
+
+/* ── TABLE ── */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:10px 14px;font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid);border-bottom:1px solid var(--border);background:var(--off)}
+td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--off)}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:980px;font-size:11px;font-weight:500}
+.badge-blue{background:var(--blue-bg);color:var(--blue)}
+.badge-green{background:var(--green-bg);color:var(--green)}
+.badge-gray{background:var(--off);color:var(--mid)}
+.badge-yellow{background:#fef3c7;color:#92400e}
+
+/* ── FORM ── */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-grid.cols3{grid-template-columns:1fr 1fr 1fr}
+.form-full{grid-column:1/-1}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:4px}
+.field label{font-size:11px;font-weight:500;color:var(--mid);letter-spacing:0.04em;text-transform:uppercase}
+.field input,.field select,.field textarea{padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r);font-family:var(--font);font-size:14px;color:var(--dark);background:white;outline:none;transition:border 0.2s;width:100%}
+.field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2386868b' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;cursor:pointer}
+.field textarea{resize:vertical;min-height:80px;line-height:1.5}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,102,204,0.1)}
+.field-hint{font-size:11px;color:var(--mid);font-weight:300}
+
+/* ── MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.2s}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal{background:white;border-radius:20px;padding:28px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;transform:translateY(12px);transition:transform 0.2s;box-shadow:0 20px 60px rgba(0,0,0,0.15)}
+.modal-bg.open .modal{transform:translateY(0)}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.modal-title{font-size:17px;font-weight:500;letter-spacing:-0.01em}
+.modal-close{width:28px;height:28px;border-radius:50%;background:var(--off);border:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--mid);transition:background 0.15s}
+.modal-close:hover{background:var(--border)}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+
+/* ── IMAGE MANAGER ── */
+.image-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:16px}
+.image-thumb{border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;position:relative;background:var(--off);aspect-ratio:16/10}
+.image-thumb img{width:100%;height:100%;object-fit:cover}
+.image-thumb-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.5);opacity:0;transition:opacity 0.15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.image-thumb:hover .image-thumb-overlay{opacity:1}
+.image-meta{padding:8px 10px;background:white;border-top:1px solid var(--border)}
+.image-meta-name{font-size:11px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.image-meta-page{font-size:10px;color:var(--mid);font-weight:300}
+.image-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--mid)}
+.image-placeholder svg{width:28px;height:28px;stroke:currentColor;fill:none;stroke-width:1.5}
+
+/* ── OUTPUT ── */
+.output-wrap{background:#1d1d1f;border-radius:var(--r-lg);overflow:hidden}
+.output-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(255,255,255,0.06)}
+.output-title{font-size:12px;font-weight:500;color:rgba(255,255,255,0.6)}
+.output-copy{background:none;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.6);padding:5px 12px;border-radius:6px;font-family:var(--font);font-size:11px;cursor:pointer;transition:all 0.15s}
+.output-copy:hover{background:rgba(255,255,255,0.1);color:white}
+.output-code{padding:16px;font-family:'Menlo','Monaco',monospace;font-size:11px;color:#a8d8a8;line-height:1.6;overflow-x:auto;white-space:pre;max-height:300px;overflow-y:auto}
+
+/* ── TABS ── */
+.tab-bar{display:flex;gap:2px;background:var(--off);border-radius:var(--r);padding:4px;margin-bottom:20px;width:fit-content}
+.tab{padding:8px 18px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;font-family:var(--font);color:var(--mid);transition:all 0.15s}
+.tab.active{background:white;color:var(--dark);box-shadow:0 1px 4px rgba(0,0,0,0.08)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--dark);color:white;padding:12px 18px;border-radius:var(--r);font-size:13px;font-weight:500;z-index:999;transform:translateY(60px);opacity:0;transition:all 0.3s;display:flex;align-items:center;gap:8px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
+
+/* ── VAULT ITEM ── */
+.vault-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid var(--border);border-radius:var(--r);background:white;margin-bottom:8px;transition:border-color 0.15s}
+.vault-item:hover{border-color:var(--blue)}
+.vault-icon{width:36px;height:36px;border-radius:8px;background:var(--blue-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.vault-icon svg{width:16px;height:16px;stroke:var(--blue);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.vault-info{flex:1;min-width:0}
+.vault-name{font-size:13px;font-weight:500}
+.vault-meta{font-size:11px;color:var(--mid);font-weight:300;margin-top:1px}
+.vault-actions{display:flex;gap:6px;flex-shrink:0}
+
+/* ── MISC ── */
+.empty-state{text-align:center;padding:48px 20px;color:var(--mid)}
+.empty-state svg{width:40px;height:40px;stroke:var(--border);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;margin-bottom:12px}
+.empty-state p{font-size:14px;font-weight:300}
+.divider{border:none;border-top:1px solid var(--border);margin:20px 0}
+.section-title{font-size:13px;font-weight:500;margin-bottom:12px;color:var(--mid);text-transform:uppercase;letter-spacing:0.06em;font-size:11px}
+.color-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
+.green-dot{background:var(--green)}
+.yellow-dot{background:var(--yellow)}
+.gray-dot{background:var(--mid)}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">ORION</div>
+    <div class="login-sub">Admin Dashboard — Content Manager</div>
+    <label class="login-label">Enter PIN</label>
+    <input type="password" class="login-input" id="pinInput" maxlength="6" placeholder="••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Unlock dashboard</button>
+    <div class="login-error" id="loginError">Incorrect PIN. Try again.</div>
+    <div class="login-hint">Default PIN: 1234 — change in Settings</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-text">ORION</div>
+      <div class="sidebar-logo-sub">Content Admin</div>
+    </div>
+    <div class="sidebar-section">Content</div>
+    <button class="nav-item active" onclick="showSection('dashboard')" id="nav-dashboard">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </button>
+    <button class="nav-item" onclick="showSection('news')" id="nav-news">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      News & Events
+    </button>
+    <button class="nav-item" onclick="showSection('vault')" id="nav-vault">
+      <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+      Vault
+    </button>
+    <button class="nav-item" onclick="showSection('images')" id="nav-images">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      Images & Media
+    </button>
+    <button class="nav-item" onclick="showSection('social')" id="nav-social">
+      <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      Social Feed
+    </button>
+    <div class="sidebar-section">Site</div>
+    <button class="nav-item" onclick="showSection('pages')" id="nav-pages">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Pages
+    </button>
+    <button class="nav-item" onclick="showSection('export')" id="nav-export">
+      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export & Deploy
+    </button>
+    <button class="nav-item" onclick="showSection('settings')" id="nav-settings">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Settings
+    </button>
+    <div class="sidebar-bottom">
+      <button class="logout-btn" onclick="doLogout()">Sign out</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="topbarTitle">Dashboard</div>
+      </div>
+      <div class="topbar-actions">
+        <a href="https://dannygrigg.github.io/orion-site/" target="_blank" class="btn btn-outline btn-sm">
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          View site
+        </a>
+        <button class="btn btn-blue btn-sm" onclick="saveAll()">
+          <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Save all
+        </button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div id="section-dashboard">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">News items</div>
+            <div class="stat-value" id="stat-news">0</div>
+            <div class="stat-note">published</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Vault documents</div>
+            <div class="stat-value" id="stat-vault">0</div>
+            <div class="stat-note">accessible</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Images linked</div>
+            <div class="stat-value" id="stat-images">0</div>
+            <div class="stat-note">across pages</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Social posts</div>
+            <div class="stat-value" id="stat-social">0</div>
+            <div class="stat-note">in feed</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">Quick actions</div><div class="card-sub">Common tasks</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+            <button onclick="showSection('news');openModal('news')" class="btn btn-outline" style="justify-content:center;padding:14px">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add news item
+            </button>
+            <button onclick="showSection('vault');openModal('vault')" class="btn btn-outline" style="justify-content:center;padding:14px">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add to vault
+            </button>
+            <button onclick="showSection('images');openModal('image')" class="btn btn-outline" style="justify-content:center;padding:14px">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add image
+            </button>
+            <button onclick="showSection('export')" class="btn btn-outline" style="justify-content:center;padding:14px">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export & deploy
+            </button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Recent activity</div></div>
+          <div id="activityLog" style="font-size:13px;color:var(--mid);font-weight:300">No activity yet. Start by adding content above.</div>
+        </div>
+      </div>
+
+      <!-- NEWS & EVENTS -->
+      <div id="section-news" style="display:none">
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">News & Events</div><div class="card-sub">Appears on the Hub page</div></div>
+            <button class="btn btn-primary btn-sm" onclick="openModal('news')">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add item
+            </button>
+          </div>
+          <div class="tab-bar">
+            <button class="tab active" onclick="filterNews('all',this)">All</button>
+            <button class="tab" onclick="filterNews('news',this)">News</button>
+            <button class="tab" onclick="filterNews('event',this)">Events</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Title</th><th>Type</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="newsTable"><tr><td colspan="5"><div class="empty-state"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><p>No news items yet</p></div></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- VAULT -->
+      <div id="section-vault" style="display:none">
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">Vault</div><div class="card-sub">Documents, specs, and resources for partners</div></div>
+            <button class="btn btn-primary btn-sm" onclick="openModal('vault')">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add document
+            </button>
+          </div>
+          <div class="tab-bar">
+            <button class="tab active" onclick="filterVault('all',this)">All</button>
+            <button class="tab" onclick="filterVault('technical',this)">Technical</button>
+            <button class="tab" onclick="filterVault('commercial',this)">Commercial</button>
+            <button class="tab" onclick="filterVault('marketing',this)">Marketing</button>
+          </div>
+          <div id="vaultList"></div>
+        </div>
+      </div>
+
+      <!-- IMAGES -->
+      <div id="section-images" style="display:none">
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">Images & Media</div><div class="card-sub">Link images to pages by URL — no file upload needed</div></div>
+            <button class="btn btn-primary btn-sm" onclick="openModal('image')">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add image
+            </button>
+          </div>
+          <div style="background:var(--blue-bg);border:1px solid rgba(0,102,204,0.15);border-radius:var(--r);padding:12px 16px;margin-bottom:16px;font-size:12px;color:var(--blue);font-weight:300">
+            💡 Tip: Upload your images to <strong>Google Drive, Dropbox, or Imgur</strong> and paste the direct URL here. For Google Drive: right-click → Get link → change to "Anyone with link" → copy the direct download URL.
+          </div>
+          <div class="image-grid" id="imageGrid">
+            <div class="empty-state" style="grid-column:1/-1"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><p>No images yet</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOCIAL -->
+      <div id="section-social" style="display:none">
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">Social Feed</div><div class="card-sub">LinkedIn and social posts shown on Hub page</div></div>
+            <button class="btn btn-primary btn-sm" onclick="openModal('social')">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add post
+            </button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Platform</th><th>Caption</th><th>Date</th><th>Actions</th></tr></thead>
+              <tbody id="socialTable"><tr><td colspan="4"><div class="empty-state"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg><p>No social posts yet</p></div></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGES -->
+      <div id="section-pages" style="display:none">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Site pages</div><div class="card-sub">Quick overview of all pages</div></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Page</th><th>File</th><th>Images linked</th><th>Status</th><th></th></tr></thead>
+              <tbody id="pagesTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPORT -->
+      <div id="section-export" style="display:none">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Export hub.js</div><div class="card-sub">Copy this and upload to GitHub to update the Hub page</div></div>
+          <p style="font-size:13px;font-weight:300;color:var(--mid);margin-bottom:16px;line-height:1.6">
+            After making changes, click <strong>Generate hub.js</strong> then copy the output and replace the <code>hub.js</code> file in your GitHub repo. The site will automatically redeploy.
+          </p>
+          <button class="btn btn-blue" onclick="generateHubJS()" style="margin-bottom:16px">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Generate hub.js
+          </button>
+          <div class="output-wrap" id="hubOutput" style="display:none">
+            <div class="output-header">
+              <span class="output-title">hub.js — ready to upload to GitHub</span>
+              <button class="output-copy" onclick="copyOutput('hubCode')">Copy code</button>
+            </div>
+            <div class="output-code" id="hubCode"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">How to deploy changes</div></div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+            <div style="background:var(--off);border-radius:var(--r);padding:16px;text-align:center">
+              <div style="font-family:var(--display);font-size:24px;color:var(--blue);margin-bottom:6px">1</div>
+              <div style="font-size:12px;font-weight:500;margin-bottom:4px">Make changes</div>
+              <div style="font-size:11px;color:var(--mid);font-weight:300">Add news, vault docs, images in the admin</div>
+            </div>
+            <div style="background:var(--off);border-radius:var(--r);padding:16px;text-align:center">
+              <div style="font-family:var(--display);font-size:24px;color:var(--blue);margin-bottom:6px">2</div>
+              <div style="font-size:12px;font-weight:500;margin-bottom:4px">Generate hub.js</div>
+              <div style="font-size:11px;color:var(--mid);font-weight:300">Click Generate and copy the output</div>
+            </div>
+            <div style="background:var(--off);border-radius:var(--r);padding:16px;text-align:center">
+              <div style="font-family:var(--display);font-size:24px;color:var(--blue);margin-bottom:6px">3</div>
+              <div style="font-size:12px;font-weight:500;margin-bottom:4px">Upload to GitHub</div>
+              <div style="font-size:11px;color:var(--mid);font-weight:300">Go to dannygrigg/orion-site → hub.js → Edit → paste</div>
+            </div>
+            <div style="background:var(--off);border-radius:var(--r);padding:16px;text-align:center">
+              <div style="font-family:var(--display);font-size:24px;color:var(--green);margin-bottom:6px">4</div>
+              <div style="font-size:12px;font-weight:500;margin-bottom:4px">Live in 2 minutes</div>
+              <div style="font-size:11px;color:var(--mid);font-weight:300">GitHub Pages auto-deploys on commit</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div id="section-settings" style="display:none">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Change PIN</div></div>
+          <div class="form-grid" style="max-width:400px">
+            <div class="field form-full">
+              <label>Current PIN</label>
+              <input type="password" id="currentPin" placeholder="Enter current PIN">
+            </div>
+            <div class="field">
+              <label>New PIN</label>
+              <input type="password" id="newPin" placeholder="4-6 digits">
+            </div>
+            <div class="field">
+              <label>Confirm new PIN</label>
+              <input type="password" id="confirmPin" placeholder="Repeat PIN">
+            </div>
+          </div>
+          <button class="btn btn-primary" style="margin-top:12px" onclick="changePIN()">Update PIN</button>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Site settings</div></div>
+          <div class="form-grid" style="max-width:600px">
+            <div class="field">
+              <label>Site name</label>
+              <input type="text" id="s-sitename" value="Orion MIS">
+            </div>
+            <div class="field">
+              <label>Contact email</label>
+              <input type="text" id="s-email" value="info@orionmis.co.uk">
+            </div>
+            <div class="field">
+              <label>Phone</label>
+              <input type="text" id="s-phone" value="+44 333 335 5269">
+            </div>
+            <div class="field">
+              <label>GitHub Pages URL</label>
+              <input type="text" id="s-url" value="https://dannygrigg.github.io/orion-site/">
+            </div>
+          </div>
+          <button class="btn btn-primary" style="margin-top:12px" onclick="saveSettings()">Save settings</button>
+        </div>
+        <div class="card" style="border-color:rgba(229,62,62,0.3)">
+          <div class="card-header"><div class="card-title" style="color:var(--red)">Danger zone</div></div>
+          <p style="font-size:13px;font-weight:300;color:var(--mid);margin-bottom:16px">Clear all content from this admin. This cannot be undone.</p>
+          <button class="btn btn-danger" onclick="if(confirm('Clear ALL content? This cannot be undone.'))clearAll()">Clear all content</button>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- MODAL: News -->
+<div class="modal-bg" id="modal-news">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="newsModalTitle">Add news item</div>
+      <button class="modal-close" onclick="closeModal('news')">×</button>
+    </div>
+    <div class="form-grid">
+      <div class="field form-full">
+        <label>Title *</label>
+        <input type="text" id="n-title" placeholder="e.g. Helix deployed at APC Cannock">
+      </div>
+      <div class="field">
+        <label>Type</label>
+        <select id="n-type">
+          <option value="news">News</option>
+          <option value="event">Event</option>
+          <option value="press">Press release</option>
+          <option value="award">Award</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Date</label>
+        <input type="date" id="n-date">
+      </div>
+      <div class="field form-full">
+        <label>Summary</label>
+        <textarea id="n-summary" placeholder="Short description shown in the Hub feed..."></textarea>
+      </div>
+      <div class="field form-full">
+        <label>Image URL (optional)</label>
+        <input type="url" id="n-image" placeholder="https://...">
+        <span class="field-hint">Paste a direct image URL — from Imgur, Google Drive, etc.</span>
+      </div>
+      <div class="field form-full">
+        <label>Link URL (optional)</label>
+        <input type="url" id="n-link" placeholder="https://...">
+      </div>
+      <div class="field">
+        <label>Status</label>
+        <select id="n-status">
+          <option value="published">Published</option>
+          <option value="draft">Draft</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('news')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveNews()">Save item</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Vault -->
+<div class="modal-bg" id="modal-vault">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="vaultModalTitle">Add vault document</div>
+      <button class="modal-close" onclick="closeModal('vault')">×</button>
+    </div>
+    <div class="form-grid">
+      <div class="field form-full">
+        <label>Document name *</label>
+        <input type="text" id="v-name" placeholder="e.g. Helix Technical Specification v2.1">
+      </div>
+      <div class="field">
+        <label>Category</label>
+        <select id="v-category">
+          <option value="technical">Technical</option>
+          <option value="commercial">Commercial</option>
+          <option value="marketing">Marketing</option>
+          <option value="compliance">Compliance</option>
+          <option value="training">Training</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>File type</label>
+        <select id="v-filetype">
+          <option value="pdf">PDF</option>
+          <option value="doc">Word document</option>
+          <option value="xls">Spreadsheet</option>
+          <option value="ppt">Presentation</option>
+          <option value="dwg">CAD drawing</option>
+          <option value="zip">ZIP archive</option>
+          <option value="link">External link</option>
+        </select>
+      </div>
+      <div class="field form-full">
+        <label>URL / Link *</label>
+        <input type="url" id="v-url" placeholder="https://drive.google.com/... or https://dropbox.com/...">
+        <span class="field-hint">Google Drive, Dropbox, or any direct download link</span>
+      </div>
+      <div class="field form-full">
+        <label>Description</label>
+        <textarea id="v-desc" placeholder="Brief description of what's in this document..." style="min-height:60px"></textarea>
+      </div>
+      <div class="field">
+        <label>Access level</label>
+        <select id="v-access">
+          <option value="public">Public</option>
+          <option value="partner">Partners only</option>
+          <option value="internal">Internal</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Version</label>
+        <input type="text" id="v-version" placeholder="e.g. v2.1">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('vault')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveVault()">Add to vault</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Image -->
+<div class="modal-bg" id="modal-image">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="imageModalTitle">Add image</div>
+      <button class="modal-close" onclick="closeModal('image')">×</button>
+    </div>
+    <div class="form-grid">
+      <div class="field form-full">
+        <label>Image URL *</label>
+        <input type="url" id="i-url" placeholder="https://..." oninput="previewImage()">
+        <span class="field-hint">Direct image URL from Imgur, Google Drive (share link), Dropbox, or any CDN</span>
+      </div>
+      <div class="field form-full" id="imagePreviewWrap" style="display:none">
+        <label>Preview</label>
+        <img id="imagePreview" style="max-height:180px;border-radius:var(--r);border:1px solid var(--border);object-fit:cover;width:100%">
+      </div>
+      <div class="field form-full">
+        <label>Label / caption</label>
+        <input type="text" id="i-label" placeholder="e.g. Helix at APC Cannock Hub">
+      </div>
+      <div class="field">
+        <label>Page</label>
+        <select id="i-page">
+          <option value="home">Homepage</option>
+          <option value="helix">Helix product page</option>
+          <option value="products">Products</option>
+          <option value="solutions">Solutions</option>
+          <option value="case-studies">Case studies</option>
+          <option value="about">About</option>
+          <option value="hub">Hub</option>
+          <option value="vault">Vault</option>
+          <option value="all">All pages</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Section / placement</label>
+        <input type="text" id="i-section" placeholder="e.g. hero, gallery, case study">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('image')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveImage()">Add image</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Social -->
+<div class="modal-bg" id="modal-social">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add social post</div>
+      <button class="modal-close" onclick="closeModal('social')">×</button>
+    </div>
+    <div class="form-grid">
+      <div class="field">
+        <label>Platform</label>
+        <select id="soc-platform">
+          <option value="linkedin">LinkedIn</option>
+          <option value="twitter">X / Twitter</option>
+          <option value="instagram">Instagram</option>
+          <option value="youtube">YouTube</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Date</label>
+        <input type="date" id="soc-date">
+      </div>
+      <div class="field form-full">
+        <label>Caption / text</label>
+        <textarea id="soc-caption" placeholder="Post text..."></textarea>
+      </div>
+      <div class="field form-full">
+        <label>Post URL</label>
+        <input type="url" id="soc-url" placeholder="https://linkedin.com/posts/...">
+      </div>
+      <div class="field form-full">
+        <label>Image URL (optional)</label>
+        <input type="url" id="soc-image" placeholder="https://...">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('social')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveSocial()">Add post</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="toast-dot"></span><span id="toastMsg">Saved</span></div>
+
+<script>
+// ── AUTH ────────────────────────────────────────────────────
+const DEFAULT_PIN = '1234';
+function getPin(){ return localStorage.getItem('orion_admin_pin')||DEFAULT_PIN; }
+function doLogin(){
+  const val = document.getElementById('pinInput').value;
+  if(val === getPin()){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('app').style.display='block';
+    init();
+  } else {
+    document.getElementById('loginError').style.display='block';
+    document.getElementById('pinInput').value='';
+    document.getElementById('pinInput').focus();
+  }
+}
+function doLogout(){
+  document.getElementById('app').style.display='none';
+  document.getElementById('loginScreen').style.display='flex';
+  document.getElementById('pinInput').value='';
+  document.getElementById('loginError').style.display='none';
+}
+function changePIN(){
+  const cur=document.getElementById('currentPin').value;
+  const nw=document.getElementById('newPin').value;
+  const cf=document.getElementById('confirmPin').value;
+  if(cur!==getPin()){ toast('Current PIN incorrect'); return; }
+  if(nw.length<4){ toast('PIN must be at least 4 digits'); return; }
+  if(nw!==cf){ toast('PINs do not match'); return; }
+  localStorage.setItem('orion_admin_pin',nw);
+  document.getElementById('currentPin').value='';
+  document.getElementById('newPin').value='';
+  document.getElementById('confirmPin').value='';
+  toast('PIN updated ✓');
+}
+document.getElementById('pinInput').addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
+
+// ── DATA STORE ──────────────────────────────────────────────
+let DB = { news:[], vault:[], images:[], social:[], settings:{sitename:'Orion MIS',email:'info@orionmis.co.uk',phone:'+44 333 335 5269',url:'https://dannygrigg.github.io/orion-site/'}, activity:[] };
+let editingId = null;
+
+function loadDB(){ try{ const s=localStorage.getItem('orion_admin_db'); if(s) DB=JSON.parse(s); }catch(e){} }
+function saveDB(){ localStorage.setItem('orion_admin_db',JSON.stringify(DB)); }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function fmtDate(d){ if(!d) return ''; const dt=new Date(d); return dt.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}); }
+
+function addActivity(msg){
+  DB.activity.unshift({msg,time:new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})});
+  DB.activity=DB.activity.slice(0,20);
+  renderActivity();
+}
+
+// ── NAV ─────────────────────────────────────────────────────
+const SECTIONS = ['dashboard','news','vault','images','social','pages','export','settings'];
+const TITLES = {dashboard:'Dashboard',news:'News & Events',vault:'Vault',images:'Images & Media',social:'Social Feed',pages:'Pages',export:'Export & Deploy',settings:'Settings'};
+
+function showSection(id){
+  SECTIONS.forEach(s=>{
+    const sec=document.getElementById('section-'+s);
+    const nav=document.getElementById('nav-'+s);
+    if(sec) sec.style.display = s===id?'block':'none';
+    if(nav) nav.classList.toggle('active', s===id);
+  });
+  document.getElementById('topbarTitle').textContent = TITLES[id]||id;
+  if(id==='news') renderNewsTable();
+  if(id==='vault') renderVaultList();
+  if(id==='images') renderImageGrid();
+  if(id==='social') renderSocialTable();
+  if(id==='pages') renderPagesTable();
+  if(id==='dashboard') renderStats();
+}
+
+// ── MODAL ────────────────────────────────────────────────────
+function openModal(type, id=null){
+  editingId = id;
+  if(type==='news'){
+    document.getElementById('newsModalTitle').textContent = id?'Edit news item':'Add news item';
+    if(id){
+      const item=DB.news.find(n=>n.id===id);
+      if(item){ ['title','type','date','summary','image','link','status'].forEach(f=>{ const el=document.getElementById('n-'+f); if(el) el.value=item[f]||''; }); }
+    } else {
+      ['title','summary','image','link'].forEach(f=>{ const el=document.getElementById('n-'+f); if(el) el.value=''; });
+      document.getElementById('n-date').value = new Date().toISOString().slice(0,10);
+      document.getElementById('n-type').value='news';
+      document.getElementById('n-status').value='published';
+    }
+  }
+  if(type==='vault'){
+    document.getElementById('vaultModalTitle').textContent = id?'Edit document':'Add vault document';
+    if(id){
+      const item=DB.vault.find(v=>v.id===id);
+      if(item){ ['name','category','filetype','url','desc','access','version'].forEach(f=>{ const el=document.getElementById('v-'+f); if(el) el.value=item[f]||''; }); }
+    } else {
+      ['name','url','desc','version'].forEach(f=>{ const el=document.getElementById('v-'+f); if(el) el.value=''; });
+      document.getElementById('v-category').value='technical';
+      document.getElementById('v-filetype').value='pdf';
+      document.getElementById('v-access').value='public';
+    }
+  }
+  if(type==='image'){
+    document.getElementById('imageModalTitle').textContent = id?'Edit image':'Add image';
+    document.getElementById('imagePreviewWrap').style.display='none';
+    if(id){
+      const item=DB.images.find(i=>i.id===id);
+      if(item){ ['url','label','page','section'].forEach(f=>{ const el=document.getElementById('i-'+f); if(el) el.value=item[f]||''; }); previewImage(); }
+    } else {
+      ['url','label','section'].forEach(f=>{ const el=document.getElementById('i-'+f); if(el) el.value=''; });
+      document.getElementById('i-page').value='home';
+    }
+  }
+  if(type==='social'){
+    ['caption','url','image'].forEach(f=>{ const el=document.getElementById('soc-'+f); if(el) el.value=''; });
+    document.getElementById('soc-date').value=new Date().toISOString().slice(0,10);
+    document.getElementById('soc-platform').value='linkedin';
+  }
+  document.getElementById('modal-'+type).classList.add('open');
+}
+function closeModal(type){ document.getElementById('modal-'+type).classList.remove('open'); editingId=null; }
+document.querySelectorAll('.modal-bg').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('open'); }));
+
+// ── NEWS ─────────────────────────────────────────────────────
+function saveNews(){
+  const title=document.getElementById('n-title').value.trim();
+  if(!title){ toast('Title is required'); return; }
+  const item = {
+    id: editingId||uid(), title,
+    type:document.getElementById('n-type').value,
+    date:document.getElementById('n-date').value,
+    summary:document.getElementById('n-summary').value,
+    image:document.getElementById('n-image').value,
+    link:document.getElementById('n-link').value,
+    status:document.getElementById('n-status').value,
+    created: editingId ? undefined : new Date().toISOString()
+  };
+  if(editingId){ const idx=DB.news.findIndex(n=>n.id===editingId); if(idx>-1) DB.news[idx]=item; }
+  else DB.news.unshift(item);
+  saveDB(); closeModal('news'); renderNewsTable(); renderStats();
+  addActivity(`${editingId?'Updated':'Added'} news: "${title}"`);
+  toast(editingId?'Item updated ✓':'Item added ✓');
+}
+function deleteNews(id){
+  if(!confirm('Delete this item?')) return;
+  const item=DB.news.find(n=>n.id===id);
+  DB.news=DB.news.filter(n=>n.id!==id);
+  saveDB(); renderNewsTable(); renderStats();
+  addActivity(`Deleted news: "${item?.title}"`);
+  toast('Item deleted');
+}
+
+let newsFilter='all';
+function filterNews(f,el){ newsFilter=f; document.querySelectorAll('.tab-bar .tab').forEach(t=>t.classList.remove('active')); el.classList.add('active'); renderNewsTable(); }
+
+function renderNewsTable(){
+  const tbody=document.getElementById('newsTable');
+  const items=newsFilter==='all'?DB.news:DB.news.filter(n=>n.type===newsFilter);
+  if(!items.length){ tbody.innerHTML='<tr><td colspan="5"><div class="empty-state"><p>No items</p></div></td></tr>'; return; }
+  tbody.innerHTML=items.map(item=>`
+    <tr>
+      <td><strong>${item.title}</strong>${item.summary?`<div style="font-size:11px;color:var(--mid);font-weight:300;margin-top:2px">${item.summary.slice(0,60)}${item.summary.length>60?'...':''}</div>`:''}</td>
+      <td><span class="badge badge-blue">${item.type}</span></td>
+      <td>${fmtDate(item.date)}</td>
+      <td><span class="badge ${item.status==='published'?'badge-green':'badge-gray'}"><span class="color-dot ${item.status==='published'?'green-dot':'gray-dot'}"></span>${item.status}</span></td>
+      <td><div style="display:flex;gap:6px">
+        <button class="btn btn-outline btn-sm" onclick="openModal('news','${item.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteNews('${item.id}')">Delete</button>
+      </div></td>
+    </tr>`).join('');
+}
+
+// ── VAULT ────────────────────────────────────────────────────
+function saveVault(){
+  const name=document.getElementById('v-name').value.trim();
+  const url=document.getElementById('v-url').value.trim();
+  if(!name||!url){ toast('Name and URL are required'); return; }
+  const item = {
+    id:editingId||uid(), name,
+    category:document.getElementById('v-category').value,
+    filetype:document.getElementById('v-filetype').value,
+    url, desc:document.getElementById('v-desc').value,
+    access:document.getElementById('v-access').value,
+    version:document.getElementById('v-version').value,
+    added:editingId?undefined:new Date().toISOString().slice(0,10)
+  };
+  if(editingId){ const idx=DB.vault.findIndex(v=>v.id===editingId); if(idx>-1) DB.vault[idx]=item; }
+  else DB.vault.unshift(item);
+  saveDB(); closeModal('vault'); renderVaultList(); renderStats();
+  addActivity(`${editingId?'Updated':'Added'} vault doc: "${name}"`);
+  toast(editingId?'Updated ✓':'Added to vault ✓');
+}
+function deleteVault(id){
+  if(!confirm('Remove from vault?')) return;
+  const item=DB.vault.find(v=>v.id===id);
+  DB.vault=DB.vault.filter(v=>v.id!==id);
+  saveDB(); renderVaultList(); renderStats();
+  addActivity(`Removed vault doc: "${item?.name}"`);
+  toast('Removed from vault');
+}
+
+const ICONS = {
+  pdf:`<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`,
+  doc:`<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
+  xls:`<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>`,
+  ppt:`<svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>`,
+  link:`<svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>`,
+};
+function getIcon(ft){ return ICONS[ft]||ICONS.pdf; }
+
+let vaultFilter='all';
+function filterVault(f,el){ vaultFilter=f; document.querySelectorAll('#section-vault .tab').forEach(t=>t.classList.remove('active')); el.classList.add('active'); renderVaultList(); }
+
+function renderVaultList(){
+  const list=document.getElementById('vaultList');
+  const items=vaultFilter==='all'?DB.vault:DB.vault.filter(v=>v.category===vaultFilter);
+  if(!items.length){ list.innerHTML='<div class="empty-state"><p>No vault documents yet</p></div>'; return; }
+  list.innerHTML=items.map(item=>`
+    <div class="vault-item">
+      <div class="vault-icon">${getIcon(item.filetype)}</div>
+      <div class="vault-info">
+        <div class="vault-name">${item.name}${item.version?` <span style="font-size:11px;color:var(--mid);font-weight:300">${item.version}</span>`:''}</div>
+        <div class="vault-meta">${item.category} · ${item.access}${item.desc?` · ${item.desc.slice(0,60)}`:''}</div>
+      </div>
+      <div class="vault-actions">
+        <a href="${item.url}" target="_blank" class="btn btn-outline btn-sm">Open</a>
+        <button class="btn btn-outline btn-sm" onclick="openModal('vault','${item.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteVault('${item.id}')">Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+// ── IMAGES ────────────────────────────────────────────────────
+function previewImage(){
+  const url=document.getElementById('i-url').value.trim();
+  const wrap=document.getElementById('imagePreviewWrap');
+  const img=document.getElementById('imagePreview');
+  if(url){ wrap.style.display='block'; img.src=url; img.onerror=()=>wrap.style.display='none'; }
+  else wrap.style.display='none';
+}
+function saveImage(){
+  const url=document.getElementById('i-url').value.trim();
+  if(!url){ toast('Image URL is required'); return; }
+  const item = {
+    id:editingId||uid(), url,
+    label:document.getElementById('i-label').value,
+    page:document.getElementById('i-page').value,
+    section:document.getElementById('i-section').value,
+    added:new Date().toISOString().slice(0,10)
+  };
+  if(editingId){ const idx=DB.images.findIndex(i=>i.id===editingId); if(idx>-1) DB.images[idx]=item; }
+  else DB.images.unshift(item);
+  saveDB(); closeModal('image'); renderImageGrid(); renderStats();
+  addActivity(`Added image: "${item.label||url.slice(0,40)}"`);
+  toast('Image added ✓');
+}
+function deleteImage(id){
+  if(!confirm('Remove this image?')) return;
+  DB.images=DB.images.filter(i=>i.id!==id);
+  saveDB(); renderImageGrid(); renderStats(); toast('Image removed');
+}
+function renderImageGrid(){
+  const grid=document.getElementById('imageGrid');
+  if(!DB.images.length){ grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><p>No images yet</p></div>'; return; }
+  grid.innerHTML=DB.images.map(img=>`
+    <div class="image-thumb">
+      <img src="${img.url}" alt="${img.label}" onerror="this.parentElement.innerHTML='<div class=\\'image-placeholder\\'><svg viewBox=\\'0 0 24 24\\'><rect x=\\'3\\' y=\\'3\\' width=\\'18\\' height=\\'18\\' rx=\\'2\\'/><circle cx=\\'8.5\\' cy=\\'8.5\\' r=\\'1.5\\'/><polyline points=\\'21 15 16 10 5 21\\'/></svg></div>'">
+      <div class="image-thumb-overlay">
+        <button class="btn btn-sm" style="background:white;color:var(--dark)" onclick="openModal('image','${img.id}')">Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteImage('${img.id}')">✕</button>
+      </div>
+      <div class="image-meta">
+        <div class="image-meta-name">${img.label||'Untitled'}</div>
+        <div class="image-meta-page">${img.page}${img.section?' · '+img.section:''}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ── SOCIAL ────────────────────────────────────────────────────
+function saveSocial(){
+  const caption=document.getElementById('soc-caption').value.trim();
+  if(!caption){ toast('Caption is required'); return; }
+  const item = {
+    id:uid(), platform:document.getElementById('soc-platform').value,
+    date:document.getElementById('soc-date').value,
+    caption, url:document.getElementById('soc-url').value,
+    image:document.getElementById('soc-image').value
+  };
+  DB.social.unshift(item);
+  saveDB(); closeModal('social'); renderSocialTable(); renderStats();
+  addActivity(`Added social post: "${caption.slice(0,40)}..."`);
+  toast('Post added ✓');
+}
+function deleteSocial(id){
+  if(!confirm('Delete this post?')) return;
+  DB.social=DB.social.filter(s=>s.id!==id);
+  saveDB(); renderSocialTable(); renderStats(); toast('Post deleted');
+}
+function renderSocialTable(){
+  const tbody=document.getElementById('socialTable');
+  if(!DB.social.length){ tbody.innerHTML='<tr><td colspan="4"><div class="empty-state"><p>No social posts yet</p></div></td></tr>'; return; }
+  tbody.innerHTML=DB.social.map(p=>`
+    <tr>
+      <td><span class="badge badge-blue">${p.platform}</span></td>
+      <td>${p.caption.slice(0,80)}${p.caption.length>80?'...':''}</td>
+      <td>${fmtDate(p.date)}</td>
+      <td><div style="display:flex;gap:6px">
+        ${p.url?`<a href="${p.url}" target="_blank" class="btn btn-outline btn-sm">View</a>`:''}
+        <button class="btn btn-danger btn-sm" onclick="deleteSocial('${p.id}')">Delete</button>
+      </div></td>
+    </tr>`).join('');
+}
+
+// ── PAGES ────────────────────────────────────────────────────
+const PAGES_LIST = [
+  {name:'Homepage',file:'index.html'},{name:'Helix Product',file:'helix-product.html'},
+  {name:'Products',file:'products.html'},{name:'Solutions',file:'solutions.html'},
+  {name:'Helix Configurator',file:'helix-configurator.html'},{name:'Conveyor Configurator',file:'conveyor-configurator.html'},
+  {name:'Case Studies',file:'case-studies.html'},{name:'About',file:'about.html'},
+  {name:'Contact',file:'contact.html'},{name:'Hub',file:'hub.html'},
+];
+function renderPagesTable(){
+  const tbody=document.getElementById('pagesTable');
+  tbody.innerHTML=PAGES_LIST.map(p=>{
+    const imgs=DB.images.filter(i=>i.page===p.file.replace('.html','').replace('index','home'));
+    return `<tr>
+      <td><strong>${p.name}</strong></td>
+      <td><code style="font-size:11px;background:var(--off);padding:2px 6px;border-radius:4px">${p.file}</code></td>
+      <td>${imgs.length?`<span class="badge badge-green">${imgs.length} image${imgs.length>1?'s':''}</span>`:'<span style="font-size:12px;color:var(--mid)">None</span>'}</td>
+      <td><span class="badge badge-green"><span class="color-dot green-dot"></span>Live</span></td>
+      <td><a href="https://dannygrigg.github.io/orion-site/${p.file}" target="_blank" class="btn btn-outline btn-sm">View</a></td>
+    </tr>`;
+  }).join('');
+}
+
+// ── STATS ────────────────────────────────────────────────────
+function renderStats(){
+  document.getElementById('stat-news').textContent=DB.news.filter(n=>n.status==='published').length;
+  document.getElementById('stat-vault').textContent=DB.vault.length;
+  document.getElementById('stat-images').textContent=DB.images.length;
+  document.getElementById('stat-social').textContent=DB.social.length;
+}
+function renderActivity(){
+  const el=document.getElementById('activityLog');
+  if(!DB.activity.length){ el.textContent='No activity yet.'; return; }
+  el.innerHTML=DB.activity.slice(0,8).map(a=>`
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px">
+      <span>${a.msg}</span>
+      <span style="color:var(--mid);font-size:11px;flex-shrink:0;margin-left:16px">${a.time}</span>
+    </div>`).join('');
+}
+
+// ── EXPORT ────────────────────────────────────────────────────
+function generateHubJS(){
+  const js = `// hub.js — generated by Orion Admin Dashboard
+// Last updated: ${new Date().toLocaleString('en-GB')}
+// DO NOT EDIT MANUALLY — use the admin dashboard
+
+const HUB_DATA = ${JSON.stringify({
+    news: DB.news.filter(n=>n.status==='published'),
+    vault: DB.vault,
+    social: DB.social,
+    images: DB.images,
+    generated: new Date().toISOString()
+  }, null, 2)};
+
+// Make available globally
+if(typeof window !== 'undefined') window.HUB_DATA = HUB_DATA;`;
+
+  document.getElementById('hubCode').textContent=js;
+  document.getElementById('hubOutput').style.display='block';
+  addActivity('Generated hub.js for deployment');
+  toast('hub.js generated ✓');
+}
+
+function copyOutput(id){
+  const text=document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(()=>toast('Copied to clipboard ✓')).catch(()=>{
+    const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); toast('Copied ✓');
+  });
+}
+
+// ── SETTINGS ────────────────────────────────────────────────
+function saveSettings(){
+  DB.settings.sitename=document.getElementById('s-sitename').value;
+  DB.settings.email=document.getElementById('s-email').value;
+  DB.settings.phone=document.getElementById('s-phone').value;
+  DB.settings.url=document.getElementById('s-url').value;
+  saveDB(); toast('Settings saved ✓');
+  addActivity('Updated site settings');
+}
+function clearAll(){
+  DB={news:[],vault:[],images:[],social:[],settings:DB.settings,activity:[]};
+  saveDB(); renderStats(); renderActivity(); toast('All content cleared');
+}
+
+// ── GLOBAL SAVE ──────────────────────────────────────────────
+function saveAll(){ saveDB(); toast('All changes saved ✓'); addActivity('Manual save'); }
+
+// ── TOAST ────────────────────────────────────────────────────
+function toast(msg){ const t=document.getElementById('toast'),m=document.getElementById('toastMsg'); m.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
+
+// ── INIT ────────────────────────────────────────────────────
+function init(){
+  loadDB();
+  renderStats();
+  renderActivity();
+  // Load settings into form
+  if(DB.settings){
+    ['sitename','email','phone','url'].forEach(k=>{ const el=document.getElementById('s-'+k); if(el&&DB.settings[k]) el.value=DB.settings[k]; });
+  }
+}
+
+// Auto-save every 30 seconds
+setInterval(()=>{ if(document.getElementById('app').style.display!=='none') saveDB(); }, 30000);
+</script>
+</body>
+</html>
