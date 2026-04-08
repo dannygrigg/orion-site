@@ -1,0 +1,108 @@
+{
+  "homepage": {
+    "hero_video_url": "https://www.youtube.com/watch?v=53RZuWy3kXI",
+    "hero_line1": "Your throughput is growing.",
+    "hero_line2": "Your building isn't.",
+    "hero_body": "Increase sortation capacity inside your existing facility. Compact, modular, and designed and manufactured in the UK. Available on flexible lease — from £1,000/month.",
+    "hero_eyebrow": "Helix Modular Sortation",
+    "announcements": [
+      {
+        "text": "🇬🇧 Designed & manufactured in the UK",
+        "link_url": "",
+        "link_label": ""
+      },
+      {
+        "text": "⚡ Work out your ROI, monthly lease & system cost —",
+        "link_url": "helix-configurator.html",
+        "link_label": "try the configurator"
+      },
+      {
+        "text": "📦 Up to 20,000 parcels per hour",
+        "link_url": "",
+        "link_label": ""
+      },
+      {
+        "text": "🔧 15-minute mean time to repair",
+        "link_url": "",
+        "link_label": ""
+      },
+      {
+        "text": "💷 Flexible operating lease from £1,000/month",
+        "link_url": "",
+        "link_label": ""
+      },
+      {
+        "text": "✅ 24-month parts & labour warranty",
+        "link_url": "",
+        "link_label": ""
+      },
+      {
+        "text": "🚀 Typical installation in under 4 weeks",
+        "link_url": "",
+        "link_label": ""
+      },
+      {
+        "text": "🏭 87% UK manufactured components",
+        "link_url": "",
+        "link_label": ""
+      }
+    ],
+    "stat1_label": "Max throughput",
+    "stat1_number": "20,000+",
+    "stat1_note": "parcels per hour",
+    "stat2_label": "Lease from",
+    "stat2_number": "£1,000",
+    "stat2_note": "per month — subject to spec & finance approval",
+    "stat3_label": "Mean time to repair",
+    "stat3_number": "15 min",
+    "stat3_note": "on critical components",
+    "stat4_label": "Standard warranty",
+    "stat4_number": "24 mo",
+    "stat4_note": "on every system",
+    "feat1_title": "Modular by design",
+    "feat1_desc": "Add or reconfigure 300mm cassette modules as your operation grows. Capacity scales with your business — not your building.",
+    "feat2_title": "15-minute MTTR",
+    "feat2_desc": "Critical components are designed for rapid swap-out. Mean time to repair is 15 minutes — keeping your operation running at peak.",
+    "feat3_title": "High-throughput sorting",
+    "feat3_desc": "Swivel wheel divert technology delivers up to 20,000+ parcels per hour with 3 sort directions across any parcel size mix.",
+    "feat4_title": "Compact footprint",
+    "feat4_desc": "No extensions, no planning permission, no disruption to live operations. Helix installs inside your existing building envelope.",
+    "feat5_title": "Designed & built in the UK",
+    "feat5_desc": "87% of components manufactured in-house. Shorter lead times, faster support, and a supply chain free from global disruption risk.",
+    "feat6_title": "24-month warranty",
+    "feat6_desc": "Every Helix system ships with a 24-month standard warranty — not a paid extra. We stand behind our engineering.",
+    "dark_h2_line1": "A sorter engineered",
+    "dark_h2_line2": "millimetre",
+    "dark_lead": "Every component is specified, tested, and refined for parcel sortation environments. Purpose-built, not adapted.",
+    "dark_image": "",
+    "spec1_key": "Module pitch",
+    "spec1_val": "300 mm",
+    "spec2_key": "Sort directions",
+    "spec2_val": "Left / Right / Straight",
+    "spec3_key": "Divert technology",
+    "spec3_val": "Swivel wheel",
+    "spec4_key": "Max throughput",
+    "spec4_val": "20,000+ parcels/hr",
+    "spec5_key": "Mean time to repair",
+    "spec5_val": "15 minutes",
+    "spec6_key": "Standard warranty",
+    "spec6_val": "24 months",
+    "spec7_key": "Origin",
+    "spec7_val": "Designed & manufactured in UK",
+    "proof1_number": "87%",
+    "proof1_label": "In-house manufacturing",
+    "proof1_desc": "Full control over quality, lead time, and supply chain risk — from our UK facility.",
+    "proof2_number": "15min",
+    "proof2_label": "Mean time to repair",
+    "proof2_desc": "Cassette-style modules swap in under 15 minutes — no specialist tools required.",
+    "proof3_number": "24mo",
+    "proof3_label": "Standard warranty",
+    "proof3_desc": "Every system ships with 24 months as standard — not as a paid extra.",
+    "proof4_number": "3way",
+    "proof4_label": "Sort directions",
+    "proof4_desc": "Left, right, straight — maximising destination density without increasing footprint.",
+    "cta_h2": "Build your business casein minutes",
+    "cta_lead": "Enter your throughput, parcel mix, and destinations. Get system size, cost, ROI, and monthly finance options — entry systems from £4,000/month on a 60-month lease. Ready to share internally.",
+    "cta_btn": "Open configurator"
+  }
+}
