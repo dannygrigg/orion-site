@@ -7,139 +7,147 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--dark:#1d1d1f;--white:#fff;--off:#f5f5f7;--border:#e2e2e7;--mid:#86868b;--blue:#0066cc;--blue-bg:#f0f6ff;--green:#00a86b;--green-bg:#edfaf4;--red:#e53e3e;--red-bg:#fff5f5;--yellow:#f59e0b;--yellow-bg:#fef3c7;--r:12px;--r-lg:18px}
-body{font-family:'DM Sans',sans-serif;background:var(--off);color:var(--dark);-webkit-font-smoothing:antialiased;min-height:100vh}
+:root{--dark:#1d1d1f;--white:#fff;--off:#f5f5f7;--border:#e2e2e7;--mid:#86868b;--blue:#0066cc;--blue-bg:#f0f6ff;--green:#00a86b;--green-bg:#edfaf4;--red:#e53e3e;--red-bg:#fff5f5;--r:12px;--r-lg:18px}
+body{font-family:'DM Sans',sans-serif;background:var(--off);color:var(--dark);-webkit-font-smoothing:antialiased}
+/* LOGIN */
 #ls{position:fixed;inset:0;background:var(--dark);display:flex;align-items:center;justify-content:center;z-index:999}
 .lc{background:white;border-radius:24px;padding:48px;width:400px;text-align:center}
 .ll{font-family:'DM Serif Display',serif;font-size:34px;letter-spacing:-0.02em;margin-bottom:4px}
-.ls-sub{font-size:13px;color:var(--mid);font-weight:300;margin-bottom:32px}
-.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;text-align:left}
+.ls-s{font-size:13px;color:var(--mid);font-weight:300;margin-bottom:32px}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;text-align:left}
 .field label{font-size:11px;font-weight:500;color:var(--mid);text-transform:uppercase;letter-spacing:0.05em}
-.field input,.field select,.field textarea{padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border 0.2s;width:100%;background:white;color:var(--dark)}
-.field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2386868b' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-color:white;cursor:pointer;padding-right:32px}
+.field input,.field select,.field textarea{padding:10px 13px;border:1.5px solid var(--border);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border 0.2s;width:100%;background:white;color:var(--dark)}
+.field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%2386868b' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;background-color:white;padding-right:30px;cursor:pointer}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,102,204,0.1)}
-.field textarea{resize:vertical;min-height:80px;line-height:1.5}
-.field-hint{font-size:11px;color:var(--mid);font-weight:300;margin-top:3px}
-.lb{width:100%;background:var(--dark);color:white;border:none;border-radius:980px;padding:14px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;margin-top:8px;transition:background 0.2s}
+.field textarea{resize:vertical;min-height:72px;line-height:1.5}
+.field-hint{font-size:11px;color:var(--mid);font-weight:300;margin-top:2px}
+.lb{width:100%;background:var(--dark);color:white;border:none;border-radius:980px;padding:13px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;margin-top:6px;transition:background 0.2s}
 .lb:hover{background:#333}
-.le{color:var(--red);font-size:12px;margin-top:8px;display:none}
-.lh{font-size:11px;color:var(--mid);margin-top:16px;font-weight:300}
+.le{color:var(--red);font-size:12px;margin-top:6px;display:none}
+.lh{font-size:11px;color:var(--mid);margin-top:14px}
+/* APP */
 #app{display:none;height:100vh;overflow:hidden}
-.sb{width:230px;height:100vh;background:var(--dark);position:fixed;left:0;top:0;display:flex;flex-direction:column;overflow-y:auto}
-.sb-logo{padding:22px 20px 16px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.sb{width:240px;height:100vh;background:var(--dark);position:fixed;left:0;top:0;display:flex;flex-direction:column;overflow-y:auto}
+.sb::-webkit-scrollbar{width:4px}.sb::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.sb-logo{padding:20px 18px 14px;border-bottom:1px solid rgba(255,255,255,0.08);flex-shrink:0}
 .sb-logo-m{font-family:'DM Serif Display',serif;font-size:22px;color:white}
 .sb-logo-s{font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px;font-weight:300}
-.sb-sec{padding:14px 12px 4px;font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.22)}
-.nb{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;margin:2px 8px;cursor:pointer;color:rgba(255,255,255,0.5);font-size:13px;background:none;border:none;width:calc(100% - 16px);text-align:left;font-family:'DM Sans',sans-serif;transition:all 0.15s}
+.sb-sec{padding:14px 14px 4px;font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.22);flex-shrink:0}
+.nb{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:9px;margin:2px 6px;cursor:pointer;color:rgba(255,255,255,0.5);font-size:13px;background:none;border:none;width:calc(100% - 12px);text-align:left;font-family:'DM Sans',sans-serif;transition:all 0.15s;flex-shrink:0}
 .nb:hover{background:rgba(255,255,255,0.07);color:white}
 .nb.on{background:rgba(255,255,255,0.12);color:white}
-.nb svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
-.sb-bot{margin-top:auto;padding:14px}
-.gh-stat{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:var(--r);padding:9px 12px;margin-bottom:8px;font-size:11px;color:rgba(255,255,255,0.35);display:flex;align-items:center;gap:7px}
-.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.dot-g{background:#22c55e}.dot-y{background:#f59e0b}.dot-r{background:#ef4444}
-.so-btn{width:100%;padding:9px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:var(--r);color:rgba(255,255,255,0.4);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all 0.2s}
-.so-btn:hover{background:rgba(255,0,0,0.12);color:#ff8080;border-color:rgba(255,0,0,0.2)}
-.main{margin-left:230px;height:100vh;overflow-y:auto}
-.topbar{background:white;border-bottom:1px solid var(--border);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
-.topbar-t{font-size:17px;font-weight:500;letter-spacing:-0.01em}
-.topbar-a{display:flex;gap:8px}
-.ct{padding:28px 32px 60px}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:980px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all 0.2s;text-decoration:none}
-.btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.nb svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.sb-bot{margin-top:auto;padding:12px;flex-shrink:0}
+.gh-stat{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:var(--r);padding:8px 11px;margin-bottom:7px;font-size:11px;color:rgba(255,255,255,0.35);display:flex;align-items:center;gap:6px}
+.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}.dot-g{background:#22c55e}.dot-y{background:#f59e0b}.dot-r{background:#ef4444}
+.so-btn{width:100%;padding:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:var(--r);color:rgba(255,255,255,0.4);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all 0.2s}
+.so-btn:hover{background:rgba(255,0,0,0.12);color:#ff8080}
+.main{margin-left:240px;height:100vh;overflow-y:auto}
+.topbar{background:white;border-bottom:1px solid var(--border);padding:0 28px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar-t{font-size:16px;font-weight:500;letter-spacing:-0.01em}
+.topbar-a{display:flex;gap:7px}
+.ct{padding:24px 28px 60px}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border-radius:980px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all 0.2s;text-decoration:none;white-space:nowrap}
+.btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .btn-d{background:var(--dark);color:white}.btn-d:hover{background:#333}
 .btn-bl{background:var(--blue);color:white}.btn-bl:hover{background:#0055b3}
 .btn-o{background:transparent;border:1.5px solid var(--border);color:var(--dark)}.btn-o:hover{border-color:var(--dark)}
 .btn-r{background:var(--red-bg);color:var(--red);border:1px solid rgba(229,62,62,0.15)}.btn-r:hover{background:#fed7d7}
-.btn-g{background:var(--green-bg);color:var(--green);border:1px solid rgba(0,168,107,0.2)}.btn-g:hover{background:#c6f6e4}
-.btn-sm{padding:6px 12px;font-size:12px}
-.btn-pub{background:linear-gradient(135deg,#00a86b,#0066cc);color:white;font-size:14px;padding:11px 24px}
-.btn-pub:hover{opacity:0.9;transform:translateY(-1px)}
+.btn-sm{padding:5px 11px;font-size:12px}
+.btn-pub{background:linear-gradient(135deg,#00a86b,#0066cc);color:white;font-size:14px;padding:10px 22px}
 .btn-pub.ld{opacity:0.7;pointer-events:none}
-.card{background:white;border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;margin-bottom:20px}
-.card-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+/* CARDS */
+.card{background:white;border:1px solid var(--border);border-radius:var(--r-lg);padding:22px;margin-bottom:18px}
+.card-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .card-t{font-size:15px;font-weight:500}
 .card-s{font-size:12px;color:var(--mid);font-weight:300;margin-top:2px}
+/* TABLE */
 .tw{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:13px}
-th{text-align:left;padding:9px 14px;font-size:10px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid);border-bottom:1px solid var(--border);background:var(--off)}
-td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+th{text-align:left;padding:8px 13px;font-size:10px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid);border-bottom:1px solid var(--border);background:var(--off)}
+td{padding:11px 13px;border-bottom:1px solid var(--border);vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:var(--off)}
-.badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:980px;font-size:11px;font-weight:500}
-.b-bl{background:var(--blue-bg);color:var(--blue)}.b-g{background:var(--green-bg);color:var(--green)}.b-gr{background:var(--off);color:var(--mid);border:1px solid var(--border)}.b-yl{background:var(--yellow-bg);color:#92400e}
-.fg{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:980px;font-size:11px;font-weight:500}
+.b-bl{background:var(--blue-bg);color:var(--blue)}.b-g{background:var(--green-bg);color:var(--green)}.b-gr{background:var(--off);color:var(--mid);border:1px solid var(--border)}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .fg .full{grid-column:1/-1}
+/* MODAL */
 .mbg{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.2s}
 .mbg.open{opacity:1;pointer-events:all}
-.modal{background:white;border-radius:20px;padding:28px;width:100%;max-width:580px;max-height:90vh;overflow-y:auto;transform:translateY(10px);transition:transform 0.2s;box-shadow:0 20px 60px rgba(0,0,0,0.18)}
+.modal{background:white;border-radius:20px;padding:26px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;transform:translateY(10px);transition:transform 0.2s;box-shadow:0 20px 60px rgba(0,0,0,0.18)}
 .mbg.open .modal{transform:none}
-.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.mt{font-size:17px;font-weight:500}
-.mx{width:28px;height:28px;border-radius:50%;background:var(--off);border:none;cursor:pointer;font-size:16px;color:var(--mid);display:flex;align-items:center;justify-content:center}
+.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.mt{font-size:16px;font-weight:500}
+.mx{width:26px;height:26px;border-radius:50%;background:var(--off);border:none;cursor:pointer;font-size:15px;color:var(--mid);display:flex;align-items:center;justify-content:center}
 .mx:hover{background:var(--border)}
-.mf{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
-.vr{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--r);background:white;margin-bottom:8px;transition:border-color 0.15s}
+.mf{display:flex;gap:9px;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+/* VAULT */
+.vr{display:flex;align-items:center;gap:11px;padding:11px 13px;border:1px solid var(--border);border-radius:var(--r);background:white;margin-bottom:7px;transition:border-color 0.15s}
 .vr:hover{border-color:var(--blue)}
-.vi{width:34px;height:34px;border-radius:8px;background:var(--blue-bg);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.vinfo{flex:1;min-width:0}
-.vn{font-size:13px;font-weight:500}
-.vm{font-size:11px;color:var(--mid);font-weight:300;margin-top:1px}
-.ig{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.it{border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--off);position:relative}
-.it img{width:100%;height:100px;object-fit:cover;display:block}
-.it-info{padding:7px 9px;background:white;border-top:1px solid var(--border)}
-.it-lbl{font-size:11px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.it-pg{font-size:10px;color:var(--mid)}
-.it-ov{position:absolute;inset:0;background:rgba(0,0,0,0.5);opacity:0;transition:0.15s;display:flex;align-items:center;justify-content:center;gap:6px}
-.it:hover .it-ov{opacity:1}
-.pp{background:linear-gradient(135deg,#0f172a,#1e3a5f);border-radius:var(--r-lg);padding:24px;margin-bottom:20px;position:relative;overflow:hidden}
-.pp::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(0,102,204,0.3),transparent 70%)}
-.pp-t{font-family:'DM Serif Display',serif;font-size:22px;color:white;margin-bottom:4px}
-.pp-s{font-size:13px;color:rgba(255,255,255,0.4);font-weight:300;margin-bottom:18px}
-.cl{font-family:'Menlo','Monaco',monospace;font-size:11px;background:#0f172a;color:#a8d8a8;border-radius:var(--r);padding:14px;max-height:200px;overflow-y:auto;line-height:1.7;margin-top:12px;display:none}
-.ann-row{display:grid;grid-template-columns:1fr 140px 110px 36px;gap:6px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)}
-.ann-input{padding:7px 10px;border:1.5px solid var(--border);border-radius:var(--r);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;width:100%;background:white;color:var(--dark)}
-.ann-input:focus{border-color:var(--blue)}
-.ann-del{padding:7px 10px;background:var(--red-bg);border:1px solid rgba(229,62,62,0.2);border-radius:var(--r);cursor:pointer;color:var(--red);font-size:13px}
-.info{background:var(--blue-bg);border:1px solid rgba(0,102,204,0.15);border-radius:var(--r);padding:12px 14px;font-size:12px;color:var(--blue);font-weight:300;margin-bottom:14px;line-height:1.6}
+.vi{width:32px;height:32px;border-radius:7px;background:var(--blue-bg);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.vinfo{flex:1;min-width:0}.vn{font-size:13px;font-weight:500}.vm{font-size:11px;color:var(--mid);font-weight:300;margin-top:1px}
+/* ANNOUNCE */
+.ann-row{display:grid;grid-template-columns:1fr 130px 100px 32px;gap:5px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)}
+.ann-i{padding:7px 9px;border:1.5px solid var(--border);border-radius:var(--r);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;width:100%;background:white;color:var(--dark)}
+.ann-i:focus{border-color:var(--blue)}
+.ann-del{padding:6px 9px;background:var(--red-bg);border:1px solid rgba(229,62,62,0.2);border-radius:var(--r);cursor:pointer;color:var(--red);font-size:12px}
+/* INFO */
+.info{background:var(--blue-bg);border:1px solid rgba(0,102,204,0.15);border-radius:var(--r);padding:11px 13px;font-size:12px;color:var(--blue);font-weight:300;margin-bottom:12px;line-height:1.6}
 .info strong{font-weight:500}
-.warn{background:var(--yellow-bg);border:1px solid #fde68a;border-radius:var(--r-lg);padding:16px 18px;margin-bottom:18px;display:flex;gap:12px;align-items:flex-start}
-.warn svg{width:18px;height:18px;stroke:#92400e;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;margin-top:1px}
+.warn{background:#fef3c7;border:1px solid #fde68a;border-radius:var(--r-lg);padding:14px 16px;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start}
+.warn svg{width:17px;height:17px;stroke:#92400e;fill:none;stroke-width:1.8;flex-shrink:0;margin-top:1px}
 .warn-t{font-size:13px;font-weight:500;color:#92400e;margin-bottom:2px}
 .warn-s{font-size:12px;color:#a16207;font-weight:300;line-height:1.5}
-.hps{border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;margin-bottom:14px;background:white}
-.hps-t{font-size:11px;font-weight:500;color:var(--mid);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.hps-t::before{content:'';width:12px;height:1px;background:var(--mid)}
-.empty{text-align:center;padding:40px 20px;color:var(--mid)}
-.empty svg{width:36px;height:36px;stroke:var(--border);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;display:block;margin:0 auto 10px}
+/* SECTION BLOCKS */
+.sec-block{border:1px solid var(--border);border-radius:var(--r-lg);margin-bottom:14px;overflow:hidden;background:white}
+.sec-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;user-select:none}
+.sec-hd:hover{background:var(--off)}
+.sec-hd-l{display:flex;align-items:center;gap:10px}
+.sec-hd-title{font-size:14px;font-weight:500}
+.sec-hd-sub{font-size:11px;color:var(--mid);font-weight:300}
+.sec-tag{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;padding:2px 8px;border-radius:980px;background:var(--off);color:var(--mid);border:1px solid var(--border)}
+.sec-tag.has{background:var(--green-bg);color:var(--green);border-color:rgba(0,168,107,0.2)}
+.chev{width:15px;height:15px;stroke:var(--mid);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform 0.2s;flex-shrink:0}
+.chev.open{transform:rotate(180deg)}
+.sec-body{display:none;padding:16px 18px;border-top:1px solid var(--border)}
+.sec-body.open{display:block}
+/* FIELD ROWS */
+.field-row{display:grid;grid-template-columns:160px 1fr;gap:10px;align-items:start;padding:8px 0;border-bottom:1px solid var(--border)}
+.field-row:last-child{border-bottom:none}
+.fr-label{font-size:12px;font-weight:500;padding-top:10px}
+.fr-sub{font-size:10px;color:var(--mid);font-weight:300;margin-top:2px}
+.fr-input{padding:9px 11px;border:1.5px solid var(--border);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border 0.2s;width:100%;background:white;color:var(--dark)}
+.fr-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,102,204,0.08)}
+.fr-input.has-v{border-color:var(--green)}
+.fr-textarea{resize:vertical;min-height:68px;line-height:1.5}
+.fr-img-prev{max-height:80px;border-radius:8px;border:1px solid var(--border);object-fit:cover;margin-top:6px;display:none;max-width:100%}
+.fr-img-prev.show{display:block}
+.fr-vid{background:var(--blue-bg);color:var(--blue);font-size:11px;font-weight:500;padding:3px 8px;border-radius:5px;margin-top:5px;display:none}
+.fr-vid.show{display:inline-block}
+/* REPEATER */
+.rep-item{border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:8px;background:var(--off);position:relative}
+.rep-del{position:absolute;top:8px;right:8px;background:var(--red-bg);border:none;border-radius:6px;padding:3px 7px;font-size:11px;color:var(--red);cursor:pointer}
+/* PUBLISH */
+.pp{background:linear-gradient(135deg,#0f172a,#1e3a5f);border-radius:var(--r-lg);padding:22px;margin-bottom:18px;position:relative;overflow:hidden}
+.pp::before{content:'';position:absolute;top:-40px;right:-40px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(0,102,204,0.3),transparent 70%)}
+.pp-t{font-family:'DM Serif Display',serif;font-size:21px;color:white;margin-bottom:3px}
+.pp-s{font-size:13px;color:rgba(255,255,255,0.4);font-weight:300;margin-bottom:16px}
+.cl{font-family:'Menlo',monospace;font-size:11px;background:#0f172a;color:#a8d8a8;border-radius:var(--r);padding:12px;max-height:180px;overflow-y:auto;line-height:1.7;margin-top:10px;display:none}
+/* EMPTY */
+.empty{text-align:center;padding:36px 20px;color:var(--mid)}
 .empty p{font-size:14px;font-weight:300}
-.toast{position:fixed;bottom:24px;right:24px;padding:12px 16px;border-radius:var(--r);font-size:13px;font-weight:500;z-index:999;transform:translateY(60px);opacity:0;transition:all 0.3s;display:flex;align-items:center;gap:8px;max-width:320px}
+/* TOAST */
+.toast{position:fixed;bottom:22px;right:22px;padding:11px 15px;border-radius:var(--r);font-size:13px;font-weight:500;z-index:999;transform:translateY(50px);opacity:0;transition:all 0.3s;display:flex;align-items:center;gap:7px;max-width:300px}
 .toast.show{transform:none;opacity:1}
 .t-ok{background:var(--dark);color:white}.t-err{background:#dc2626;color:white}
-.toast svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
-
-/* PAGE MEDIA SECTION */
-.page-card{background:white;border:1px solid var(--border);border-radius:var(--r-lg);margin-bottom:16px;overflow:hidden}
-.page-card-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer;user-select:none;transition:background 0.15s}
-.page-card-header:hover{background:var(--off)}
-.page-card-title{font-size:14px;font-weight:500;display:flex;align-items:center;gap:10px}
-.page-card-file{font-size:11px;color:var(--mid);font-weight:300;font-family:'Menlo',monospace;background:var(--off);padding:2px 7px;border-radius:5px}
-.page-card-body{padding:16px 20px;border-top:1px solid var(--border);display:none}
-.page-card-body.open{display:block}
-.media-row{display:grid;grid-template-columns:140px 1fr auto auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
-.media-row:last-child{border-bottom:none}
-.media-label{font-size:13px;font-weight:500}
-.media-type{font-size:10px;color:var(--mid);margin-top:2px}
-.media-input{padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border 0.2s;background:white;color:var(--dark);width:100%}
-.media-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,102,204,0.1)}
-.media-input.has-value{border-color:var(--green);background:var(--green-bg)}
-.media-preview{width:56px;height:40px;border-radius:8px;object-fit:cover;border:1px solid var(--border);display:none;flex-shrink:0}
-.media-preview.show{display:block}
-.media-video-badge{background:var(--blue-bg);color:var(--blue);font-size:10px;font-weight:500;padding:3px 8px;border-radius:5px;white-space:nowrap;flex-shrink:0}
-.page-count{font-size:11px;color:var(--mid);font-weight:300}
-.chevron{width:16px;height:16px;stroke:var(--mid);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform 0.2s;flex-shrink:0}
-.chevron.open{transform:rotate(180deg)}
+.toast svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+/* PAGE TABS */
+.page-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.page-tab{padding:7px 14px;border-radius:980px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:white;color:var(--mid);transition:all 0.15s;font-family:'DM Sans',sans-serif}
+.page-tab.on{background:var(--dark);color:white;border-color:var(--dark)}
+.page-tab:hover:not(.on){border-color:var(--dark);color:var(--dark)}
 </style>
 </head>
 <body>
@@ -148,7 +156,7 @@ tr:hover td{background:var(--off)}
 <div id="ls">
   <div class="lc">
     <div class="ll">ORION</div>
-    <div class="ls-sub">Content Admin — orion-site</div>
+    <div class="ls-s">Content Admin</div>
     <div class="field"><label>PIN</label><input type="password" id="pinIn" placeholder="••••" maxlength="8"></div>
     <button class="lb" onclick="login()">Sign in</button>
     <div class="le" id="le">Incorrect PIN</div>
@@ -160,10 +168,20 @@ tr:hover td{background:var(--off)}
 <div id="app">
   <div class="sb">
     <div class="sb-logo"><div class="sb-logo-m">ORION</div><div class="sb-logo-s">Content Admin</div></div>
-    <div class="sb-sec">Content</div>
-    <button class="nb on" id="nb-home" onclick="nav('home')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Homepage</button>
-    <button class="nb" id="nb-media" onclick="nav('media')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>Page Videos & Images</button>
-    <button class="nb" id="nb-news" onclick="nav('news')"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>News & Events</button>
+    <div class="sb-sec">Pages</div>
+    <button class="nb on" id="nb-homepage" onclick="nav('homepage')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Homepage</button>
+    <button class="nb" id="nb-helix-product" onclick="nav('helix-product')"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Helix Product</button>
+    <button class="nb" id="nb-products" onclick="nav('products')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Products</button>
+    <button class="nb" id="nb-solutions" onclick="nav('solutions')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Solutions</button>
+    <button class="nb" id="nb-case-studies" onclick="nav('case-studies')"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Case Studies</button>
+    <button class="nb" id="nb-about" onclick="nav('about')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>About</button>
+    <button class="nb" id="nb-hub" onclick="nav('hub')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Hub</button>
+    <button class="nb" id="nb-unit-handling" onclick="nav('unit-handling')"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>Unit Handling</button>
+    <button class="nb" id="nb-pallet-heavy" onclick="nav('pallet-heavy')"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Pallet & Heavy</button>
+    <button class="nb" id="nb-food-beverage" onclick="nav('food-beverage')"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>Food & Beverage</button>
+    <button class="nb" id="nb-contact" onclick="nav('contact')"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>Contact</button>
+    <div class="sb-sec">Collections</div>
+    <button class="nb" id="nb-news" onclick="nav('news')"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>News & Events</button>
     <button class="nb" id="nb-vault" onclick="nav('vault')"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>Vault</button>
     <button class="nb" id="nb-social" onclick="nav('social')"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Social Feed</button>
     <div class="sb-sec">Site</div>
@@ -179,159 +197,30 @@ tr:hover td{background:var(--off)}
     <div class="topbar">
       <div class="topbar-t" id="tbTitle">Homepage</div>
       <div class="topbar-a">
-        <a href="https://dannygrigg.github.io/orion-site/" target="_blank" class="btn btn-o btn-sm"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View site</a>
-        <button class="btn btn-bl btn-sm" onclick="qPublish()"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Publish changes</button>
+        <a href="https://dannygrigg.github.io/orion-site/" target="_blank" id="viewSiteBtn" class="btn btn-o btn-sm"><svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>View page</a>
+        <button class="btn btn-bl btn-sm" onclick="qPublish()"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Publish</button>
       </div>
     </div>
-    <div class="ct">
-
-      <!-- HOME -->
-      <div id="s-home">
-        <div id="warnBanner" class="warn" style="display:none"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><div><div class="warn-t">GitHub token needed</div><div class="warn-s">Go to <strong>Settings</strong> to connect GitHub. After that everything publishes with one click.</div></div></div>
-        <div class="hps">
-          <div class="hps-t">Hero video</div>
-          <div class="field"><label>YouTube URL</label><input type="url" id="hp-v" placeholder="https://www.youtube.com/watch?v=..."><span class="field-hint">Paste the regular YouTube watch URL — automatically converted on save</span></div>
-        </div>
-        <div class="hps">
-          <div class="hps-t">Headline & body text</div>
-          <div class="fg">
-            <div class="field"><label>Line 1</label><input type="text" id="hp-l1"></div>
-            <div class="field"><label>Line 2 (italic blue)</label><input type="text" id="hp-l2"></div>
-            <div class="field full"><label>Body text</label><textarea id="hp-body" style="min-height:70px"></textarea></div>
-            <div class="field"><label>Lease price</label><input type="text" id="hp-lease" placeholder="from £1,000/month"></div>
-          </div>
-        </div>
-        <div class="hps">
-          <div class="hps-t">Announcement bar messages</div>
-          <div id="annList"></div>
-          <button class="btn btn-o btn-sm" onclick="addAnn()" style="margin-top:10px"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add message</button>
-        </div>
-        <div style="display:flex;justify-content:flex-end;margin-top:4px"><button class="btn btn-d" onclick="saveHP()"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Save homepage</button></div>
-      </div>
-
-      <!-- PAGE MEDIA -->
-      <div id="s-media" style="display:none">
-        <div class="card" style="margin-bottom:16px">
-          <div class="card-h" style="margin-bottom:0">
-            <div><div class="card-t">Page Videos & Images</div><div class="card-s">Change any video or image on any page — paste a URL and publish</div></div>
-          </div>
-        </div>
-        <div class="info">💡 <strong>For images:</strong> Upload to Google Drive (Share → Anyone with link) or Imgur and paste the direct URL.<br>💡 <strong>For videos:</strong> Paste a regular YouTube URL — it converts automatically. To replace the homepage hero video, use the Homepage section.</div>
-        <div id="pageMediaList"></div>
-        <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn btn-d" onclick="saveMedia()"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Save all media</button></div>
-      </div>
-
-      <!-- NEWS -->
-      <div id="s-news" style="display:none">
-        <div class="card">
-          <div class="card-h"><div><div class="card-t">News & Events</div><div class="card-s">Shown on Hub page</div></div><button class="btn btn-d btn-sm" onclick="openM('news')"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add item</button></div>
-          <div class="tw"><table><thead><tr><th>Title</th><th>Type</th><th>Date</th><th>Status</th><th></th></tr></thead><tbody id="newsTB"></tbody></table></div>
-        </div>
-      </div>
-
-      <!-- VAULT -->
-      <div id="s-vault" style="display:none">
-        <div class="card">
-          <div class="card-h"><div><div class="card-t">Vault</div><div class="card-s">Documents & resources</div></div><button class="btn btn-d btn-sm" onclick="openM('vault')"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add document</button></div>
-          <div id="vaultList"></div>
-        </div>
-      </div>
-
-      <!-- SOCIAL -->
-      <div id="s-social" style="display:none">
-        <div class="card">
-          <div class="card-h"><div><div class="card-t">Social Feed</div><div class="card-s">LinkedIn & social posts on Hub</div></div><button class="btn btn-d btn-sm" onclick="openM('social')"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add post</button></div>
-          <div class="tw"><table><thead><tr><th>Platform</th><th>Caption</th><th>Date</th><th></th></tr></thead><tbody id="socialTB"></tbody></table></div>
-        </div>
-      </div>
-
-      <!-- PUBLISH -->
-      <div id="s-publish" style="display:none">
-        <div class="pp">
-          <div class="pp-t">Publish to live site</div>
-          <div class="pp-s">Commits everything to GitHub. Live in ~2 minutes. Zero copy/paste.</div>
-          <div style="display:flex;align-items:center;gap:12px;position:relative;z-index:1">
-            <button class="btn btn-pub" id="pubBtn" onclick="pubAll()"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Publish all changes</button>
-            <span style="font-size:12px;color:rgba(255,255,255,0.4)" id="pubStat"></span>
-          </div>
-          <div class="cl" id="pubLog"></div>
-        </div>
-        <div class="card">
-          <div class="card-h"><div class="card-t">Content summary</div></div>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:13px">
-            <div style="background:var(--off);border-radius:var(--r);padding:14px"><div style="font-weight:500;margin-bottom:3px">📰 News & Events</div><div style="color:var(--mid);font-weight:300" id="pc-news">0 items</div></div>
-            <div style="background:var(--off);border-radius:var(--r);padding:14px"><div style="font-weight:500;margin-bottom:3px">🔒 Vault</div><div style="color:var(--mid);font-weight:300" id="pc-vault">0 docs</div></div>
-            <div style="background:var(--off);border-radius:var(--r);padding:14px"><div style="font-weight:500;margin-bottom:3px">📱 Social</div><div style="color:var(--mid);font-weight:300" id="pc-social">0 posts</div></div>
-            <div style="background:var(--off);border-radius:var(--r);padding:14px"><div style="font-weight:500;margin-bottom:3px">🎬 Page media</div><div style="color:var(--mid);font-weight:300" id="pc-media">0 set</div></div>
-            <div style="background:var(--off);border-radius:var(--r);padding:14px"><div style="font-weight:500;margin-bottom:3px">🏠 Homepage</div><div style="color:var(--mid);font-weight:300">Video, text, banner</div></div>
-            <div style="background:var(--off);border-radius:var(--r);padding:14px"><div style="font-weight:500;margin-bottom:3px">⚙️ Settings</div><div style="color:var(--mid);font-weight:300">Contact details</div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- SETTINGS -->
-      <div id="s-settings" style="display:none">
-        <div class="card">
-          <div class="card-h"><div><div class="card-t">GitHub Connection</div><div class="card-s">One-time setup — then everything publishes with one click</div></div></div>
-          <div class="info" style="margin-bottom:16px">
-            <strong>Get your GitHub token in 60 seconds:</strong><br>
-            1. Go to <strong>github.com</strong> → avatar → Settings → Developer settings → Personal access tokens → Tokens (classic)<br>
-            2. Click <strong>Generate new token (classic)</strong> → name it "Orion Admin" → tick <strong>repo</strong> → Generate<br>
-            3. Copy the token (starts <code>ghp_</code>) and paste below<br>
-            <em>Stored only in your browser. Never sent anywhere except GitHub directly.</em>
-          </div>
-          <div class="fg" style="max-width:500px">
-            <div class="field full"><label>GitHub Personal Access Token</label><input type="password" id="ghTok" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"><span class="field-hint">Starts with ghp_ — stored in your browser only</span></div>
-            <div class="field"><label>Repository</label><input type="text" id="ghRepo" value="dannygrigg/orion-site"></div>
-            <div class="field"><label>Branch</label><input type="text" id="ghBranch" value="main"></div>
-          </div>
-          <button class="btn btn-d" onclick="saveGH()" style="margin-top:4px">Save &amp; test connection</button>
-        </div>
-        <div class="card">
-          <div class="card-h"><div class="card-t">Change PIN</div></div>
-          <div class="fg" style="max-width:400px">
-            <div class="field"><label>Current PIN</label><input type="password" id="oldPin"></div>
-            <div class="field"><label>New PIN</label><input type="password" id="newPin" placeholder="4–8 digits"></div>
-          </div>
-          <button class="btn btn-d btn-sm" onclick="changePin()" style="margin-top:4px">Update PIN</button>
-        </div>
-        <div class="card">
-          <div class="card-h"><div><div class="card-t">Contact details</div><div class="card-s">Used in footer and contact page</div></div></div>
-          <div class="fg" style="max-width:500px">
-            <div class="field"><label>Phone</label><input type="text" id="s-ph"></div>
-            <div class="field"><label>Email</label><input type="text" id="s-em"></div>
-            <div class="field full"><label>Address</label><input type="text" id="s-ad"></div>
-          </div>
-          <button class="btn btn-d btn-sm" onclick="saveSett()" style="margin-top:4px">Save</button>
-        </div>
-        <div class="card" style="border-color:rgba(229,62,62,0.3)">
-          <div class="card-h"><div class="card-t" style="color:var(--red)">Danger zone</div></div>
-          <p style="font-size:13px;color:var(--mid);font-weight:300;margin-bottom:14px">Clear all content. Cannot be undone.</p>
-          <button class="btn btn-r btn-sm" onclick="if(confirm('Clear all? Cannot be undone.'))clearAll()">Clear all content</button>
-        </div>
-      </div>
-
-    </div>
+    <div class="ct" id="mainCt"></div>
   </div>
 </div>
 
-<!-- MODALS -->
+<!-- MODALS (News, Vault, Social) -->
 <div class="mbg" id="m-news">
   <div class="modal">
     <div class="mh"><div class="mt" id="nMT">Add news item</div><button class="mx" onclick="closeM('news')">×</button></div>
     <div class="fg">
-      <div class="field full"><label>Title *</label><input type="text" id="n-title" placeholder="e.g. Helix deployed at APC Cannock"></div>
+      <div class="field full"><label>Title *</label><input type="text" id="n-title"></div>
       <div class="field"><label>Type</label><select id="n-type"><option value="news">News</option><option value="event">Event</option><option value="press">Press release</option><option value="award">Award</option></select></div>
       <div class="field"><label>Date</label><input type="date" id="n-date"></div>
       <div class="field full"><label>Summary</label><textarea id="n-sum"></textarea></div>
-      <div class="field full"><label>Image URL</label><input type="url" id="n-img" placeholder="https://..."><span class="field-hint">Direct URL from Google Drive, Imgur, Dropbox etc</span></div>
-      <div class="field full"><label>Read more link</label><input type="url" id="n-link" placeholder="https://..."></div>
+      <div class="field full"><label>Image URL</label><input type="url" id="n-img" placeholder="https://..."><span class="field-hint">Google Drive, Imgur, or direct URL</span></div>
+      <div class="field full"><label>Link URL</label><input type="url" id="n-link" placeholder="https://..."></div>
       <div class="field"><label>Status</label><select id="n-stat"><option value="published">Published</option><option value="draft">Draft</option></select></div>
     </div>
     <div class="mf"><button class="btn btn-o" onclick="closeM('news')">Cancel</button><button class="btn btn-d" onclick="saveNews()">Save</button></div>
   </div>
 </div>
-
 <div class="mbg" id="m-vault">
   <div class="modal">
     <div class="mh"><div class="mt" id="vMT">Add document</div><button class="mx" onclick="closeM('vault')">×</button></div>
@@ -340,14 +229,13 @@ tr:hover td{background:var(--off)}
       <div class="field"><label>Category</label><select id="v-cat"><option value="technical">Technical</option><option value="commercial">Commercial</option><option value="marketing">Marketing</option><option value="compliance">Compliance</option><option value="training">Training</option></select></div>
       <div class="field"><label>File type</label><select id="v-type"><option value="pdf">PDF</option><option value="doc">Word</option><option value="xls">Spreadsheet</option><option value="ppt">Presentation</option><option value="dwg">CAD/DWG</option><option value="zip">ZIP</option><option value="link">Link</option></select></div>
       <div class="field full"><label>URL *</label><input type="url" id="v-url"><span class="field-hint">Set Google Drive to "Anyone with link"</span></div>
-      <div class="field full"><label>Description</label><textarea id="v-desc" style="min-height:60px"></textarea></div>
+      <div class="field full"><label>Description</label><textarea id="v-desc" style="min-height:55px"></textarea></div>
       <div class="field"><label>Access</label><select id="v-access"><option value="public">Public</option><option value="partner">Partners only</option><option value="internal">Internal</option></select></div>
-      <div class="field"><label>Version</label><input type="text" id="v-ver" placeholder="e.g. v2.1"></div>
+      <div class="field"><label>Version</label><input type="text" id="v-ver" placeholder="v2.1"></div>
     </div>
     <div class="mf"><button class="btn btn-o" onclick="closeM('vault')">Cancel</button><button class="btn btn-d" onclick="saveVault()">Add to vault</button></div>
   </div>
 </div>
-
 <div class="mbg" id="m-social">
   <div class="modal">
     <div class="mh"><div class="mt">Add social post</div><button class="mx" onclick="closeM('social')">×</button></div>
@@ -355,8 +243,8 @@ tr:hover td{background:var(--off)}
       <div class="field"><label>Platform</label><select id="soc-p"><option value="linkedin">LinkedIn</option><option value="twitter">X / Twitter</option><option value="instagram">Instagram</option><option value="youtube">YouTube</option></select></div>
       <div class="field"><label>Date</label><input type="date" id="soc-d"></div>
       <div class="field full"><label>Caption</label><textarea id="soc-c"></textarea></div>
-      <div class="field full"><label>Post URL</label><input type="url" id="soc-u" placeholder="https://linkedin.com/posts/..."></div>
-      <div class="field full"><label>Image URL (optional)</label><input type="url" id="soc-i"></div>
+      <div class="field full"><label>Post URL</label><input type="url" id="soc-u"></div>
+      <div class="field full"><label>Image URL</label><input type="url" id="soc-i"></div>
     </div>
     <div class="mf"><button class="btn btn-o" onclick="closeM('social')">Cancel</button><button class="btn btn-d" onclick="saveSoc()">Add post</button></div>
   </div>
@@ -365,232 +253,625 @@ tr:hover td{background:var(--off)}
 <div class="toast" id="toast"><svg id="tIco" viewBox="0 0 24 24"></svg><span id="tMsg"></span></div>
 
 <script>
-// ── PAGE MEDIA SCHEMA ─────────────────────────────────────
-const PAGE_MEDIA = [
-  {id:'index',name:'Homepage',file:'index.html',media:[
-    {id:'hero_video',label:'Hero video',type:'video',hint:'YouTube URL — autoplays muted in hero'},
-    {id:'product_visual',label:'Product visual (dark section)',type:'image',hint:'Image shown in the dark specs section on the right'}
-  ]},
-  {id:'helix-product',name:'Helix Product Page',file:'helix-product.html',media:[
-    {id:'hero_video',label:'Hero video',type:'video',hint:'YouTube URL for helix product page hero'},
-    {id:'gallery_1',label:'Gallery image 1',type:'image',hint:''},
-    {id:'gallery_2',label:'Gallery image 2',type:'image',hint:''},
-    {id:'gallery_3',label:'Gallery image 3',type:'image',hint:''}
-  ]},
-  {id:'products',name:'Products',file:'products.html',media:[
-    {id:'hero_image',label:'Hero image',type:'image',hint:'Banner image at the top of the page'}
-  ]},
-  {id:'solutions',name:'Solutions',file:'solutions.html',media:[
-    {id:'hero_image',label:'Hero image',type:'image',hint:''},
-    {id:'section_image',label:'Section image',type:'image',hint:''}
-  ]},
-  {id:'about',name:'About',file:'about.html',media:[
-    {id:'hero_image',label:'Hero image',type:'image',hint:''},
-    {id:'team_photo',label:'Team photo',type:'image',hint:'Team or facility photo'}
-  ]},
-  {id:'case-studies',name:'Case Studies',file:'case-studies.html',media:[
-    {id:'hero_image',label:'Hero image',type:'image',hint:''}
-  ]},
-  {id:'case-expeditors',name:'Case Study: Expeditors',file:'case-expeditors.html',media:[
-    {id:'hero_image',label:'Hero image',type:'image',hint:''},
-    {id:'system_image',label:'System installation photo',type:'image',hint:''}
-  ]},
-  {id:'case-gompels',name:'Case Study: Gompels',file:'case-gompels.html',media:[
-    {id:'hero_image',label:'Hero image',type:'image',hint:''},
-    {id:'system_image',label:'System installation photo',type:'image',hint:''}
-  ]},
-  {id:'case-tate-lyle',name:'Case Study: Tate & Lyle',file:'case-tate-lyle.html',media:[
-    {id:'hero_image',label:'Hero image',type:'image',hint:''},
-    {id:'system_image',label:'System installation photo',type:'image',hint:''}
-  ]},
-  {id:'unit-handling',name:'Unit Handling',file:'unit-handling.html',media:[
-    {id:'hero_image',label:'Hero image',type:'image',hint:''},
-    {id:'product_image',label:'Product image',type:'image',hint:''}
-  ]},
-  {id:'pallet-heavy',name:'Pallet & Heavy Duty',file:'pallet-heavy.html',media:[
-    {id:'hero_image',label:'Hero image',type:'image',hint:''},
-    {id:'product_image',label:'Product image',type:'image',hint:''}
-  ]},
-  {id:'food-beverage',name:'Food & Beverage',file:'food-beverage.html',media:[
-    {id:'hero_image',label:'Hero image',type:'image',hint:''},
-    {id:'product_image',label:'Product image',type:'image',hint:''}
-  ]},
-  {id:'hub',name:'Hub',file:'hub.html',media:[
-    {id:'hero_image',label:'Hero image',type:'image',hint:''}
-  ]},
-  {id:'contact',name:'Contact',file:'contact.html',media:[
-    {id:'hero_image',label:'Hero image',type:'image',hint:''}
-  ]}
-];
+// ── PAGE CONTENT SCHEMA ───────────────────────────────────
+// Every field on every page — structure mirrors the HTML
+const PAGES = {
+  'homepage': {
+    label: 'Homepage', file: 'index.html',
+    sections: [
+      { id:'ann', label:'Announcement Bar', icon:'📣', fields:[
+        { id:'announcements', type:'repeater', label:'Messages',
+          columns:['text','link_url','link_label'],
+          colLabels:['Message','Link URL (opt.)','Link text (opt.)'] }
+      ]},
+      { id:'hero', label:'Hero Section', icon:'🎬', fields:[
+        { id:'hero_video_url', type:'video', label:'Hero video', hint:'YouTube URL — autoplays muted' },
+        { id:'hero_line1', type:'text', label:'Headline line 1', placeholder:'Your throughput is growing.' },
+        { id:'hero_line2', type:'text', label:'Headline line 2 (italic blue)', placeholder:"Your building isn't." },
+        { id:'hero_body', type:'textarea', label:'Body text' },
+        { id:'hero_lease', type:'text', label:'Lease price text', placeholder:'from £1,000/month' },
+        { id:'hero_eyebrow', type:'text', label:'Eyebrow label', placeholder:'Helix Modular Sortation' },
+      ]},
+      { id:'stats', label:'Stats Bar', icon:'📊', fields:[
+        { id:'stat1_label', type:'text', label:'Stat 1 label', placeholder:'Max throughput' },
+        { id:'stat1_number', type:'text', label:'Stat 1 number', placeholder:'20,000+' },
+        { id:'stat1_note', type:'text', label:'Stat 1 note', placeholder:'parcels per hour' },
+        { id:'stat2_label', type:'text', label:'Stat 2 label', placeholder:'Lease from' },
+        { id:'stat2_number', type:'text', label:'Stat 2 number', placeholder:'£1,000' },
+        { id:'stat2_note', type:'text', label:'Stat 2 note', placeholder:'per month' },
+        { id:'stat3_label', type:'text', label:'Stat 3 label', placeholder:'Mean time to repair' },
+        { id:'stat3_number', type:'text', label:'Stat 3 number', placeholder:'15 min' },
+        { id:'stat3_note', type:'text', label:'Stat 3 note', placeholder:'on critical components' },
+        { id:'stat4_label', type:'text', label:'Stat 4 label', placeholder:'Standard warranty' },
+        { id:'stat4_number', type:'text', label:'Stat 4 number', placeholder:'24 mo' },
+        { id:'stat4_note', type:'text', label:'Stat 4 note', placeholder:'on every system' },
+      ]},
+      { id:'features', label:'Why Helix — Feature Cards', icon:'✨', fields:[
+        { id:'feat1_title', type:'text', label:'Feature 1 title', placeholder:'Modular by design' },
+        { id:'feat1_desc', type:'textarea', label:'Feature 1 description' },
+        { id:'feat2_title', type:'text', label:'Feature 2 title', placeholder:'15-minute MTTR' },
+        { id:'feat2_desc', type:'textarea', label:'Feature 2 description' },
+        { id:'feat3_title', type:'text', label:'Feature 3 title', placeholder:'High-throughput sorting' },
+        { id:'feat3_desc', type:'textarea', label:'Feature 3 description' },
+        { id:'feat4_title', type:'text', label:'Feature 4 title', placeholder:'Compact footprint' },
+        { id:'feat4_desc', type:'textarea', label:'Feature 4 description' },
+        { id:'feat5_title', type:'text', label:'Feature 5 title', placeholder:'Designed & built in the UK' },
+        { id:'feat5_desc', type:'textarea', label:'Feature 5 description' },
+        { id:'feat6_title', type:'text', label:'Feature 6 title', placeholder:'24-month warranty' },
+        { id:'feat6_desc', type:'textarea', label:'Feature 6 description' },
+      ]},
+      { id:'dark', label:'Dark Section — The Helix System', icon:'⚙️', fields:[
+        { id:'dark_h2_line1', type:'text', label:'Headline line 1', placeholder:'A sorter engineered' },
+        { id:'dark_h2_line2', type:'text', label:'Headline line 2 (italic blue)', placeholder:'to the millimetre' },
+        { id:'dark_lead', type:'textarea', label:'Lead text' },
+        { id:'dark_image', type:'image', label:'Product visual (right)', hint:'Image shown in dark section — paste direct URL' },
+        { id:'spec1_key', type:'text', label:'Spec 1 — key', placeholder:'Module pitch' },
+        { id:'spec1_val', type:'text', label:'Spec 1 — value', placeholder:'300 mm' },
+        { id:'spec2_key', type:'text', label:'Spec 2 — key', placeholder:'Sort directions' },
+        { id:'spec2_val', type:'text', label:'Spec 2 — value', placeholder:'Left / Right / Straight' },
+        { id:'spec3_key', type:'text', label:'Spec 3 — key', placeholder:'Divert technology' },
+        { id:'spec3_val', type:'text', label:'Spec 3 — value', placeholder:'Swivel wheel' },
+        { id:'spec4_key', type:'text', label:'Spec 4 — key', placeholder:'Max throughput' },
+        { id:'spec4_val', type:'text', label:'Spec 4 — value', placeholder:'20,000+ parcels/hr' },
+        { id:'spec5_key', type:'text', label:'Spec 5 — key', placeholder:'Mean time to repair' },
+        { id:'spec5_val', type:'text', label:'Spec 5 — value', placeholder:'15 minutes' },
+        { id:'spec6_key', type:'text', label:'Spec 6 — key', placeholder:'Standard warranty' },
+        { id:'spec6_val', type:'text', label:'Spec 6 — value', placeholder:'24 months' },
+        { id:'spec7_key', type:'text', label:'Spec 7 — key', placeholder:'Origin' },
+        { id:'spec7_val', type:'text', label:'Spec 7 — value', placeholder:'Designed & manufactured in UK' },
+      ]},
+      { id:'proof', label:'Proof Numbers Section', icon:'🔢', fields:[
+        { id:'proof1_num', type:'text', label:'Number 1', placeholder:'87%' },
+        { id:'proof1_label', type:'text', label:'Label 1', placeholder:'In-house manufacturing' },
+        { id:'proof1_desc', type:'textarea', label:'Description 1' },
+        { id:'proof2_num', type:'text', label:'Number 2', placeholder:'15 min' },
+        { id:'proof2_label', type:'text', label:'Label 2', placeholder:'Mean time to repair' },
+        { id:'proof2_desc', type:'textarea', label:'Description 2' },
+        { id:'proof3_num', type:'text', label:'Number 3', placeholder:'24 mo' },
+        { id:'proof3_label', type:'text', label:'Label 3', placeholder:'Standard warranty' },
+        { id:'proof3_desc', type:'textarea', label:'Description 3' },
+        { id:'proof4_num', type:'text', label:'Number 4', placeholder:'3-way' },
+        { id:'proof4_label', type:'text', label:'Label 4', placeholder:'Sort directions' },
+        { id:'proof4_desc', type:'textarea', label:'Description 4' },
+      ]},
+      { id:'cta', label:'CTA Section', icon:'📢', fields:[
+        { id:'cta_h2', type:'text', label:'CTA headline', placeholder:'Build your business case in minutes' },
+        { id:'cta_lead', type:'textarea', label:'CTA body text' },
+        { id:'cta_btn', type:'text', label:'Button text', placeholder:'Open configurator' },
+      ]},
+    ]
+  },
+  'helix-product': {
+    label: 'Helix Product', file: 'helix-product.html',
+    sections: [
+      { id:'hero', label:'Page Header', icon:'🎬', fields:[
+        { id:'hero_video_url', type:'video', label:'Hero video', hint:'YouTube URL' },
+        { id:'hero_eyebrow', type:'text', label:'Eyebrow', placeholder:'The Helix Sorter' },
+        { id:'hero_h1', type:'text', label:'Headline', placeholder:'Compact. Modular. Built to sort.' },
+        { id:'hero_sub', type:'textarea', label:'Subheadline / body' },
+      ]},
+      { id:'stats', label:'Stats Bar', icon:'📊', fields:[
+        { id:'stat1_number', type:'text', label:'Stat 1 number' },{ id:'stat1_label', type:'text', label:'Stat 1 label' },{ id:'stat1_note', type:'text', label:'Stat 1 note' },
+        { id:'stat2_number', type:'text', label:'Stat 2 number' },{ id:'stat2_label', type:'text', label:'Stat 2 label' },{ id:'stat2_note', type:'text', label:'Stat 2 note' },
+        { id:'stat3_number', type:'text', label:'Stat 3 number' },{ id:'stat3_label', type:'text', label:'Stat 3 label' },{ id:'stat3_note', type:'text', label:'Stat 3 note' },
+        { id:'stat4_number', type:'text', label:'Stat 4 number' },{ id:'stat4_label', type:'text', label:'Stat 4 label' },{ id:'stat4_note', type:'text', label:'Stat 4 note' },
+      ]},
+      { id:'product_images', label:'Product Images & Gallery', icon:'🖼️', fields:[
+        { id:'main_image', type:'image', label:'Main product image', hint:'Primary Helix photo' },
+        { id:'gallery_1', type:'image', label:'Gallery image 1' },
+        { id:'gallery_2', type:'image', label:'Gallery image 2' },
+        { id:'gallery_3', type:'image', label:'Gallery image 3' },
+        { id:'gallery_4', type:'image', label:'Gallery image 4' },
+      ]},
+      { id:'specs', label:'Technical Specs', icon:'⚙️', fields:[
+        { id:'spec1_key', type:'text', label:'Spec 1 key' },{ id:'spec1_val', type:'text', label:'Spec 1 value' },
+        { id:'spec2_key', type:'text', label:'Spec 2 key' },{ id:'spec2_val', type:'text', label:'Spec 2 value' },
+        { id:'spec3_key', type:'text', label:'Spec 3 key' },{ id:'spec3_val', type:'text', label:'Spec 3 value' },
+        { id:'spec4_key', type:'text', label:'Spec 4 key' },{ id:'spec4_val', type:'text', label:'Spec 4 value' },
+        { id:'spec5_key', type:'text', label:'Spec 5 key' },{ id:'spec5_val', type:'text', label:'Spec 5 value' },
+        { id:'spec6_key', type:'text', label:'Spec 6 key' },{ id:'spec6_val', type:'text', label:'Spec 6 value' },
+      ]},
+      { id:'features', label:'Feature Cards', icon:'✨', fields:[
+        { id:'feat1_title', type:'text', label:'Feature 1 title' },{ id:'feat1_desc', type:'textarea', label:'Feature 1 desc' },
+        { id:'feat2_title', type:'text', label:'Feature 2 title' },{ id:'feat2_desc', type:'textarea', label:'Feature 2 desc' },
+        { id:'feat3_title', type:'text', label:'Feature 3 title' },{ id:'feat3_desc', type:'textarea', label:'Feature 3 desc' },
+        { id:'feat4_title', type:'text', label:'Feature 4 title' },{ id:'feat4_desc', type:'textarea', label:'Feature 4 desc' },
+        { id:'feat5_title', type:'text', label:'Feature 5 title' },{ id:'feat5_desc', type:'textarea', label:'Feature 5 desc' },
+        { id:'feat6_title', type:'text', label:'Feature 6 title' },{ id:'feat6_desc', type:'textarea', label:'Feature 6 desc' },
+      ]},
+      { id:'cta', label:'CTA Section', icon:'📢', fields:[
+        { id:'cta_h2', type:'text', label:'CTA headline' },
+        { id:'cta_lead', type:'textarea', label:'CTA body text' },
+      ]},
+    ]
+  },
+  'products': {
+    label: 'Products', file: 'products.html',
+    sections: [
+      { id:'hero', label:'Page Header', icon:'🎯', fields:[
+        { id:'hero_image', type:'image', label:'Header image' },
+        { id:'hero_eyebrow', type:'text', label:'Eyebrow' },
+        { id:'hero_h1', type:'text', label:'Headline' },
+        { id:'hero_sub', type:'textarea', label:'Subheadline' },
+      ]},
+      { id:'product_cards', label:'Product Cards', icon:'📦', fields:[
+        { id:'prod1_title', type:'text', label:'Product 1 title', placeholder:'Helix Modular Sorter' },
+        { id:'prod1_desc', type:'textarea', label:'Product 1 description' },
+        { id:'prod1_image', type:'image', label:'Product 1 image' },
+        { id:'prod2_title', type:'text', label:'Product 2 title', placeholder:'Unit Handling Conveyors' },
+        { id:'prod2_desc', type:'textarea', label:'Product 2 description' },
+        { id:'prod2_image', type:'image', label:'Product 2 image' },
+        { id:'prod3_title', type:'text', label:'Product 3 title', placeholder:'Pallet & Heavy Duty' },
+        { id:'prod3_desc', type:'textarea', label:'Product 3 description' },
+        { id:'prod3_image', type:'image', label:'Product 3 image' },
+        { id:'prod4_title', type:'text', label:'Product 4 title', placeholder:'Food & Beverage' },
+        { id:'prod4_desc', type:'textarea', label:'Product 4 description' },
+        { id:'prod4_image', type:'image', label:'Product 4 image' },
+      ]},
+    ]
+  },
+  'solutions': {
+    label: 'Solutions', file: 'solutions.html',
+    sections: [
+      { id:'hero', label:'Page Header', icon:'🎯', fields:[
+        { id:'hero_image', type:'image', label:'Header image' },
+        { id:'hero_eyebrow', type:'text', label:'Eyebrow' },
+        { id:'hero_h1', type:'text', label:'Headline' },
+        { id:'hero_sub', type:'textarea', label:'Subheadline' },
+      ]},
+      { id:'solutions', label:'Solution Cards', icon:'⚡', fields:[
+        { id:'sol1_tag', type:'text', label:'Solution 1 tag', placeholder:'Parcel & E-commerce' },
+        { id:'sol1_title', type:'text', label:'Solution 1 title' },
+        { id:'sol1_desc', type:'textarea', label:'Solution 1 description' },
+        { id:'sol1_image', type:'image', label:'Solution 1 image' },
+        { id:'sol2_tag', type:'text', label:'Solution 2 tag', placeholder:'Warehouse & 3PL' },
+        { id:'sol2_title', type:'text', label:'Solution 2 title' },
+        { id:'sol2_desc', type:'textarea', label:'Solution 2 description' },
+        { id:'sol2_image', type:'image', label:'Solution 2 image' },
+        { id:'sol3_tag', type:'text', label:'Solution 3 tag', placeholder:'Automotive' },
+        { id:'sol3_title', type:'text', label:'Solution 3 title' },
+        { id:'sol3_desc', type:'textarea', label:'Solution 3 description' },
+        { id:'sol3_image', type:'image', label:'Solution 3 image' },
+        { id:'sol4_tag', type:'text', label:'Solution 4 tag', placeholder:'Food & Beverage' },
+        { id:'sol4_title', type:'text', label:'Solution 4 title' },
+        { id:'sol4_desc', type:'textarea', label:'Solution 4 description' },
+        { id:'sol4_image', type:'image', label:'Solution 4 image' },
+        { id:'sol5_tag', type:'text', label:'Solution 5 tag', placeholder:'Retrofit & Upgrades' },
+        { id:'sol5_title', type:'text', label:'Solution 5 title' },
+        { id:'sol5_desc', type:'textarea', label:'Solution 5 description' },
+        { id:'sol5_image', type:'image', label:'Solution 5 image' },
+      ]},
+    ]
+  },
+  'case-studies': {
+    label: 'Case Studies', file: 'case-studies.html',
+    sections: [
+      { id:'hero', label:'Page Header', icon:'🎯', fields:[
+        { id:'hero_image', type:'image', label:'Header image' },
+        { id:'hero_h1', type:'text', label:'Headline' },
+        { id:'hero_sub', type:'textarea', label:'Subheadline' },
+      ]},
+      { id:'cards', label:'Case Study Cards', icon:'📋', fields:[
+        { id:'cs1_title', type:'text', label:'Case study 1 title', placeholder:'APC Cannock Hub' },
+        { id:'cs1_client', type:'text', label:'Client name' },
+        { id:'cs1_image', type:'image', label:'Thumbnail image' },
+        { id:'cs1_desc', type:'textarea', label:'Description' },
+        { id:'cs2_title', type:'text', label:'Case study 2 title', placeholder:'Gompels' },
+        { id:'cs2_client', type:'text', label:'Client name' },
+        { id:'cs2_image', type:'image', label:'Thumbnail image' },
+        { id:'cs2_desc', type:'textarea', label:'Description' },
+        { id:'cs3_title', type:'text', label:'Case study 3 title', placeholder:'Expeditors' },
+        { id:'cs3_client', type:'text', label:'Client name' },
+        { id:'cs3_image', type:'image', label:'Thumbnail image' },
+        { id:'cs3_desc', type:'textarea', label:'Description' },
+        { id:'cs4_title', type:'text', label:'Case study 4 title', placeholder:'Tate & Lyle' },
+        { id:'cs4_client', type:'text', label:'Client name' },
+        { id:'cs4_image', type:'image', label:'Thumbnail image' },
+        { id:'cs4_desc', type:'textarea', label:'Description' },
+      ]},
+    ]
+  },
+  'about': {
+    label: 'About', file: 'about.html',
+    sections: [
+      { id:'hero', label:'Page Header', icon:'🎯', fields:[
+        { id:'hero_image', type:'image', label:'Header image' },
+        { id:'hero_eyebrow', type:'text', label:'Eyebrow' },
+        { id:'hero_h1', type:'text', label:'Headline' },
+        { id:'hero_sub', type:'textarea', label:'Subheadline' },
+      ]},
+      { id:'story', label:'Our Story Section', icon:'📖', fields:[
+        { id:'story_h2', type:'text', label:'Section headline' },
+        { id:'story_lead', type:'textarea', label:'Lead text' },
+        { id:'story_body', type:'textarea', label:'Body text' },
+        { id:'story_image', type:'image', label:'Section image' },
+      ]},
+      { id:'team', label:'Team Section', icon:'👥', fields:[
+        { id:'team_h2', type:'text', label:'Team section headline' },
+        { id:'team_lead', type:'textarea', label:'Team section lead' },
+        { id:'team_photo', type:'image', label:'Team photo' },
+        { id:'team1_name', type:'text', label:'Person 1 name' },
+        { id:'team1_role', type:'text', label:'Person 1 role' },
+        { id:'team1_image', type:'image', label:'Person 1 photo' },
+        { id:'team2_name', type:'text', label:'Person 2 name' },
+        { id:'team2_role', type:'text', label:'Person 2 role' },
+        { id:'team2_image', type:'image', label:'Person 2 photo' },
+        { id:'team3_name', type:'text', label:'Person 3 name' },
+        { id:'team3_role', type:'text', label:'Person 3 role' },
+        { id:'team3_image', type:'image', label:'Person 3 photo' },
+      ]},
+      { id:'stats', label:'Stats / Proof Section', icon:'📊', fields:[
+        { id:'stat1_number', type:'text', label:'Stat 1 number' },{ id:'stat1_label', type:'text', label:'Stat 1 label' },
+        { id:'stat2_number', type:'text', label:'Stat 2 number' },{ id:'stat2_label', type:'text', label:'Stat 2 label' },
+        { id:'stat3_number', type:'text', label:'Stat 3 number' },{ id:'stat3_label', type:'text', label:'Stat 3 label' },
+        { id:'stat4_number', type:'text', label:'Stat 4 number' },{ id:'stat4_label', type:'text', label:'Stat 4 label' },
+      ]},
+    ]
+  },
+  'hub': {
+    label: 'Hub', file: 'hub.html',
+    sections: [
+      { id:'hero', label:'Page Header', icon:'🎯', fields:[
+        { id:'hero_image', type:'image', label:'Header image' },
+        { id:'hero_h1', type:'text', label:'Headline' },
+        { id:'hero_sub', type:'textarea', label:'Subheadline' },
+      ]},
+      { id:'intro', label:'Intro Text', icon:'📝', fields:[
+        { id:'intro_h2', type:'text', label:'Section headline' },
+        { id:'intro_lead', type:'textarea', label:'Lead text' },
+      ]},
+    ]
+  },
+  'unit-handling': {
+    label: 'Unit Handling', file: 'unit-handling.html',
+    sections: [
+      { id:'hero', label:'Page Header', icon:'🎯', fields:[
+        { id:'hero_image', type:'image', label:'Header image' },
+        { id:'hero_eyebrow', type:'text', label:'Eyebrow' },
+        { id:'hero_h1', type:'text', label:'Headline' },
+        { id:'hero_sub', type:'textarea', label:'Subheadline' },
+      ]},
+      { id:'products', label:'Product Types', icon:'📦', fields:[
+        { id:'prod1_title', type:'text', label:'Product 1 title' },{ id:'prod1_desc', type:'textarea', label:'Product 1 desc' },{ id:'prod1_image', type:'image', label:'Product 1 image' },
+        { id:'prod2_title', type:'text', label:'Product 2 title' },{ id:'prod2_desc', type:'textarea', label:'Product 2 desc' },{ id:'prod2_image', type:'image', label:'Product 2 image' },
+        { id:'prod3_title', type:'text', label:'Product 3 title' },{ id:'prod3_desc', type:'textarea', label:'Product 3 desc' },{ id:'prod3_image', type:'image', label:'Product 3 image' },
+        { id:'prod4_title', type:'text', label:'Product 4 title' },{ id:'prod4_desc', type:'textarea', label:'Product 4 desc' },{ id:'prod4_image', type:'image', label:'Product 4 image' },
+      ]},
+      { id:'specs', label:'Specs / Features', icon:'⚙️', fields:[
+        { id:'spec1_key', type:'text', label:'Spec 1 key' },{ id:'spec1_val', type:'text', label:'Spec 1 value' },
+        { id:'spec2_key', type:'text', label:'Spec 2 key' },{ id:'spec2_val', type:'text', label:'Spec 2 value' },
+        { id:'spec3_key', type:'text', label:'Spec 3 key' },{ id:'spec3_val', type:'text', label:'Spec 3 value' },
+        { id:'spec4_key', type:'text', label:'Spec 4 key' },{ id:'spec4_val', type:'text', label:'Spec 4 value' },
+      ]},
+      { id:'cta', label:'CTA', icon:'📢', fields:[
+        { id:'cta_h2', type:'text', label:'CTA headline' },{ id:'cta_lead', type:'textarea', label:'CTA body' },
+      ]},
+    ]
+  },
+  'pallet-heavy': {
+    label: 'Pallet & Heavy Duty', file: 'pallet-heavy.html',
+    sections: [
+      { id:'hero', label:'Page Header', icon:'🎯', fields:[
+        { id:'hero_image', type:'image', label:'Header image' },
+        { id:'hero_eyebrow', type:'text', label:'Eyebrow' },
+        { id:'hero_h1', type:'text', label:'Headline' },
+        { id:'hero_sub', type:'textarea', label:'Subheadline' },
+      ]},
+      { id:'products', label:'Product Types', icon:'📦', fields:[
+        { id:'prod1_title', type:'text', label:'Product 1 title' },{ id:'prod1_desc', type:'textarea', label:'Product 1 desc' },{ id:'prod1_image', type:'image', label:'Product 1 image' },
+        { id:'prod2_title', type:'text', label:'Product 2 title' },{ id:'prod2_desc', type:'textarea', label:'Product 2 desc' },{ id:'prod2_image', type:'image', label:'Product 2 image' },
+        { id:'prod3_title', type:'text', label:'Product 3 title' },{ id:'prod3_desc', type:'textarea', label:'Product 3 desc' },{ id:'prod3_image', type:'image', label:'Product 3 image' },
+      ]},
+      { id:'specs', label:'Specs', icon:'⚙️', fields:[
+        { id:'spec1_key', type:'text', label:'Spec 1 key' },{ id:'spec1_val', type:'text', label:'Spec 1 value' },
+        { id:'spec2_key', type:'text', label:'Spec 2 key' },{ id:'spec2_val', type:'text', label:'Spec 2 value' },
+        { id:'spec3_key', type:'text', label:'Spec 3 key' },{ id:'spec3_val', type:'text', label:'Spec 3 value' },
+        { id:'spec4_key', type:'text', label:'Spec 4 key' },{ id:'spec4_val', type:'text', label:'Spec 4 value' },
+      ]},
+    ]
+  },
+  'food-beverage': {
+    label: 'Food & Beverage', file: 'food-beverage.html',
+    sections: [
+      { id:'hero', label:'Page Header', icon:'🎯', fields:[
+        { id:'hero_image', type:'image', label:'Header image' },
+        { id:'hero_eyebrow', type:'text', label:'Eyebrow' },
+        { id:'hero_h1', type:'text', label:'Headline' },
+        { id:'hero_sub', type:'textarea', label:'Subheadline' },
+      ]},
+      { id:'products', label:'Product Types', icon:'📦', fields:[
+        { id:'prod1_title', type:'text', label:'Product 1 title' },{ id:'prod1_desc', type:'textarea', label:'Product 1 desc' },{ id:'prod1_image', type:'image', label:'Product 1 image' },
+        { id:'prod2_title', type:'text', label:'Product 2 title' },{ id:'prod2_desc', type:'textarea', label:'Product 2 desc' },{ id:'prod2_image', type:'image', label:'Product 2 image' },
+        { id:'prod3_title', type:'text', label:'Product 3 title' },{ id:'prod3_desc', type:'textarea', label:'Product 3 desc' },{ id:'prod3_image', type:'image', label:'Product 3 image' },
+      ]},
+      { id:'specs', label:'Specs', icon:'⚙️', fields:[
+        { id:'spec1_key', type:'text', label:'Spec 1 key' },{ id:'spec1_val', type:'text', label:'Spec 1 value' },
+        { id:'spec2_key', type:'text', label:'Spec 2 key' },{ id:'spec2_val', type:'text', label:'Spec 2 value' },
+        { id:'spec3_key', type:'text', label:'Spec 3 key' },{ id:'spec3_val', type:'text', label:'Spec 3 value' },
+      ]},
+    ]
+  },
+  'contact': {
+    label: 'Contact', file: 'contact.html',
+    sections: [
+      { id:'hero', label:'Page Header', icon:'🎯', fields:[
+        { id:'hero_image', type:'image', label:'Header image' },
+        { id:'hero_h1', type:'text', label:'Headline' },
+        { id:'hero_sub', type:'textarea', label:'Subheadline' },
+      ]},
+      { id:'contact_info', label:'Contact Details', icon:'📞', fields:[
+        { id:'phone', type:'text', label:'Phone', placeholder:'+44 333 335 5269' },
+        { id:'email', type:'text', label:'Email', placeholder:'info@orionmis.co.uk' },
+        { id:'address', type:'text', label:'Address' },
+        { id:'office_image', type:'image', label:'Office / map image' },
+      ]},
+    ]
+  },
+  'news': { label:'News & Events', file:null },
+  'vault': { label:'Vault', file:null },
+  'social': { label:'Social Feed', file:null },
+  'publish': { label:'Publish to Site', file:null },
+  'settings': { label:'Settings', file:null },
+};
 
 // ── DATA ──────────────────────────────────────────────────
-let DB={homepage:{hero_video_url:'https://www.youtube.com/embed/53RZuWy3kXI?autoplay=1&mute=1&loop=1&playlist=53RZuWy3kXI&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1',hero_line1:'Your throughput is growing.',hero_line2:"Your building isn't.",hero_body:'Increase sortation capacity inside your existing facility. Compact, modular, and designed and manufactured in the UK. Available on flexible lease —',hero_lease:'from £1,000/month',announcements:[{text:'🇬🇧 Designed & manufactured in the UK'},{text:'⚡ Work out your ROI, monthly lease & system cost —',link_url:'helix-configurator.html',link_label:'try the configurator'},{text:'📦 Up to 20,000 parcels per hour'},{text:'🔧 15-minute mean time to repair'},{text:'💷 Flexible operating lease from £1,000/month'},{text:'✅ 24-month parts & labour warranty'},{text:'🚀 Typical installation in under 4 weeks'},{text:'🏭 87% UK manufactured components'}]},news:[],vault:[],social:[],pageMedia:{},settings:{phone:'+44 333 335 5269',email:'info@orionmis.co.uk',address:'Number 1 Fontwell Avenue, Fontwell, Chichester, PO20 3RU'}};
-let eId=null;
-const SECTIONS=['home','media','news','vault','social','publish','settings'];
-const TITLES={home:'Homepage',media:'Page Videos & Images',news:'News & Events',vault:'Vault',social:'Social Feed',publish:'Publish to Site',settings:'Settings'};
+let DB = { pages:{}, news:[], vault:[], social:[], settings:{phone:'+44 333 335 5269',email:'info@orionmis.co.uk',address:'Number 1 Fontwell Avenue, Fontwell, Chichester, PO20 3RU'} };
+let eId = null;
+let curPage = 'homepage';
 
 // ── AUTH ──────────────────────────────────────────────────
-const getPin=()=>localStorage.getItem('orion_pin')||'1234';
+const getPin = () => localStorage.getItem('orion_pin')||'1234';
 function login(){const v=document.getElementById('pinIn').value;if(v===getPin()){document.getElementById('ls').style.display='none';document.getElementById('app').style.display='block';init();}else{document.getElementById('le').style.display='block';document.getElementById('pinIn').value='';}}
 function signout(){document.getElementById('app').style.display='none';document.getElementById('ls').style.display='flex';document.getElementById('pinIn').value='';}
-function changePin(){const o=document.getElementById('oldPin').value,n=document.getElementById('newPin').value;if(o!==getPin()){toast('Current PIN incorrect','e');return;}if(n.length<4){toast('PIN must be 4+ digits','e');return;}localStorage.setItem('orion_pin',n);document.getElementById('oldPin').value='';document.getElementById('newPin').value='';toast('PIN updated ✓');}
 document.getElementById('pinIn').onkeydown=e=>{if(e.key==='Enter')login();};
 
 // ── NAV ───────────────────────────────────────────────────
-function nav(id){SECTIONS.forEach(s=>{document.getElementById('s-'+s).style.display=s===id?'block':'none';document.getElementById('nb-'+s).classList.toggle('on',s===id);});document.getElementById('tbTitle').textContent=TITLES[id];if(id==='publish')updPC();if(id==='media')rMedia();}
-
-// ── MODAL ─────────────────────────────────────────────────
-function openM(t,id=null){
-  eId=id;const td=new Date().toISOString().slice(0,10);
-  if(t==='news'){document.getElementById('nMT').textContent=id?'Edit item':'Add news item';if(id){const n=DB.news.find(x=>x.id===id);if(n){document.getElementById('n-title').value=n.title||'';document.getElementById('n-type').value=n.type||'news';document.getElementById('n-date').value=n.date||'';document.getElementById('n-sum').value=n.summary||'';document.getElementById('n-img').value=n.image||'';document.getElementById('n-link').value=n.link||'';document.getElementById('n-stat').value=n.status||'published';}}else{['n-title','n-sum','n-img','n-link'].forEach(x=>document.getElementById(x).value='');document.getElementById('n-date').value=td;document.getElementById('n-type').value='news';document.getElementById('n-stat').value='published';}}
-  if(t==='vault'){document.getElementById('vMT').textContent=id?'Edit document':'Add document';if(id){const v=DB.vault.find(x=>x.id===id);if(v){document.getElementById('v-name').value=v.name||'';document.getElementById('v-cat').value=v.category||'technical';document.getElementById('v-type').value=v.filetype||'pdf';document.getElementById('v-url').value=v.url||'';document.getElementById('v-desc').value=v.description||'';document.getElementById('v-access').value=v.access||'public';document.getElementById('v-ver').value=v.version||'';}}else{['v-name','v-url','v-desc','v-ver'].forEach(x=>document.getElementById(x).value='');document.getElementById('v-cat').value='technical';document.getElementById('v-type').value='pdf';document.getElementById('v-access').value='public';}}
-  if(t==='social'){['soc-c','soc-u','soc-i'].forEach(x=>document.getElementById(x).value='');document.getElementById('soc-d').value=td;document.getElementById('soc-p').value='linkedin';}
-  document.getElementById('m-'+t).classList.add('open');
+function nav(id){
+  curPage = id;
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.getElementById('nb-'+id)?.classList.add('on');
+  const p = PAGES[id];
+  document.getElementById('tbTitle').textContent = p?.label || id;
+  // Update view site link
+  const vsBtn = document.getElementById('viewSiteBtn');
+  if(p?.file) vsBtn.href = 'https://dannygrigg.github.io/orion-site/'+p.file;
+  else vsBtn.href = 'https://dannygrigg.github.io/orion-site/';
+  // Render
+  const ct = document.getElementById('mainCt');
+  if(id==='news') { ct.innerHTML = renderNewsList(); return; }
+  if(id==='vault') { ct.innerHTML = renderVaultList(); return; }
+  if(id==='social') { ct.innerHTML = renderSocialList(); return; }
+  if(id==='publish') { renderPublish(); return; }
+  if(id==='settings') { renderSettings(); return; }
+  if(p?.sections) renderPage(id);
 }
-function closeM(t){document.getElementById('m-'+t).classList.remove('open');eId=null;}
-document.querySelectorAll('.mbg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
 
-// ── PAGE MEDIA ────────────────────────────────────────────
-function rMedia(){
-  const container=document.getElementById('pageMediaList');
-  container.innerHTML=PAGE_MEDIA.map(page=>{
-    const mediaValues=DB.pageMedia[page.id]||{};
-    const setCount=page.media.filter(m=>mediaValues[m.id]).length;
-    return `<div class="page-card">
-      <div class="page-card-header" onclick="togglePageCard('${page.id}')">
-        <div class="page-card-title">
-          <span>${page.name}</span>
-          <span class="page-card-file">${page.file}</span>
-          ${setCount>0?`<span class="badge b-g">${setCount}/${page.media.length} set</span>`:`<span class="page-count">${page.media.length} media slot${page.media.length>1?'s':''}</span>`}
+// ── PAGE RENDERER ─────────────────────────────────────────
+function renderPage(pageId) {
+  const p = PAGES[pageId];
+  if(!p) return;
+  const pageData = DB.pages[pageId] || {};
+  let html = '';
+  // Warn if no token
+  if(!localStorage.getItem('orion_tok')) {
+    html += `<div class="warn"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><div><div class="warn-t">GitHub token needed</div><div class="warn-s">Go to <strong>Settings</strong> to connect. Then Publish will commit changes directly — no copy/paste.</div></div></div>`;
+  }
+  p.sections.forEach(sec => {
+    const filledCount = sec.fields ? sec.fields.filter(f=>f.type!=='repeater'&&pageData[f.id]).length : 0;
+    const totalFields = sec.fields ? sec.fields.filter(f=>f.type!=='repeater').length : 0;
+    html += `<div class="sec-block">
+      <div class="sec-hd" onclick="toggleSec('${pageId}-${sec.id}')">
+        <div class="sec-hd-l">
+          <span style="font-size:16px">${sec.icon}</span>
+          <div>
+            <div class="sec-hd-title">${sec.label}</div>
+          </div>
+          <span class="sec-tag ${filledCount>0?'has':''}">${filledCount}/${totalFields} filled</span>
         </div>
-        <svg class="chevron" id="chev-${page.id}" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        <svg class="chev" id="chev-${pageId}-${sec.id}" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
-      <div class="page-card-body" id="body-${page.id}">
-        ${page.media.map(m=>{
-          const val=mediaValues[m.id]||'';
-          const isVid=m.type==='video';
-          const hasVal=!!val;
-          return `<div class="media-row">
-            <div>
-              <div class="media-label">${m.label}</div>
-              <div class="media-type">${isVid?'🎬 Video (YouTube URL)':'🖼️ Image URL'}</div>
-            </div>
-            <input class="media-input ${hasVal?'has-value':''}" type="url" 
-              id="media-${page.id}-${m.id}"
-              value="${esc(val)}"
-              placeholder="${isVid?'https://www.youtube.com/watch?v=...':'https://... (direct image URL)'}"
-              oninput="onMediaInput('${page.id}','${m.id}',this)"
-              ${m.hint?`title="${m.hint}"`:''}
-            >
-            ${isVid&&val?`<span class="media-video-badge">YouTube ✓</span>`:`<img class="media-preview ${hasVal&&!isVid?'show':''}" id="prev-${page.id}-${m.id}" src="${hasVal&&!isVid?val:''}" onerror="this.classList.remove('show')">`}
-            ${hasVal?`<button class="btn btn-r btn-sm" onclick="clearMedia('${page.id}','${m.id}')">Clear</button>`:`<div></div>`}
-          </div>`;
-        }).join('')}
-        ${m&&m.hint?`<div style="font-size:11px;color:var(--mid);font-weight:300;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">${page.media.find(x=>x.hint)?.hint||''}</div>`:''}
+      <div class="sec-body" id="body-${pageId}-${sec.id}">
+        ${renderFields(pageId, sec)}
+        <div style="display:flex;justify-content:flex-end;margin-top:14px">
+          <button class="btn btn-d btn-sm" onclick="saveSec('${pageId}','${sec.id}')">
+            <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>Save section
+          </button>
+        </div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('mainCt').innerHTML = html;
+}
+
+function renderFields(pageId, sec) {
+  const pageData = DB.pages[pageId] || {};
+  if(!sec.fields) return '';
+  return sec.fields.map(f => {
+    if(f.type === 'repeater') return renderRepeater(pageId, f, pageData[f.id]||[]);
+    const val = pageData[f.id] || '';
+    const hasVal = !!val;
+    const isImg = f.type==='image', isVid = f.type==='video', isTa = f.type==='textarea';
+    return `<div class="field-row">
+      <div>
+        <div class="fr-label">${f.label}</div>
+        ${f.hint?`<div class="fr-sub">${f.hint}</div>`:''}
+      </div>
+      <div>
+        ${isTa
+          ? `<textarea class="fr-input fr-textarea ${hasVal?'has-v':''}" id="f-${pageId}-${f.id}" onchange="fieldChange('${pageId}','${f.id}',this.value)" placeholder="${esc(f.placeholder||'')}">${esc(val)}</textarea>`
+          : `<input type="${isImg||isVid?'url':'text'}" class="fr-input ${hasVal?'has-v':''}" id="f-${pageId}-${f.id}" value="${esc(val)}" placeholder="${esc(f.placeholder||isImg?'https://... (direct image URL)':isVid?'https://www.youtube.com/watch?v=...':'')}" oninput="fieldChange('${pageId}','${f.id}',this.value)${isImg?';prevImg(this)':isVid?';prevVid(this)':''}">`
+        }
+        ${isImg&&val?`<img class="fr-img-prev show" src="${esc(val)}" onerror="this.classList.remove('show')">`:isImg?`<img class="fr-img-prev" id="prev-${pageId}-${f.id}">`:''}
+        ${isVid&&val?`<div class="fr-vid show">✓ YouTube video set</div>`:isVid?`<div class="fr-vid" id="vidBadge-${pageId}-${f.id}">✓ YouTube video set</div>`:''}
       </div>
     </div>`;
   }).join('');
 }
 
-function togglePageCard(pageId){
-  const body=document.getElementById('body-'+pageId);
-  const chev=document.getElementById('chev-'+pageId);
-  const isOpen=body.classList.contains('open');
-  body.classList.toggle('open',!isOpen);
-  chev.classList.toggle('open',!isOpen);
+function renderRepeater(pageId, f, items) {
+  const cols = f.columns, colLabels = f.colLabels;
+  let html = `<div style="margin-bottom:10px">
+    <div class="fr-label" style="margin-bottom:8px">${f.label}</div>
+    <div id="rep-${pageId}-${f.id}">`;
+  items.forEach((item,i) => {
+    html += `<div class="rep-item">
+      <button class="rep-del" onclick="delRepItem('${pageId}','${f.id}',${i})">✕ Remove</button>
+      ${cols.map((c,ci)=>`
+        <div class="field" style="margin-bottom:8px">
+          <label>${colLabels[ci]}</label>
+          <input class="ann-i" type="text" value="${esc(item[c]||'')}" onchange="updRepItem('${pageId}','${f.id}',${i},'${c}',this.value)">
+        </div>`).join('')}
+    </div>`;
+  });
+  html += `</div>
+    <button class="btn btn-o btn-sm" onclick="addRepItem('${pageId}','${f.id}',${JSON.stringify(cols).replace(/"/g,'&quot;')})">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add
+    </button>
+  </div>`;
+  return html;
 }
 
-function onMediaInput(pageId,mediaId,input){
-  const val=input.value.trim();
-  if(!DB.pageMedia[pageId]) DB.pageMedia[pageId]={};
-  DB.pageMedia[pageId][mediaId]=val;
-  input.classList.toggle('has-value',!!val);
-  // Show preview for images
-  const prev=document.getElementById(`prev-${pageId}-${mediaId}`);
-  if(prev&&val&&!val.includes('youtube')){prev.src=val;prev.classList.add('show');prev.onerror=()=>prev.classList.remove('show');}
-  else if(prev){prev.classList.remove('show');}
+function toggleSec(id){
+  const body=document.getElementById('body-'+id);
+  const chev=document.getElementById('chev-'+id);
+  if(!body) return;
+  const open=body.classList.contains('open');
+  body.classList.toggle('open',!open);
+  chev.classList.toggle('open',!open);
+}
+
+function fieldChange(pageId, fieldId, val) {
+  if(!DB.pages[pageId]) DB.pages[pageId]={};
+  DB.pages[pageId][fieldId] = val;
+  const el = document.getElementById(`f-${pageId}-${fieldId}`);
+  if(el) el.classList.toggle('has-v', !!val);
   saveL();
 }
 
-function clearMedia(pageId,mediaId){
-  if(DB.pageMedia[pageId]) delete DB.pageMedia[pageId][mediaId];
-  saveL();rMedia();
+function prevImg(input){
+  const url=input.value.trim();
+  // Find the closest img preview
+  const prev=input.parentElement.querySelector('.fr-img-prev');
+  if(prev){prev.src=url;prev.classList.toggle('show',!!url);prev.onerror=()=>prev.classList.remove('show');}
+}
+function prevVid(input){
+  const url=input.value.trim();
+  const badge=input.parentElement.querySelector('.fr-vid');
+  if(badge) badge.classList.toggle('show',url.includes('youtube')||url.includes('youtu.be'));
 }
 
-function saveMedia(){
-  saveL();toast('Media saved ✓');
+function saveSec(pageId, secId) {
+  saveL(); toast(`Section saved ✓`);
+  // Re-render to update filled counts
+  renderPage(pageId);
+  // Re-open this section
+  const body=document.getElementById(`body-${pageId}-${secId}`);
+  const chev=document.getElementById(`chev-${pageId}-${secId}`);
+  if(body){body.classList.add('open');chev.classList.add('open');}
+}
+
+// Repeater helpers
+function addRepItem(pageId, fieldId, cols){
+  if(!DB.pages[pageId]) DB.pages[pageId]={};
+  if(!DB.pages[pageId][fieldId]) DB.pages[pageId][fieldId]=[];
+  const newItem={};cols.forEach(c=>newItem[c]='');
+  DB.pages[pageId][fieldId].push(newItem);
+  saveL();
+  const sec=PAGES[pageId].sections.find(s=>s.fields&&s.fields.find(f=>f.id===fieldId));
+  if(sec){const el=document.getElementById(`rep-${pageId}-${fieldId}`);if(el)el.outerHTML=renderRepeater(pageId,{id:fieldId,columns:cols,colLabels:cols,label:''},DB.pages[pageId][fieldId]);}
+}
+function delRepItem(pageId,fieldId,idx){
+  if(DB.pages[pageId]&&DB.pages[pageId][fieldId]) DB.pages[pageId][fieldId].splice(idx,1);
+  saveL();nav(pageId);
+}
+function updRepItem(pageId,fieldId,idx,col,val){
+  if(DB.pages[pageId]&&DB.pages[pageId][fieldId]) DB.pages[pageId][fieldId][idx][col]=val;
+  saveL();
 }
 
 // ── NEWS ──────────────────────────────────────────────────
-function saveNews(){const t=document.getElementById('n-title').value.trim();if(!t){toast('Title required','e');return;}const item={id:eId||uid(),title:t,type:document.getElementById('n-type').value,date:document.getElementById('n-date').value,summary:document.getElementById('n-sum').value,image:document.getElementById('n-img').value,link:document.getElementById('n-link').value,status:document.getElementById('n-stat').value};if(eId){const i=DB.news.findIndex(x=>x.id===eId);if(i>-1)DB.news[i]=item;}else DB.news.unshift(item);saveL();closeM('news');rNews();toast(eId?'Updated ✓':'Added ✓');}
-function delNews(id){if(!confirm('Delete?'))return;DB.news=DB.news.filter(x=>x.id!==id);saveL();rNews();toast('Deleted');}
-function rNews(){const tb=document.getElementById('newsTB');if(!DB.news.length){tb.innerHTML='<tr><td colspan="5"><div class="empty"><p>No news items yet</p></div></td></tr>';return;}tb.innerHTML=DB.news.map(n=>`<tr><td><strong>${esc(n.title)}</strong>${n.summary?`<div style="font-size:11px;color:var(--mid);font-weight:300;margin-top:2px">${esc(n.summary.slice(0,60))}${n.summary.length>60?'...':''}</div>`:''}</td><td><span class="badge b-bl">${n.type}</span></td><td style="font-size:12px;color:var(--mid)">${fd(n.date)}</td><td><span class="badge ${n.status==='published'?'b-g':'b-gr'}">${n.status}</span></td><td><div style="display:flex;gap:6px"><button class="btn btn-o btn-sm" onclick="openM('news','${n.id}')">Edit</button><button class="btn btn-r btn-sm" onclick="delNews('${n.id}')">Delete</button></div></td></tr>`).join('');}
+function renderNewsList(){
+  return `<div class="card"><div class="card-h"><div><div class="card-t">News & Events</div><div class="card-s">Shown on Hub page</div></div><button class="btn btn-d btn-sm" onclick="openM('news')"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add item</button></div>
+  <div class="tw"><table><thead><tr><th>Title</th><th>Type</th><th>Date</th><th>Status</th><th></th></tr></thead>
+  <tbody>${!DB.news.length?'<tr><td colspan="5"><div class="empty"><p>No news items yet</p></div></td></tr>':
+    DB.news.map(n=>`<tr><td><strong>${esc(n.title)}</strong>${n.summary?`<div style="font-size:11px;color:var(--mid);margin-top:1px">${esc(n.summary.slice(0,60))}...</div>`:''}</td><td><span class="badge b-bl">${n.type}</span></td><td style="font-size:12px;color:var(--mid)">${fd(n.date)}</td><td><span class="badge ${n.status==='published'?'b-g':'b-gr'}">${n.status}</span></td><td><div style="display:flex;gap:5px"><button class="btn btn-o btn-sm" onclick="openM('news','${n.id}')">Edit</button><button class="btn btn-r btn-sm" onclick="delNews('${n.id}')">Delete</button></div></td></tr>`).join('')}
+  </tbody></table></div></div>`;
+}
+function openM(t,id=null){
+  eId=id;const td=new Date().toISOString().slice(0,10);
+  if(t==='news'){document.getElementById('nMT').textContent=id?'Edit item':'Add news item';if(id){const n=DB.news.find(x=>x.id===id);if(n){document.getElementById('n-title').value=n.title||'';document.getElementById('n-type').value=n.type||'news';document.getElementById('n-date').value=n.date||'';document.getElementById('n-sum').value=n.summary||'';document.getElementById('n-img').value=n.image||'';document.getElementById('n-link').value=n.link||'';document.getElementById('n-stat').value=n.status||'published';}}else{['n-title','n-sum','n-img','n-link'].forEach(x=>document.getElementById(x).value='');document.getElementById('n-date').value=td;document.getElementById('n-type').value='news';document.getElementById('n-stat').value='published';}}
+  if(t==='vault'){document.getElementById('vMT').textContent=id?'Edit':'Add document';if(id){const v=DB.vault.find(x=>x.id===id);if(v){document.getElementById('v-name').value=v.name||'';document.getElementById('v-cat').value=v.category||'technical';document.getElementById('v-type').value=v.filetype||'pdf';document.getElementById('v-url').value=v.url||'';document.getElementById('v-desc').value=v.description||'';document.getElementById('v-access').value=v.access||'public';document.getElementById('v-ver').value=v.version||'';}}else{['v-name','v-url','v-desc','v-ver'].forEach(x=>document.getElementById(x).value='');}}
+  if(t==='social'){['soc-c','soc-u','soc-i'].forEach(x=>document.getElementById(x).value='');document.getElementById('soc-d').value=td;}
+  document.getElementById('m-'+t).classList.add('open');
+}
+function closeM(t){document.getElementById('m-'+t).classList.remove('open');eId=null;}
+document.querySelectorAll('.mbg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+function saveNews(){const t=document.getElementById('n-title').value.trim();if(!t){toast('Title required','e');return;}const item={id:eId||uid(),title:t,type:document.getElementById('n-type').value,date:document.getElementById('n-date').value,summary:document.getElementById('n-sum').value,image:document.getElementById('n-img').value,link:document.getElementById('n-link').value,status:document.getElementById('n-stat').value};if(eId){const i=DB.news.findIndex(x=>x.id===eId);if(i>-1)DB.news[i]=item;}else DB.news.unshift(item);saveL();closeM('news');nav('news');toast('Saved ✓');}
+function delNews(id){if(!confirm('Delete?'))return;DB.news=DB.news.filter(x=>x.id!==id);saveL();nav('news');toast('Deleted');}
 
 // ── VAULT ─────────────────────────────────────────────────
 const FI={pdf:'📄',doc:'📝',xls:'📊',ppt:'📋',dwg:'📐',zip:'🗜️',link:'🔗'};
-function saveVault(){const n=document.getElementById('v-name').value.trim(),u=document.getElementById('v-url').value.trim();if(!n||!u){toast('Name and URL required','e');return;}const item={id:eId||uid(),name:n,category:document.getElementById('v-cat').value,filetype:document.getElementById('v-type').value,url:u,description:document.getElementById('v-desc').value,access:document.getElementById('v-access').value,version:document.getElementById('v-ver').value};if(eId){const i=DB.vault.findIndex(x=>x.id===eId);if(i>-1)DB.vault[i]=item;}else DB.vault.unshift(item);saveL();closeM('vault');rVault();toast(eId?'Updated ✓':'Added ✓');}
-function delVault(id){if(!confirm('Remove?'))return;DB.vault=DB.vault.filter(x=>x.id!==id);saveL();rVault();toast('Removed');}
-function rVault(){const el=document.getElementById('vaultList');if(!DB.vault.length){el.innerHTML='<div class="empty"><p>No vault documents yet</p></div>';return;}el.innerHTML=DB.vault.map(v=>`<div class="vr"><div class="vi">${FI[v.filetype]||'📄'}</div><div class="vinfo"><div class="vn">${esc(v.name)}${v.version?` <span style="font-size:11px;color:var(--mid);font-weight:300">${esc(v.version)}</span>`:''}</div><div class="vm">${v.category} · ${v.access}${v.description?' · '+esc(v.description.slice(0,50)):''}</div></div><div style="display:flex;gap:6px"><a href="${v.url}" target="_blank" class="btn btn-o btn-sm">Open</a><button class="btn btn-o btn-sm" onclick="openM('vault','${v.id}')">Edit</button><button class="btn btn-r btn-sm" onclick="delVault('${v.id}')">Delete</button></div></div>`).join('');}
+function renderVaultList(){
+  return `<div class="card"><div class="card-h"><div><div class="card-t">Vault</div><div class="card-s">Documents for partners</div></div><button class="btn btn-d btn-sm" onclick="openM('vault')"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add</button></div>
+  ${!DB.vault.length?'<div class="empty"><p>No vault documents yet</p></div>':
+    DB.vault.map(v=>`<div class="vr"><div class="vi">${FI[v.filetype]||'📄'}</div><div class="vinfo"><div class="vn">${esc(v.name)}${v.version?` <span style="font-size:11px;color:var(--mid)">${esc(v.version)}</span>`:''}</div><div class="vm">${v.category} · ${v.access}</div></div><div style="display:flex;gap:5px"><a href="${v.url}" target="_blank" class="btn btn-o btn-sm">Open</a><button class="btn btn-o btn-sm" onclick="openM('vault','${v.id}')">Edit</button><button class="btn btn-r btn-sm" onclick="delVault('${v.id}')">Delete</button></div></div>`).join('')}
+  </div>`;
+}
+function saveVault(){const n=document.getElementById('v-name').value.trim(),u=document.getElementById('v-url').value.trim();if(!n||!u){toast('Name and URL required','e');return;}const item={id:eId||uid(),name:n,category:document.getElementById('v-cat').value,filetype:document.getElementById('v-type').value,url:u,description:document.getElementById('v-desc').value,access:document.getElementById('v-access').value,version:document.getElementById('v-ver').value};if(eId){const i=DB.vault.findIndex(x=>x.id===eId);if(i>-1)DB.vault[i]=item;}else DB.vault.unshift(item);saveL();closeM('vault');nav('vault');toast('Saved ✓');}
+function delVault(id){if(!confirm('Remove?'))return;DB.vault=DB.vault.filter(x=>x.id!==id);saveL();nav('vault');toast('Removed');}
 
 // ── SOCIAL ────────────────────────────────────────────────
-function saveSoc(){const c=document.getElementById('soc-c').value.trim();if(!c){toast('Caption required','e');return;}const item={id:uid(),platform:document.getElementById('soc-p').value,date:document.getElementById('soc-d').value,caption:c,url:document.getElementById('soc-u').value,image:document.getElementById('soc-i').value};DB.social.unshift(item);saveL();closeM('social');rSocial();toast('Post added ✓');}
-function delSoc(id){if(!confirm('Delete?'))return;DB.social=DB.social.filter(x=>x.id!==id);saveL();rSocial();toast('Deleted');}
-function rSocial(){const tb=document.getElementById('socialTB');if(!DB.social.length){tb.innerHTML='<tr><td colspan="4"><div class="empty"><p>No social posts yet</p></div></td></tr>';return;}tb.innerHTML=DB.social.map(p=>`<tr><td><span class="badge b-bl">${p.platform}</span></td><td>${esc(p.caption.slice(0,80))}${p.caption.length>80?'...':''}</td><td style="font-size:12px;color:var(--mid)">${fd(p.date)}</td><td><div style="display:flex;gap:6px">${p.url?`<a href="${p.url}" target="_blank" class="btn btn-o btn-sm">View</a>`:''}<button class="btn btn-r btn-sm" onclick="delSoc('${p.id}')">Delete</button></div></td></tr>`).join('');}
-
-// ── HOMEPAGE ─────────────────────────────────────────────
-function rHomepage(){
-  const h=DB.homepage;
-  const m=(h.hero_video_url||'').match(/embed\/([a-zA-Z0-9_-]+)/);
-  document.getElementById('hp-v').value=m?`https://www.youtube.com/watch?v=${m[1]}`:h.hero_video_url||'';
-  document.getElementById('hp-l1').value=h.hero_line1||'';
-  document.getElementById('hp-l2').value=h.hero_line2||'';
-  document.getElementById('hp-body').value=h.hero_body||'';
-  document.getElementById('hp-lease').value=h.hero_lease||'';
-  rAnn();
+function renderSocialList(){
+  return `<div class="card"><div class="card-h"><div><div class="card-t">Social Feed</div><div class="card-s">LinkedIn & social posts on Hub</div></div><button class="btn btn-d btn-sm" onclick="openM('social')"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add</button></div>
+  <div class="tw"><table><thead><tr><th>Platform</th><th>Caption</th><th>Date</th><th></th></tr></thead>
+  <tbody>${!DB.social.length?'<tr><td colspan="4"><div class="empty"><p>No posts yet</p></div></td></tr>':
+    DB.social.map(p=>`<tr><td><span class="badge b-bl">${p.platform}</span></td><td>${esc(p.caption.slice(0,70))}${p.caption.length>70?'...':''}</td><td style="font-size:12px;color:var(--mid)">${fd(p.date)}</td><td><div style="display:flex;gap:5px">${p.url?`<a href="${p.url}" target="_blank" class="btn btn-o btn-sm">View</a>`:''}<button class="btn btn-r btn-sm" onclick="delSoc('${p.id}')">Delete</button></div></td></tr>`).join('')}
+  </tbody></table></div></div>`;
 }
-function saveHP(){
-  const vi=document.getElementById('hp-v').value.trim();let eu=vi;
-  const wm=vi.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
-  if(wm){const v=wm[1];eu=`https://www.youtube.com/embed/${v}?autoplay=1&mute=1&loop=1&playlist=${v}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`;}
-  DB.homepage.hero_video_url=eu;DB.homepage.hero_line1=document.getElementById('hp-l1').value;DB.homepage.hero_line2=document.getElementById('hp-l2').value;DB.homepage.hero_body=document.getElementById('hp-body').value;DB.homepage.hero_lease=document.getElementById('hp-lease').value;
-  saveL();toast('Homepage saved ✓');
-}
-function rAnn(){
-  const list=document.getElementById('annList');
-  if(!DB.homepage.announcements||!DB.homepage.announcements.length){list.innerHTML='<p style="font-size:13px;color:var(--mid);font-weight:300;padding:8px 0">No messages yet</p>';return;}
-  list.innerHTML=DB.homepage.announcements.map((a,i)=>`<div class="ann-row"><input class="ann-input" type="text" value="${esc(a.text||'')}" onchange="updAnn(${i},'text',this.value)" placeholder="Message text"><input class="ann-input" type="text" value="${esc(a.link_url||'')}" onchange="updAnn(${i},'link_url',this.value)" placeholder="Link URL (opt.)"><input class="ann-input" type="text" value="${esc(a.link_label||'')}" onchange="updAnn(${i},'link_label',this.value)" placeholder="Link text (opt.)"><button class="ann-del" onclick="remAnn(${i})">✕</button></div>`).join('');
-}
-function updAnn(i,k,v){DB.homepage.announcements[i][k]=v;saveL();}
-function remAnn(i){DB.homepage.announcements.splice(i,1);saveL();rAnn();}
-function addAnn(){DB.homepage.announcements.push({text:''});saveL();rAnn();}
-
-// ── SETTINGS ─────────────────────────────────────────────
-function rSett(){document.getElementById('s-ph').value=DB.settings.phone||'';document.getElementById('s-em').value=DB.settings.email||'';document.getElementById('s-ad').value=DB.settings.address||'';}
-function saveSett(){DB.settings.phone=document.getElementById('s-ph').value;DB.settings.email=document.getElementById('s-em').value;DB.settings.address=document.getElementById('s-ad').value;saveL();toast('Saved ✓');}
-function saveGH(){const tok=document.getElementById('ghTok').value.trim();const repo=document.getElementById('ghRepo').value.trim();const branch=document.getElementById('ghBranch').value.trim();if(!tok){toast('Enter a token','e');return;}localStorage.setItem('orion_tok',tok);localStorage.setItem('orion_repo',repo||'dannygrigg/orion-site');localStorage.setItem('orion_branch',branch||'main');testGH();}
-async function testGH(){const tok=localStorage.getItem('orion_tok');const repo=localStorage.getItem('orion_repo')||'dannygrigg/orion-site';if(!tok){ghStat(false,'No token saved');return;}try{const r=await fetch(`https://api.github.com/repos/${repo}`,{headers:{Authorization:`token ${tok}`,Accept:'application/vnd.github.v3+json'}});if(r.ok){ghStat(true,'Connected ✓');toast('GitHub connected ✓');document.getElementById('warnBanner').style.display='none';}else{ghStat(false,'Token error');toast('Token invalid or no repo access','e');}}catch(e){ghStat(false,'Connection failed');}}
-function ghStat(ok,msg){document.getElementById('ghDot').className='dot '+(ok?'dot-g':'dot-r');document.getElementById('ghTxt').textContent=msg;}
-function loadGH(){const tok=localStorage.getItem('orion_tok');const repo=localStorage.getItem('orion_repo');const branch=localStorage.getItem('orion_branch');if(tok){document.getElementById('ghTok').value=tok;document.getElementById('ghRepo').value=repo||'dannygrigg/orion-site';document.getElementById('ghBranch').value=branch||'main';testGH();}else{ghStat(false,'No token — go to Settings');document.getElementById('warnBanner').style.display='flex';}}
+function saveSoc(){const c=document.getElementById('soc-c').value.trim();if(!c){toast('Caption required','e');return;}DB.social.unshift({id:uid(),platform:document.getElementById('soc-p').value,date:document.getElementById('soc-d').value,caption:c,url:document.getElementById('soc-u').value,image:document.getElementById('soc-i').value});saveL();closeM('social');nav('social');toast('Added ✓');}
+function delSoc(id){if(!confirm('Delete?'))return;DB.social=DB.social.filter(x=>x.id!==id);saveL();nav('social');toast('Deleted');}
 
 // ── PUBLISH ───────────────────────────────────────────────
-function updPC(){
-  document.getElementById('pc-news').textContent=DB.news.length+' items';
-  document.getElementById('pc-vault').textContent=DB.vault.length+' docs';
-  document.getElementById('pc-social').textContent=DB.social.length+' posts';
-  const mediaCount=Object.values(DB.pageMedia).reduce((acc,page)=>acc+Object.values(page).filter(Boolean).length,0);
-  document.getElementById('pc-media').textContent=mediaCount+' set';
+function renderPublish(){
+  const mediaCount = Object.values(DB.pages).reduce((a,p)=>a+Object.values(p).filter(v=>v&&typeof v==='string'&&(v.startsWith('http')||v.length>0)).length,0);
+  document.getElementById('mainCt').innerHTML = `
+    <div class="pp">
+      <div class="pp-t">Publish to live site</div>
+      <div class="pp-s">Commits all content to GitHub. Zero copy/paste. Live in ~2 minutes.</div>
+      <div style="display:flex;align-items:center;gap:10px;position:relative;z-index:1">
+        <button class="btn btn-pub" id="pubBtn" onclick="pubAll()">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Publish all changes
+        </button>
+        <span style="font-size:12px;color:rgba(255,255,255,0.4)" id="pubStat"></span>
+      </div>
+      <div class="cl" id="pubLog"></div>
+    </div>
+    <div class="card">
+      <div class="card-h"><div class="card-t">What gets published</div></div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;font-size:13px">
+        ${Object.entries(PAGES).filter(([k,v])=>v.file).map(([k,v])=>{
+          const filled = DB.pages[k] ? Object.values(DB.pages[k]).filter(Boolean).length : 0;
+          return `<div style="background:var(--off);border-radius:var(--r);padding:12px"><div style="font-weight:500;font-size:12px;margin-bottom:3px">${v.label}</div><div style="color:var(--mid);font-weight:300;font-size:11px">${filled} field${filled!==1?'s':''} set</div></div>`;
+        }).join('')}
+        <div style="background:var(--off);border-radius:var(--r);padding:12px"><div style="font-weight:500;font-size:12px;margin-bottom:3px">📰 News</div><div style="color:var(--mid);font-weight:300;font-size:11px">${DB.news.length} items</div></div>
+        <div style="background:var(--off);border-radius:var(--r);padding:12px"><div style="font-weight:500;font-size:12px;margin-bottom:3px">🔒 Vault</div><div style="color:var(--mid);font-weight:300;font-size:11px">${DB.vault.length} docs</div></div>
+        <div style="background:var(--off);border-radius:var(--r);padding:12px"><div style="font-weight:500;font-size:12px;margin-bottom:3px">📱 Social</div><div style="color:var(--mid);font-weight:300;font-size:11px">${DB.social.length} posts</div></div>
+      </div>
+    </div>`;
 }
+
 function qPublish(){nav('publish');pubAll();}
 
 async function pubAll(){
   const tok=localStorage.getItem('orion_tok'),repo=localStorage.getItem('orion_repo')||'dannygrigg/orion-site',branch=localStorage.getItem('orion_branch')||'main';
   if(!tok){toast('Set up GitHub token in Settings first','e');nav('settings');return;}
   const btn=document.getElementById('pubBtn');const stat=document.getElementById('pubStat');const log=document.getElementById('pubLog');
+  if(!btn)return;
   btn.classList.add('ld');btn.textContent='Publishing...';stat.textContent='';log.style.display='block';log.textContent='Starting...\n';
   const files=[
-    {p:'_data/homepage.json',c:JSON.stringify(DB.homepage,null,2)},
+    {p:'_data/pages.json',c:JSON.stringify(DB.pages,null,2)},
     {p:'_data/global.json',c:JSON.stringify(DB.settings,null,2)},
-    {p:'_data/page-media.json',c:JSON.stringify(DB.pageMedia,null,2)},
     {p:'_data/news/index.json',c:JSON.stringify({files:DB.news.map(n=>n.id+'.json')})},
     {p:'_data/vault/index.json',c:JSON.stringify({files:DB.vault.map(v=>v.id+'.json')})},
     {p:'_data/social/index.json',c:JSON.stringify({files:DB.social.map(s=>s.id+'.json')})},
@@ -612,56 +893,103 @@ async function pubAll(){
       await new Promise(r=>setTimeout(r,150));
     }catch(e){fail++;log.textContent+=`❌ ${f.p}: ${e.message}\n`;}
   }
-  // Also fix the rghba typo and update announcement bar colour across all HTML files
-  log.textContent+='\nFixing announcement bar text colour...\n';
+  // Fix rghba typo in all HTML files
+  log.textContent+='\nFixing banner text colour...\n';
   await fixHtmlFiles(tok,repo,branch,log);
   btn.classList.remove('ld');btn.textContent='Publish all changes';
-  if(!fail){stat.textContent=`✅ ${ok} files — live in ~2 min`;log.textContent+=`\n✅ Done! Live at https://dannygrigg.github.io/orion-site/\n`;toast('Published! Live in ~2 minutes 🚀');}
+  if(!fail){stat.textContent=`✅ ${ok} files — live in ~2 min`;log.textContent+=`\n✅ Done! https://dannygrigg.github.io/orion-site/\n`;toast('Published! Live in ~2 minutes 🚀');}
   else{stat.textContent=`⚠️ ${ok} ok, ${fail} failed`;toast(`${fail} files failed — check log`,'e');}
   log.scrollTop=log.scrollHeight;
 }
 
 async function fixHtmlFiles(tok,repo,branch,log){
-  // Fix the rghba typo in all HTML files
   try{
     const listResp=await fetch(`https://api.github.com/repos/${repo}/contents?ref=${branch}`,{headers:{Authorization:`token ${tok}`,Accept:'application/vnd.github.v3+json'}});
     const files=await listResp.json();
-    const htmlFiles=files.filter(f=>f.name.endsWith('.html'));
-    for(const file of htmlFiles){
+    for(const file of files.filter(f=>f.name.endsWith('.html'))){
       try{
         const fr=await fetch(`https://api.github.com/repos/${repo}/contents/${file.name}?ref=${branch}`,{headers:{Authorization:`token ${tok}`,Accept:'application/vnd.github.v3+json'}});
         const fd=await fr.json();
         const content=decodeURIComponent(escape(atob(fd.content.replace(/\n/g,''))));
         if(content.includes('rghba(')){
           const fixed=content.replace(/rghba\(/g,'rgba(');
-          const body={message:`Fix: announcement bar text colour in ${file.name}`,content:btoa(unescape(encodeURIComponent(fixed))),sha:fd.sha,branch};
+          const body={message:`Fix: banner text colour in ${file.name}`,content:btoa(unescape(encodeURIComponent(fixed))),sha:fd.sha,branch};
           const wr=await fetch(`https://api.github.com/repos/${repo}/contents/${file.name}`,{method:'PUT',headers:{Authorization:`token ${tok}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
-          if(wr.ok){log.textContent+=`✅ Fixed banner text in ${file.name}\n`;}
+          if(wr.ok) log.textContent+=`✅ Fixed ${file.name}\n`;
           await new Promise(r=>setTimeout(r,200));
         }
-      }catch(e){log.textContent+=`⚠️ Could not fix ${file.name}\n`;}
+      }catch(e){log.textContent+=`⚠️ ${file.name}: ${e.message}\n`;}
       log.scrollTop=log.scrollHeight;
     }
-  }catch(e){log.textContent+=`⚠️ Could not list HTML files: ${e.message}\n`;}
+  }catch(e){log.textContent+=`⚠️ Could not list HTML: ${e.message}\n`;}
 }
 
-// ── LOCAL STORAGE ─────────────────────────────────────────
+// ── SETTINGS ─────────────────────────────────────────────
+function renderSettings(){
+  document.getElementById('mainCt').innerHTML = `
+    <div class="card">
+      <div class="card-h"><div><div class="card-t">GitHub Connection</div><div class="card-s">One-time setup — paste token once, publish forever</div></div></div>
+      <div class="info">
+        <strong>Get your token in 60 seconds:</strong><br>
+        1. <strong>github.com</strong> → avatar → Settings → Developer settings → Personal access tokens → Tokens (classic)<br>
+        2. Generate new token (classic) → name "Orion Admin" → tick <strong>repo</strong> → Generate<br>
+        3. Copy the token (starts <code>ghp_</code>) → paste below
+      </div>
+      <div class="fg" style="max-width:500px">
+        <div class="field full"><label>GitHub Token</label><input type="password" id="ghTok" placeholder="ghp_..."><span class="field-hint">Stored in your browser only</span></div>
+        <div class="field"><label>Repository</label><input type="text" id="ghRepo" value="${localStorage.getItem('orion_repo')||'dannygrigg/orion-site'}"></div>
+        <div class="field"><label>Branch</label><input type="text" id="ghBranch" value="${localStorage.getItem('orion_branch')||'main'}"></div>
+      </div>
+      <button class="btn btn-d" onclick="saveGH()" style="margin-top:4px">Save & test connection</button>
+    </div>
+    <div class="card">
+      <div class="card-h"><div class="card-t">Change PIN</div></div>
+      <div class="fg" style="max-width:400px">
+        <div class="field"><label>Current PIN</label><input type="password" id="oldPin"></div>
+        <div class="field"><label>New PIN</label><input type="password" id="newPin" placeholder="4–8 digits"></div>
+      </div>
+      <button class="btn btn-d btn-sm" onclick="changePin()" style="margin-top:4px">Update PIN</button>
+    </div>
+    <div class="card">
+      <div class="card-h"><div><div class="card-t">Global Contact Details</div><div class="card-s">Used in footer across all pages</div></div></div>
+      <div class="fg" style="max-width:500px">
+        <div class="field"><label>Phone</label><input type="text" id="s-ph" value="${esc(DB.settings.phone||'')}"></div>
+        <div class="field"><label>Email</label><input type="text" id="s-em" value="${esc(DB.settings.email||'')}"></div>
+        <div class="field full"><label>Address</label><input type="text" id="s-ad" value="${esc(DB.settings.address||'')}"></div>
+      </div>
+      <button class="btn btn-d btn-sm" onclick="saveSett()" style="margin-top:4px">Save</button>
+    </div>
+    <div class="card" style="border-color:rgba(229,62,62,0.3)">
+      <div class="card-h"><div class="card-t" style="color:var(--red)">Danger zone</div></div>
+      <p style="font-size:13px;color:var(--mid);font-weight:300;margin-bottom:12px">Clear all content. Cannot be undone.</p>
+      <button class="btn btn-r btn-sm" onclick="if(confirm('Clear all? Cannot be undone.'))clearAll()">Clear all content</button>
+    </div>`;
+  const tok=localStorage.getItem('orion_tok');
+  if(tok) document.getElementById('ghTok').value=tok;
+}
+
+function saveGH(){const tok=document.getElementById('ghTok').value.trim();const repo=document.getElementById('ghRepo').value.trim();const branch=document.getElementById('ghBranch').value.trim();if(!tok){toast('Enter a token','e');return;}localStorage.setItem('orion_tok',tok);localStorage.setItem('orion_repo',repo||'dannygrigg/orion-site');localStorage.setItem('orion_branch',branch||'main');testGH();}
+async function testGH(){const tok=localStorage.getItem('orion_tok');const repo=localStorage.getItem('orion_repo')||'dannygrigg/orion-site';if(!tok){ghStat(false,'No token');return;}try{const r=await fetch(`https://api.github.com/repos/${repo}`,{headers:{Authorization:`token ${tok}`,Accept:'application/vnd.github.v3+json'}});if(r.ok){ghStat(true,'Connected ✓');toast('GitHub connected ✓');}else{ghStat(false,'Token error');toast('Token invalid or no access','e');}}catch(e){ghStat(false,'Failed');}}
+function ghStat(ok,msg){document.getElementById('ghDot').className='dot '+(ok?'dot-g':'dot-r');document.getElementById('ghTxt').textContent=msg;}
+function loadGH(){const tok=localStorage.getItem('orion_tok');if(tok)testGH();else{ghStat(false,'No token — go to Settings');}}
+function changePin(){const o=document.getElementById('oldPin')?.value,n=document.getElementById('newPin')?.value;if(o!==getPin()){toast('Current PIN incorrect','e');return;}if(!n||n.length<4){toast('PIN must be 4+ digits','e');return;}localStorage.setItem('orion_pin',n);toast('PIN updated ✓');}
+function saveSett(){DB.settings.phone=document.getElementById('s-ph').value;DB.settings.email=document.getElementById('s-em').value;DB.settings.address=document.getElementById('s-ad').value;saveL();toast('Saved ✓');}
+function clearAll(){if(!confirm('Clear ALL content? Cannot be undone.'))return;DB={pages:{},news:[],vault:[],social:[],settings:DB.settings};saveL();nav('homepage');toast('Cleared');}
+
+// ── STORAGE ───────────────────────────────────────────────
 function saveL(){localStorage.setItem('orion_db',JSON.stringify(DB));}
-function loadL(){try{const s=localStorage.getItem('orion_db');if(s){const d=JSON.parse(s);Object.assign(DB,d);if(!DB.pageMedia)DB.pageMedia={};}}catch(e){}}
-function clearAll(){DB={homepage:DB.homepage,news:[],vault:[],social:[],pageMedia:{},settings:DB.settings};saveL();renderAll();toast('Cleared');}
-function renderAll(){rHomepage();rNews();rVault();rSocial();rSett();}
+function loadL(){try{const s=localStorage.getItem('orion_db');if(s){const d=JSON.parse(s);if(d.pages)DB.pages=d.pages;if(d.news)DB.news=d.news;if(d.vault)DB.vault=d.vault;if(d.social)DB.social=d.social;if(d.settings)DB.settings=d.settings;}}catch(e){}}
 
 // ── HELPERS ───────────────────────────────────────────────
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,5);
 const fd=d=>{if(!d)return'';try{return new Date(d).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});}catch(e){return d;}};
 const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 let _tt;
-function toast(msg,t='ok'){const el=document.getElementById('toast');const m=document.getElementById('tMsg');const ico=document.getElementById('tIco');el.className='toast t-'+(t==='e'?'err':'ok');m.textContent=msg;ico.innerHTML=t==='e'?'<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>':'<polyline points="20 6 9 17 4 12"/>';el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),3000);}
+function toast(msg,t='ok'){const el=document.getElementById('toast');document.getElementById('tMsg').textContent=msg;document.getElementById('tIco').innerHTML=t==='e'?'<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>':'<polyline points="20 6 9 17 4 12"/>';el.className='toast t-'+(t==='e'?'err':'ok');el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),3000);}
 
 // ── INIT ──────────────────────────────────────────────────
-function init(){loadL();loadGH();renderAll();nav('home');}
+function init(){loadL();loadGH();nav('homepage');}
 setInterval(()=>{if(document.getElementById('app').style.display!=='none')saveL();},30000);
 </script>
 </body>
 </html>
-
