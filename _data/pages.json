@@ -149,5 +149,10 @@
     "spec6_val": "",
     "cta_h2": "Configure a Helix systemaround your operation",
     "cta_lead": "Enter your throughput, destinations, and parcel mix. Get a live system layout, cost estimate, ROI calculation, and finance options in minutes."
+  },
+  "products": {
+    "hero_image": "",
+    "hero_h1": "Products built for every environment",
+    "hero_sub": "From high-speed parcel sortation to pallet handling and food-grade conveyors — Orion MIS designs, manufactures, and integrates systems built around your specific operation."
   }
 }
