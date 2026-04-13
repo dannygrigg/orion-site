@@ -33,7 +33,7 @@
     const wrap = document.getElementById('heroWrap') || document.querySelector('.hero-video-wrap');
     if (!wrap) return;
     const embedUrl = toEmbed(url);
-    wrap.style.cssText = 'position:relative;overflow:hidden;border-radius:var(--radius-xl,28px) var(--radius-xl,28px) 0 0;aspect-ratio:16/10;background:#000';
+    wrap.style.cssText = 'position:relative;overflow:hidden;aspect-ratio:16/10;background:#000;display:block';
     wrap.innerHTML = '<iframe src="'+embedUrl+'" style="position:absolute;top:-10%;left:-10%;width:120%;height:120%;border:0;pointer-events:none" allow="autoplay;encrypted-media" allowfullscreen></iframe>';
   }
 
