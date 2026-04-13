@@ -193,6 +193,16 @@
     setEl(document.querySelector('.cta-card h2'), d.cta_h2);
     setEl(document.querySelector('.cta-card .section-lead'), d.cta_lead);
 
+    
+    // Show/hide gallery images based on whether src is set
+    document.querySelectorAll('img[data-cms]').forEach(img => {
+      if (img.src && img.src !== '' && !img.src.endsWith('/orion-site/') && img.src !== window.location.href) {
+        img.style.display = 'block';
+      }
+    });
+    // Product visual: show image if set
+    const pv = document.querySelector('.product-visual img');
+    if (pv && pv.src && !pv.src.endsWith('/')) pv.style.display = 'block';
     // data-cms attribute slots
     Object.keys(d).forEach(key => {
       if (!d[key]) return;
