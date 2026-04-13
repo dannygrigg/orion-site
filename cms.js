@@ -203,7 +203,18 @@
     // Product visual: show image if set
     const pv = document.querySelector('.product-visual img');
     if (pv && pv.src && !pv.src.endsWith('/')) pv.style.display = 'block';
-    // data-cms attribute slots
+    
+  // Client logos — show empty slots when src is provided via admin
+  for (let i = 1; i <= 13; i++) {
+    const logoEl = document.querySelector('[data-cms="client_logo_' + i + '"]');
+    if (logoEl && d['client_logo_' + i]) {
+      logoEl.src = d['client_logo_' + i];
+      logoEl.style.display = 'block';
+      const parent = logoEl.closest('.client-logo-item');
+      if (parent) parent.style.display = 'flex';
+    }
+  }
+  // data-cms attribute slots
     Object.keys(d).forEach(key => {
       if (!d[key]) return;
       document.querySelectorAll('[data-cms="'+key+'"]').forEach(el => {
