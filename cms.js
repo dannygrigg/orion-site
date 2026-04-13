@@ -254,6 +254,13 @@
     if (isHub) loadCollections();
   }
 
+  
+  // Show gallery images once src is set
+  document.querySelectorAll('[data-cms]').forEach(el => {
+    if (el.tagName === 'IMG' && el.src && !el.src.endsWith('/') && el.src !== window.location.href) {
+      el.style.display = 'block';
+    }
+  });
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);
   } else {
