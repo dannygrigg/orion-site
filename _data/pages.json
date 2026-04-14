@@ -7,7 +7,7 @@
     "hero_eyebrow": "Helix Modular Sortation",
     "announcements": [
       {
-        "text": "🇬🇧 Designed & manufactured in the UK",
+        "text": "🇬🇧 Designed & manufactured in the UK because we are not communists ",
         "link_url": "",
         "link_label": ""
       },
@@ -195,5 +195,7 @@
     "spec6_val": "",
     "cta_h2": "Configure a Helix systemaround your operation",
     "cta_lead": "Enter your throughput, destinations, and parcel mix. Get a live system layout, cost estimate, ROI calculation, and finance options in minutes."
-  }
+  },
+  "hub": {},
+  "unit-handling": {}
 }
