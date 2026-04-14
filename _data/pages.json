@@ -103,7 +103,18 @@
     "proof4_desc": "Left, right, straight — maximising destination density without increasing footprint.",
     "cta_h2": "Build your business casein minutes",
     "cta_lead": "Enter your throughput, parcel mix, and destinations. Get system size, cost, ROI, and monthly finance options — entry systems from £4,000/month on a 60-month lease. Ready to share internally.",
-    "cta_btn": "Open configurator"
+    "cta_btn": "Open configurator",
+    "media_blocks": [
+      {
+        "type": "video",
+        "title": "sorters in action ",
+        "src": "",
+        "url": "https://www.youtube.com/watch?v=arXARqBWLQ4&t=1793s",
+        "caption": "",
+        "alt": "",
+        "slides": ""
+      }
+    ]
   },
   "products": {
     "hero_image": "",
