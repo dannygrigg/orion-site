@@ -37,6 +37,114 @@
     wrap.innerHTML = '<iframe src="'+embedUrl+'" style="position:absolute;top:-10%;left:-10%;width:120%;height:120%;border:0;pointer-events:none" allow="autoplay;encrypted-media" allowfullscreen></iframe>';
   }
 
+
+  function escapeHtml(s) {
+    return String(s || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function toYouTubeEmbed(url) {
+    if (!url) return '';
+    if (url.includes('/embed/')) return url;
+    const m = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+    if (!m) return url;
+    const v = m[1];
+    return 'https://www.youtube.com/embed/' + v;
+  }
+
+  function renderMediaBlocks(blocks) {
+    const container = document.getElementById('media-blocks');
+    if (!container) return;
+    if (!Array.isArray(blocks) || !blocks.length) {
+      container.innerHTML = '';
+      return;
+    }
+
+    container.innerHTML = blocks.map((block, i) => {
+      if (!block || !block.type) return '';
+      const title = block.title ? `<h3 class="media-block-title">${escapeHtml(block.title)}</h3>` : '';
+
+      if (block.type === 'image') {
+        if (!block.src) return '';
+        return `
+          <section class="section media-block-section">
+            <div class="section-inner">
+              <div class="media-block-card">
+                ${title}
+                <img class="media-block-image" src="${escapeHtml(block.src)}" alt="${escapeHtml(block.alt || '')}">
+              </div>
+            </div>
+          </section>
+        `;
+      }
+
+      if (block.type === 'video') {
+        if (!block.url) return '';
+        const embed = toYouTubeEmbed(block.url);
+        return `
+          <section class="section media-block-section">
+            <div class="section-inner">
+              <div class="media-block-card">
+                ${title}
+                <div class="media-block-video-wrap">
+                  <iframe src="${escapeHtml(embed)}" title="${escapeHtml(block.title || 'Video')}" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+                ${block.caption ? `<p class="media-block-caption">${escapeHtml(block.caption)}</p>` : ''}
+              </div>
+            </div>
+          </section>
+        `;
+      }
+
+      if (block.type === 'carousel') {
+        const slides = String(block.slides || '')
+          .split(/\r?\n/)
+          .map(s => s.trim())
+          .filter(Boolean);
+
+        if (!slides.length) return '';
+        return `
+          <section class="section media-block-section">
+            <div class="section-inner">
+              <div class="media-block-card">
+                ${title}
+                <div class="media-block-carousel" data-carousel="${i}">
+                  <button class="media-nav media-nav-prev" type="button" aria-label="Previous slide">‹</button>
+                  <div class="media-block-carousel-track">
+                    ${slides.map((src, idx) => `
+                      <img class="media-block-carousel-slide ${idx === 0 ? 'is-active' : ''}" src="${escapeHtml(src)}" alt="${escapeHtml((block.title || 'Carousel') + ' ' + (idx + 1))}">
+                    `).join('')}
+                  </div>
+                  <button class="media-nav media-nav-next" type="button" aria-label="Next slide">›</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        `;
+      }
+
+      return '';
+    }).join('');
+
+    container.querySelectorAll('[data-carousel]').forEach(carousel => {
+      const slides = [...carousel.querySelectorAll('.media-block-carousel-slide')];
+      if (!slides.length) return;
+      let current = 0;
+
+      function showSlide(next) {
+        current = (next + slides.length) % slides.length;
+        slides.forEach((slide, idx) => slide.classList.toggle('is-active', idx === current));
+      }
+
+      carousel.querySelector('.media-nav-prev')?.addEventListener('click', () => showSlide(current - 1));
+      carousel.querySelector('.media-nav-next')?.addEventListener('click', () => showSlide(current + 1));
+    });
+  }
+
+
   function applyHomepage(d) {
     if (!d) return;
     applyVideo(d);
@@ -115,6 +223,8 @@
     // CTA
     setEl(document.querySelector('.cta-card h2'), d.cta_h2);
     setEl(document.querySelector('.cta-card .section-lead'), d.cta_lead);
+
+    renderMediaBlocks(d.media_blocks);
 
     // Announcement bar
     if (d.announcements && d.announcements.length) {
