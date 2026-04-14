@@ -245,10 +245,9 @@ tr:hover td{background:var(--off)}
 
 <script>
 // ── SITE BASE URL ─────────────────────────────────────────
-// Use the current site origin so admin works on Netlify or GitHub Pages
-const BASE_PATH = window.location.pathname.includes('/orion-site') ? '/orion-site/' : '/';
-const SITE = window.location.origin + BASE_PATH;
-const DATA_URL = SITE + '_data/pages.json';
+// Since admin.html is served from the same GitHub Pages origin,
+// fetching other pages on the same origin works without CORS issues
+const SITE = window.location.origin + (window.location.pathname.includes('/orion-site') ? '/orion-site/' : '/');
 
 // ── PAGE DEFINITIONS ──────────────────────────────────────
 // Each page: what file to fetch and how to extract its content
@@ -331,9 +330,6 @@ const PAGE_DEFS = {
         {id:'hero_line2',type:'text',label:'Headline line 2 (italic blue)'},
         {id:'hero_body',type:'textarea',label:'Body text'},
       ]},
-      {id:'media',label:'Flexible Media Blocks',icon:'🖼️',fields:[
-        {id:'media_blocks',type:'repeater',label:'Media blocks',cols:['type','title','src','url','caption','alt','slides'],colLabels:['Type: image / video / carousel','Title','Image URL (image only)','Video URL (video only)','Caption (video only)','Alt text (image only)','Carousel slides — one image URL per line']}
-      ]},
       {id:'stats',label:'Stats Bar',icon:'📊',fields:[
         {id:'stat1_label',type:'text',label:'Stat 1 — label'},{id:'stat1_number',type:'text',label:'Stat 1 — number'},{id:'stat1_note',type:'text',label:'Stat 1 — note'},
         {id:'stat2_label',type:'text',label:'Stat 2 — label'},{id:'stat2_number',type:'text',label:'Stat 2 — number'},{id:'stat2_note',type:'text',label:'Stat 2 — note'},
@@ -371,6 +367,9 @@ const PAGE_DEFS = {
         {id:'cta_h2',type:'text',label:'Headline'},
         {id:'cta_lead',type:'textarea',label:'Body text'},
         {id:'cta_btn',type:'text',label:'Button text'},
+      ]},
+      {id:'media',label:'Flexible Media Blocks',icon:'🖼️',fields:[
+        {id:'media_blocks',type:'repeater',label:'Media blocks',cols:['type','title','src','url','caption','alt','slide_urls'],colLabels:['Type (image/video/carousel)','Title','Image URL','Video URL','Caption','Alt text','Carousel image URLs (one per line)']}
       ]},
     ]
   },
@@ -442,6 +441,9 @@ const PAGE_DEFS = {
         {id:'spec6_key',type:'text',label:'Spec 6 key'},{id:'spec6_val',type:'text',label:'Spec 6 value'},
       ]},
       {id:'cta',label:'CTA',icon:'📢',fields:[{id:'cta_h2',type:'text',label:'Headline'},{id:'cta_lead',type:'textarea',label:'Body text'}]},
+      {id:'media',label:'Flexible Media Blocks',icon:'🖼️',fields:[
+        {id:'media_blocks',type:'repeater',label:'Media blocks',cols:['type','title','src','url','caption','alt','slide_urls'],colLabels:['Type (image/video/carousel)','Title','Image URL','Video URL','Caption','Alt text','Carousel image URLs (one per line)']}
+      ]},
     ]
   },
 
@@ -558,19 +560,9 @@ function signout(){document.getElementById('app').style.display='none';document.
 document.getElementById('pinIn').onkeydown=e=>{if(e.key==='Enter')login();};
 
 // ── FETCH LIVE PAGE CONTENT ───────────────────────────────
-
 async function fetchLivePage(pageId) {
-  try {
-    const dataResp = await fetch(DATA_URL + '?nocache=' + Date.now());
-    if (dataResp.ok) {
-      const allPages = await dataResp.json();
-      if (allPages && allPages[pageId]) return allPages[pageId];
-    }
-  } catch (e) {
-    console.warn('Could not fetch pages.json', e);
-  }
-
   const def = PAGE_DEFS[pageId];
+  if(!def || !def.file) return {};
   try {
     const resp = await fetch(SITE + def.file + '?nocache=' + Date.now());
     if(!resp.ok) return {};
@@ -608,7 +600,7 @@ async function renderPageWithFetch(pageId) {
   const ct = document.getElementById('mainCt');
 
   // Show loading state
-  ct.innerHTML = `<div class="pg-loading"><div class="pg-spinner"></div><div class="pg-load-txt">Loading current saved content for ${def.label}…</div></div>`;
+  ct.innerHTML = `<div class="pg-loading"><div class="pg-spinner"></div><div class="pg-load-txt">Fetching live content from ${def.file}…</div></div>`;
 
   // Fetch live data if not cached
   if(!fetchedPages[pageId]) {
@@ -632,7 +624,7 @@ function refreshPage() {
   delete DB.pages[curPage];
   saveL();
   renderPageWithFetch(curPage);
-  toast('Refreshed from current site data ✓');
+  toast('Refreshed from live site ✓');
 }
 
 // ── RENDER PAGE ───────────────────────────────────────────
@@ -642,7 +634,7 @@ function renderPage(pageId, pageData) {
   let html = '';
 
   if(!localStorage.getItem('orion_tok')) {
-    html += `<div class="warn"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><div><div class="warn-t">GitHub token needed to publish</div><div class="warn-s">Go to <strong>Settings</strong> to connect. Content is loaded from the current site data — edit here then click Publish.</div></div></div>`;
+    html += `<div class="warn"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><div><div class="warn-t">GitHub token needed to publish</div><div class="warn-s">Go to <strong>Settings</strong> to connect. Content is loaded from the saved JSON first, with live page scraping used as a fallback.</div></div></div>`;
   }
 
   def.sections.forEach(sec => {
@@ -695,19 +687,15 @@ function renderFieldRows(pageId, sec, pageData) {
   }).join('');
 }
 
-
 function renderRepeater(pageId, f, items) {
   let html = `<div style="margin-bottom:8px"><div class="fr-lbl" style="margin-bottom:8px;font-size:12px;font-weight:500">${f.label}</div><div id="rep-${pageId}-${f.id}">`;
   items.forEach((item,i)=>{
     html += `<div style="border:1px solid var(--border);border-radius:var(--r);padding:10px;margin-bottom:7px;background:var(--off);position:relative">
       <button style="position:absolute;top:7px;right:7px;background:var(--red-bg);border:1px solid rgba(229,62,62,0.2);border-radius:6px;padding:3px 7px;font-size:11px;color:var(--red);cursor:pointer" onclick="delRep('${pageId}','${f.id}',${i})">✕</button>
-      ${f.cols.map((c,ci)=>`<div class="field" style="margin-bottom:7px"><label>${f.colLabels[ci]}</label>${c==='slides'
-        ? `<textarea class="ann-i" style="min-height:88px;resize:vertical" onchange="updRep('${pageId}','${f.id}',${i},'${c}',this.value)" placeholder="One image URL per line">${esc(item[c]||'')}</textarea>`
-        : `<input class="ann-i" type="text" value="${esc(item[c]||'')}" onchange="updRep('${pageId}','${f.id}',${i},'${c}',this.value)">`
-      }</div>`).join('')}
+      ${f.cols.map((c,ci)=>`<div class="field" style="margin-bottom:7px"><label>${f.colLabels[ci]}</label><input class="ann-i" type="text" value="${esc(item[c]||'')}" onchange="updRep('${pageId}','${f.id}',${i},'${c}',this.value)"></div>`).join('')}
     </div>`;
   });
-  html += `</div><button class="btn btn-o btn-sm" style="margin-top:8px" onclick="addRep('${pageId}','${f.id}')"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add item</button></div>`;
+  html += `</div><button class="btn btn-o btn-sm" onclick="addRep('${pageId}','${f.id}')"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add</button></div>`;
   return html;
 }
 
@@ -810,7 +798,7 @@ async function pubAll(){
   log.textContent+='\nFixing banner text colour across all pages...\n';
   await fixHtmlFiles(tok,repo,branch,log);
   btn.classList.remove('ld');btn.textContent='Publish all changes';
-  if(!fail){stat.textContent=`✅ ${ok} files — live in ~2 min`;log.textContent+=`\n✅ Done! ${SITE}\n`;toast('Published! Live in ~2 minutes 🚀');}
+  if(!fail){stat.textContent=`✅ ${ok} files — live in ~2 min`;log.textContent+=`\n✅ Done! https://dannygrigg.github.io/orion-site/\n`;toast('Published! Live in ~2 minutes 🚀');}
   else{stat.textContent=`⚠️ ${ok} ok, ${fail} failed`;toast(`${fail} files failed — check log`,'e');}
   log.scrollTop=log.scrollHeight;
 }
@@ -820,7 +808,7 @@ async function fixHtmlFiles(tok,repo,branch,log){
 }
 
 // ── SETTINGS ─────────────────────────────────────────────
-function renderSettings(){document.getElementById('mainCt').innerHTML=`<div class="card"><div class="card-h"><div><div class="card-t">GitHub Connection</div><div class="card-s">One-time setup — paste token once, publish forever</div></div></div><div class="info"><strong>Get your token in 60 seconds:</strong><br>1. <strong>github.com</strong> → avatar → Settings → Developer settings → Personal access tokens → Tokens (classic)<br>2. Generate new token → name "Orion Admin" → tick <strong>repo</strong> → Generate<br>3. Copy token (starts <code>ghp_</code>) → paste below</div><div class="fg" style="max-width:500px"><div class="field full"><label>GitHub Token</label><input type="password" id="ghTok" placeholder="ghp_..." value="${localStorage.getItem('orion_tok')||''}"><span class="field-hint">Stored in your browser only</span></div><div class="field"><label>Repository</label><input type="text" id="ghRepo" value="${localStorage.getItem('orion_repo')||'dannygrigg/orion-site'}"></div><div class="field"><label>Branch</label><input type="text" id="ghBranch" value="${localStorage.getItem('orion_branch')||'main'}"></div></div><button class="btn btn-d" onclick="saveGH()" style="margin-top:4px">Save &amp; test connection</button></div><div class="card"><div class="card-h"><div class="card-t">Change PIN</div></div><div class="fg" style="max-width:400px"><div class="field"><label>Current PIN</label><input type="password" id="oldPin"></div><div class="field"><label>New PIN</label><input type="password" id="newPin" placeholder="4–8 digits"></div></div><button class="btn btn-d btn-sm" onclick="changePin()" style="margin-top:4px">Update PIN</button></div><div class="card"><div class="card-h"><div><div class="card-t">Global Contact Details</div><div class="card-s">Used in footer across all pages</div></div></div><div class="fg" style="max-width:500px"><div class="field"><label>Phone</label><input type="text" id="s-ph" value="${esc(DB.settings.phone||'')}"></div><div class="field"><label>Email</label><input type="text" id="s-em" value="${esc(DB.settings.email||'')}"></div><div class="field full"><label>Address</label><input type="text" id="s-ad" value="${esc(DB.settings.address||'')}"></div></div><button class="btn btn-d btn-sm" onclick="saveSett()" style="margin-top:4px">Save</button></div><div class="card" style="border-color:rgba(229,62,62,0.3)"><div class="card-h"><div class="card-t" style="color:var(--red)">Danger zone</div></div><p style="font-size:13px;color:var(--mid);font-weight:300;margin-bottom:12px">Clear all saved edits and re-load from the current site data on next load.</p><button class="btn btn-r btn-sm" onclick="if(confirm('Clear all? Will re-load from current site data.'))clearAll()">Clear all content</button></div>`;}
+function renderSettings(){document.getElementById('mainCt').innerHTML=`<div class="card"><div class="card-h"><div><div class="card-t">GitHub Connection</div><div class="card-s">One-time setup — paste token once, publish forever</div></div></div><div class="info"><strong>Get your token in 60 seconds:</strong><br>1. <strong>github.com</strong> → avatar → Settings → Developer settings → Personal access tokens → Tokens (classic)<br>2. Generate new token → name "Orion Admin" → tick <strong>repo</strong> → Generate<br>3. Copy token (starts <code>ghp_</code>) → paste below</div><div class="fg" style="max-width:500px"><div class="field full"><label>GitHub Token</label><input type="password" id="ghTok" placeholder="ghp_..." value="${localStorage.getItem('orion_tok')||''}"><span class="field-hint">Stored in your browser only</span></div><div class="field"><label>Repository</label><input type="text" id="ghRepo" value="${localStorage.getItem('orion_repo')||'dannygrigg/orion-site'}"></div><div class="field"><label>Branch</label><input type="text" id="ghBranch" value="${localStorage.getItem('orion_branch')||'main'}"></div></div><button class="btn btn-d" onclick="saveGH()" style="margin-top:4px">Save &amp; test connection</button></div><div class="card"><div class="card-h"><div class="card-t">Change PIN</div></div><div class="fg" style="max-width:400px"><div class="field"><label>Current PIN</label><input type="password" id="oldPin"></div><div class="field"><label>New PIN</label><input type="password" id="newPin" placeholder="4–8 digits"></div></div><button class="btn btn-d btn-sm" onclick="changePin()" style="margin-top:4px">Update PIN</button></div><div class="card"><div class="card-h"><div><div class="card-t">Global Contact Details</div><div class="card-s">Used in footer across all pages</div></div></div><div class="fg" style="max-width:500px"><div class="field"><label>Phone</label><input type="text" id="s-ph" value="${esc(DB.settings.phone||'')}"></div><div class="field"><label>Email</label><input type="text" id="s-em" value="${esc(DB.settings.email||'')}"></div><div class="field full"><label>Address</label><input type="text" id="s-ad" value="${esc(DB.settings.address||'')}"></div></div><button class="btn btn-d btn-sm" onclick="saveSett()" style="margin-top:4px">Save</button></div><div class="card" style="border-color:rgba(229,62,62,0.3)"><div class="card-h"><div class="card-t" style="color:var(--red)">Danger zone</div></div><p style="font-size:13px;color:var(--mid);font-weight:300;margin-bottom:12px">Clear all saved edits and re-fetch from live site on next load.</p><button class="btn btn-r btn-sm" onclick="if(confirm('Clear all? Will re-fetch from live site.'))clearAll()">Clear all content</button></div>`;}
 
 function saveGH(){const tok=document.getElementById('ghTok').value.trim();const repo=document.getElementById('ghRepo').value.trim();const branch=document.getElementById('ghBranch').value.trim();if(!tok){toast('Enter a token','e');return;}localStorage.setItem('orion_tok',tok);localStorage.setItem('orion_repo',repo||'dannygrigg/orion-site');localStorage.setItem('orion_branch',branch||'main');testGH();}
 async function testGH(){const tok=localStorage.getItem('orion_tok');const repo=localStorage.getItem('orion_repo')||'dannygrigg/orion-site';if(!tok){ghStat(false,'No token');return;}try{const r=await fetch(`https://api.github.com/repos/${repo}`,{headers:{Authorization:`token ${tok}`,Accept:'application/vnd.github.v3+json'}});if(r.ok){ghStat(true,'Connected ✓');toast('GitHub connected ✓');}else{ghStat(false,'Token error');toast('Token invalid or no access','e');}}catch(e){ghStat(false,'Failed');}}
@@ -828,7 +816,7 @@ function ghStat(ok,msg){document.getElementById('ghDot').className='dot '+(ok?'d
 function loadGH(){const tok=localStorage.getItem('orion_tok');if(tok)testGH();else ghStat(false,'No token — go to Settings');}
 function changePin(){const o=document.getElementById('oldPin')?.value,n=document.getElementById('newPin')?.value;if(o!==getPin()){toast('Current PIN incorrect','e');return;}if(!n||n.length<4){toast('PIN must be 4+ digits','e');return;}localStorage.setItem('orion_pin',n);toast('PIN updated ✓');}
 function saveSett(){DB.settings.phone=document.getElementById('s-ph').value;DB.settings.email=document.getElementById('s-em').value;DB.settings.address=document.getElementById('s-ad').value;saveL();toast('Saved ✓');}
-function clearAll(){DB={pages:{},news:[],vault:[],social:[],settings:DB.settings};fetchedPages={};saveL();nav('homepage');toast('Cleared — will re-load from current site data');}
+function clearAll(){DB={pages:{},news:[],vault:[],social:[],settings:DB.settings};fetchedPages={};saveL();nav('homepage');toast('Cleared — will re-fetch from live site');}
 
 // ── STORAGE ───────────────────────────────────────────────
 function saveL(){localStorage.setItem('orion_db',JSON.stringify(DB));}

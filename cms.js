@@ -27,6 +27,56 @@
     return fetch(BASE + path + '?v=' + Date.now()).then(r => r.ok ? r.json() : null).catch(() => null);
   }
 
+
+  function parseSlideUrls(val) {
+    if (!val) return [];
+    if (Array.isArray(val)) return val;
+    return String(val).split(/
++/).map(s => s.trim()).filter(Boolean).map(src => ({ src, alt: '' }));
+  }
+
+  function normalizeBlocks(blocks) {
+    return (blocks || []).map(b => {
+      const block = Object.assign({}, b);
+      if (block.type === 'carousel' && !Array.isArray(block.slides)) {
+        block.slides = parseSlideUrls(block.slide_urls);
+      }
+      return block;
+    });
+  }
+
+  function renderMediaBlocks(blocks, selector) {
+    const container = document.querySelector(selector || '#media-blocks');
+    if (!container) return;
+    const items = normalizeBlocks(blocks);
+    if (!items.length) { container.innerHTML = ''; return; }
+    container.innerHTML = items.map(block => {
+      const title = block.title ? `<h3 class="media-block-title">${block.title}</h3>` : '';
+      if (block.type === 'image') {
+        return `<section class="media-block media-block-${block.type}">${title}<img src="${block.src || ''}" alt="${block.alt || ''}"></section>`;
+      }
+      if (block.type === 'video') {
+        const embed = toEmbed(block.url || '');
+        return `<section class="media-block media-block-${block.type}">${title}<div class="media-video-wrap"><iframe src="${embed}" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>${block.caption ? `<p class="media-block-caption">${block.caption}</p>` : ''}</section>`;
+      }
+      if (block.type === 'carousel') {
+        const slides = normalizeBlocks([block])[0].slides || [];
+        return `<section class="media-block media-block-${block.type}">${title}<div class="media-carousel">${slides.map(slide => `<img src="${slide.src || ''}" alt="${slide.alt || ''}">`).join('')}</div>${block.caption ? `<p class="media-block-caption">${block.caption}</p>` : ''}</section>`;
+      }
+      return '';
+    }).join('');
+  }
+
+  function applyAnnouncements(items) {
+    const track = document.querySelector('.announcement-track');
+    if (!track || !items || !items.length) return;
+    const doubled = [...items, ...items];
+    track.innerHTML = doubled.map(a => {
+      const txt = a.link_url ? a.text + ' <a href="' + a.link_url + '">' + (a.link_label || a.link_url) + '</a>' : a.text;
+      return '<span class="announcement-item">' + txt + '</span><span class="announcement-sep">·</span>';
+    }).join('');
+  }
+
   function applyVideo(d) {
     const url = d.hero_video_url;
     if (!url) return;
@@ -36,114 +86,6 @@
     wrap.style.cssText = 'position:relative;overflow:hidden;aspect-ratio:16/10;background:#000;display:block';
     wrap.innerHTML = '<iframe src="'+embedUrl+'" style="position:absolute;top:-10%;left:-10%;width:120%;height:120%;border:0;pointer-events:none" allow="autoplay;encrypted-media" allowfullscreen></iframe>';
   }
-
-
-  function escapeHtml(s) {
-    return String(s || '')
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
-
-  function toYouTubeEmbed(url) {
-    if (!url) return '';
-    if (url.includes('/embed/')) return url;
-    const m = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
-    if (!m) return url;
-    const v = m[1];
-    return 'https://www.youtube.com/embed/' + v;
-  }
-
-  function renderMediaBlocks(blocks) {
-    const container = document.getElementById('media-blocks');
-    if (!container) return;
-    if (!Array.isArray(blocks) || !blocks.length) {
-      container.innerHTML = '';
-      return;
-    }
-
-    container.innerHTML = blocks.map((block, i) => {
-      if (!block || !block.type) return '';
-      const title = block.title ? `<h3 class="media-block-title">${escapeHtml(block.title)}</h3>` : '';
-
-      if (block.type === 'image') {
-        if (!block.src) return '';
-        return `
-          <section class="section media-block-section">
-            <div class="section-inner">
-              <div class="media-block-card">
-                ${title}
-                <img class="media-block-image" src="${escapeHtml(block.src)}" alt="${escapeHtml(block.alt || '')}">
-              </div>
-            </div>
-          </section>
-        `;
-      }
-
-      if (block.type === 'video') {
-        if (!block.url) return '';
-        const embed = toYouTubeEmbed(block.url);
-        return `
-          <section class="section media-block-section">
-            <div class="section-inner">
-              <div class="media-block-card">
-                ${title}
-                <div class="media-block-video-wrap">
-                  <iframe src="${escapeHtml(embed)}" title="${escapeHtml(block.title || 'Video')}" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                </div>
-                ${block.caption ? `<p class="media-block-caption">${escapeHtml(block.caption)}</p>` : ''}
-              </div>
-            </div>
-          </section>
-        `;
-      }
-
-      if (block.type === 'carousel') {
-        const slides = String(block.slides || '')
-          .split(/\r?\n/)
-          .map(s => s.trim())
-          .filter(Boolean);
-
-        if (!slides.length) return '';
-        return `
-          <section class="section media-block-section">
-            <div class="section-inner">
-              <div class="media-block-card">
-                ${title}
-                <div class="media-block-carousel" data-carousel="${i}">
-                  <button class="media-nav media-nav-prev" type="button" aria-label="Previous slide">‹</button>
-                  <div class="media-block-carousel-track">
-                    ${slides.map((src, idx) => `
-                      <img class="media-block-carousel-slide ${idx === 0 ? 'is-active' : ''}" src="${escapeHtml(src)}" alt="${escapeHtml((block.title || 'Carousel') + ' ' + (idx + 1))}">
-                    `).join('')}
-                  </div>
-                  <button class="media-nav media-nav-next" type="button" aria-label="Next slide">›</button>
-                </div>
-              </div>
-            </div>
-          </section>
-        `;
-      }
-
-      return '';
-    }).join('');
-
-    container.querySelectorAll('[data-carousel]').forEach(carousel => {
-      const slides = [...carousel.querySelectorAll('.media-block-carousel-slide')];
-      if (!slides.length) return;
-      let current = 0;
-
-      function showSlide(next) {
-        current = (next + slides.length) % slides.length;
-        slides.forEach((slide, idx) => slide.classList.toggle('is-active', idx === current));
-      }
-
-      carousel.querySelector('.media-nav-prev')?.addEventListener('click', () => showSlide(current - 1));
-      carousel.querySelector('.media-nav-next')?.addEventListener('click', () => showSlide(current + 1));
-    });
-  }
-
 
   function applyHomepage(d) {
     if (!d) return;
@@ -224,19 +166,7 @@
     setEl(document.querySelector('.cta-card h2'), d.cta_h2);
     setEl(document.querySelector('.cta-card .section-lead'), d.cta_lead);
 
-    renderMediaBlocks(d.media_blocks);
-
-    // Announcement bar
-    if (d.announcements && d.announcements.length) {
-      const track = document.querySelector('.announcement-track');
-      if (track) {
-        const doubled = [...d.announcements, ...d.announcements];
-        track.innerHTML = doubled.map(a => {
-          const txt = a.link_url ? a.text+' <a href="'+a.link_url+'">'+(a.link_label||a.link_url)+'</a>' : a.text;
-          return '<span class="announcement-item">'+txt+'</span><span class="announcement-sep">·</span>';
-        }).join('');
-      }
-    }
+    renderMediaBlocks(d.media_blocks, '#media-blocks');
   }
 
   function applyPage(d) {
@@ -313,6 +243,8 @@
     // Product visual: show image if set
     const pv = document.querySelector('.product-visual img');
     if (pv && pv.src && !pv.src.endsWith('/')) pv.style.display = 'block';
+
+    renderMediaBlocks(d.media_blocks, '#media-blocks');
     
   // Client logos — show empty slots when src is provided via admin
   for (let i = 1; i <= 13; i++) {
@@ -377,19 +309,14 @@
     const isHub = PAGE === 'hub';
 
     get('/_data/pages.json').then(allPages => {
-      if (!allPages) return;
-      if (isHome && allPages.homepage) applyHomepage(allPages.homepage);
-      else if (allPages[PAGE]) applyPage(allPages[PAGE]);
-    });
-
-    if (isHub) loadCollections();
-  }
-
-  
-  // Show gallery images once src is set
-  document.querySelectorAll('[data-cms]').forEach(el => {
-    if (el.tagName === 'IMG' && el.src && !el.src.endsWith('/') && el.src !== window.location.href) {
-      el.style.display = 'block';
+    if (!allPages) return;
+    if (allPages.homepage && allPages.homepage.announcements) {
+      applyAnnouncements(allPages.homepage.announcements);
+    }
+    if (PAGE === 'index') {
+      applyHomepage(allPages.homepage || {});
+    } else {
+      applyPage(allPages[PAGE] || {});
     }
   });
   if (document.readyState === 'loading') {
