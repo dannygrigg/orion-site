@@ -3,7 +3,7 @@
     "hero_video_url": "https://www.youtube.com/watch?v=53RZuWy3kXI",
     "hero_line1": "Your throughput is growing.",
     "hero_line2": "Your building isn't.",
-    "hero_body": "Increase sortation capacity inside your existing facility. Compact, modular, and designed and manufactured in the UK. Available on flexible lease — from £1,000/month. TEST",
+    "hero_body": "Increase sortation capacity inside your existing facility. Compact, modular, and designed and manufactured in the UK. Available on flexible lease — from £1,000/month.",
     "hero_eyebrow": "Helix Modular Sortation",
     "announcements": [
       {
@@ -42,7 +42,7 @@
         "link_label": ""
       },
       {
-        "text": "🏭 87% UK manufactured components",
+        "text": "🏭 87% UK manufactured components (of course (",
         "link_url": "",
         "link_label": ""
       }
@@ -104,55 +104,5 @@
     "cta_h2": "Build your business casein minutes",
     "cta_lead": "Enter your throughput, parcel mix, and destinations. Get system size, cost, ROI, and monthly finance options — entry systems from £4,000/month on a 60-month lease. Ready to share internally.",
     "cta_btn": "Open configurator"
-  },
-  "helix-product": {
-    "hero_video_url": "",
-    "hero_eyebrow": "",
-    "hero_h1": "The <em>Helix</em> sortation system",
-    "hero_sub": "",
-    "stat1_label": "Max throughput",
-    "stat1_number": "20,000+",
-    "stat1_note": "parcels per hour",
-    "stat2_label": "Module pitch",
-    "stat2_number": "300mm",
-    "stat2_note": "per cassette module",
-    "stat3_label": "Sort directions",
-    "stat3_number": "3-way",
-    "stat3_note": "left / right / straight",
-    "stat4_label": "Standard warranty",
-    "stat4_number": "24 mo",
-    "stat4_note": "on every system",
-    "main_image": "",
-    "feat1_title": "",
-    "feat1_desc": "",
-    "feat2_title": "",
-    "feat2_desc": "",
-    "feat3_title": "",
-    "feat3_desc": "",
-    "feat4_title": "",
-    "feat4_desc": "",
-    "feat5_title": "",
-    "feat5_desc": "",
-    "feat6_title": "",
-    "feat6_desc": "",
-    "spec1_key": "",
-    "spec1_val": "",
-    "spec2_key": "",
-    "spec2_val": "",
-    "spec3_key": "",
-    "spec3_val": "",
-    "spec4_key": "",
-    "spec4_val": "",
-    "spec5_key": "",
-    "spec5_val": "",
-    "spec6_key": "",
-    "spec6_val": "",
-    "cta_h2": "Configure a Helix systemaround your operation",
-    "cta_lead": "Enter your throughput, destinations, and parcel mix. Get a live system layout, cost estimate, ROI calculation, and finance options in minutes."
-  },
-  "products": {
-    "hero_image": "",
-    "hero_h1": "Products built for every environment",
-    "hero_sub": "From high-speed parcel sortation to pallet handling and food-grade conveyors — Orion MIS designs, manufactures, and integrates systems built around your specific operation."
   }
 }
