@@ -301,18 +301,6 @@ h2 em { font-style: italic; color: var(--blue); }
 .modular-point-title { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
 .modular-point-desc { font-size: 14px; font-weight: 300; color: var(--mid-gray); line-height: 1.65; }
 
-
-.media-section{padding:72px 48px;background:var(--off-white,#f5f5f7)}
-.media-section .section-inner{max-width:1280px;margin:0 auto}
-.media-block{background:#fff;border:1px solid var(--border,#e2e2e7);border-radius:20px;padding:18px;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
-.media-block-title{font-size:18px;font-weight:500;letter-spacing:-0.01em;margin-bottom:12px}
-.media-block img{width:100%;display:block;border-radius:14px;object-fit:cover}
-.media-video-wrap{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:16/9;background:#000}
-.media-video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.media-block-caption{font-size:13px;color:var(--mid-gray,#86868b);margin-top:10px}
-.media-carousel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-@media(max-width:767px){.media-section{padding:48px 20px}.media-carousel{grid-template-columns:1fr}}
-
 /* ── CTA ── */
 .cta-section { padding: 72px 48px; }
 .cta-card {
@@ -451,6 +439,16 @@ footer { background: var(--dark); padding: 64px 48px 40px; }
   .thumb-row{flex-wrap:wrap}
   h1{font-size:clamp(24px,8vw,36px)!important}
 }
+
+/* ── FLEXIBLE MEDIA BLOCKS ── */
+.media-dyn-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-sm)}
+.media-dyn-card h3{font-size:20px;font-weight:500;letter-spacing:-0.01em;margin-bottom:16px}
+.media-dyn-card p{font-size:14px;font-weight:300;line-height:1.7;color:var(--mid-gray);margin-top:12px}
+.media-dyn-card img{width:100%;display:block;border-radius:14px}
+.media-dyn-video{position:relative;overflow:hidden;border-radius:14px;aspect-ratio:16/9;background:#000}
+.media-dyn-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.media-dyn-carousel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+
 </style>
 </head>
 <body>
@@ -790,6 +788,8 @@ footer { background: var(--dark); padding: 64px 48px 40px; }
     </div>
   </div>
 </section>
+
+<div id="media-blocks"></div>
 
 <!-- CTA -->
 <div class="cta-section">
