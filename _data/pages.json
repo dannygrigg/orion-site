@@ -171,5 +171,40 @@
         "slides": "https://placehold.co/1200x800?text=Render+1\nhttps://placehold.co/1200x800?text=Render+2"
       }
     ]
+  },
+  "products": {
+    "hero_image": "",
+    "hero_h1": "Products built for every environment",
+    "hero_sub": "From high-speed parcel sortation to pallet handling and food-grade conveyors — Orion MIS designs, manufactures, and integrates systems built around your specific operation."
+  },
+  "solutions": {
+    "hero_image": "",
+    "hero_eyebrow": "",
+    "hero_h1": "Every operation is different.Our systems adapt.",
+    "hero_sub": "From e-commerce fulfilment to food manufacturing and automotive production — Orion MIS has delivered automation systems across every major industrial sector.",
+    "sol1_tag": "",
+    "sol1_title": "",
+    "sol1_desc": "",
+    "sol2_tag": "",
+    "sol2_title": "",
+    "sol2_desc": "",
+    "sol3_tag": "",
+    "sol3_title": "",
+    "sol3_desc": "",
+    "sol4_tag": "",
+    "sol4_title": "",
+    "sol4_desc": "",
+    "sol5_tag": "",
+    "sol5_title": "",
+    "sol5_desc": ""
+  },
+  "case-studies": {
+    "hero_image": "",
+    "hero_h1": "Real operations, real outcomes",
+    "hero_sub": "Every Orion system is built around a specific operational challenge. Here's how we've solved them — with the numbers to back it up.",
+    "cs1_title": "",
+    "cs2_title": "",
+    "cs3_title": "",
+    "cs4_title": ""
   }
 }
