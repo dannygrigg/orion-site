@@ -27,50 +27,6 @@
     return fetch(BASE + path + '?v=' + Date.now()).then(r => r.ok ? r.json() : null).catch(() => null);
   }
 
-  function normalizeSlides(slides) {
-    if (Array.isArray(slides)) return slides;
-    if (typeof slides === 'string') {
-      return slides.split(/\n|,/).map(s => s.trim()).filter(Boolean).map(src => ({ src, alt: '' }));
-    }
-    return [];
-  }
-
-  function applyAnnouncements(items) {
-    if (!items || !items.length) return;
-    const track = document.querySelector('.announcement-track');
-    if (!track) return;
-    const doubled = [...items, ...items];
-    track.innerHTML = doubled.map(a => {
-      const txt = a.link_url
-        ? a.text + ' <a href="' + a.link_url + '">' + (a.link_label || a.link_url) + '</a>'
-        : a.text;
-      return '<span class="announcement-item">' + txt + '</span><span class="announcement-sep">·</span>';
-    }).join('');
-  }
-
-  function renderMediaBlocks(blocks) {
-    const container = document.getElementById('media-blocks');
-    if (!container) return;
-    if (!blocks || !blocks.length) { container.innerHTML = ''; return; }
-    container.innerHTML = blocks.map(block => {
-      const type = (block.type || '').toLowerCase();
-      if (type === 'image' && block.src) {
-        return `<section class="section media-dyn-section"><div class="section-inner"><div class="media-dyn-card"><h3>${block.title || ''}</h3><img src="${block.src}" alt="${block.alt || ''}" /></div></div></section>`;
-      }
-      if (type === 'video' && block.url) {
-        const m = block.url.match(/(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]+)/);
-        const embed = block.url.includes('/embed/') ? block.url : (m ? 'https://www.youtube.com/embed/' + m[1] : block.url);
-        return `<section class="section media-dyn-section"><div class="section-inner"><div class="media-dyn-card"><h3>${block.title || ''}</h3><div class="media-dyn-video"><iframe src="${embed}" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>${block.caption ? `<p>${block.caption}</p>` : ''}</div></div></section>`;
-      }
-      if (type === 'carousel') {
-        const slides = normalizeSlides(block.slides);
-        if (!slides.length) return '';
-        return `<section class="section media-dyn-section"><div class="section-inner"><div class="media-dyn-card"><h3>${block.title || ''}</h3><div class="media-dyn-carousel">${slides.map(s => `<img src="${s.src || ''}" alt="${s.alt || ''}" />`).join('')}</div></div></div></section>`;
-      }
-      return '';
-    }).join('');
-  }
-
   function applyVideo(d) {
     const url = d.hero_video_url;
     if (!url) return;
@@ -159,7 +115,18 @@
     // CTA
     setEl(document.querySelector('.cta-card h2'), d.cta_h2);
     setEl(document.querySelector('.cta-card .section-lead'), d.cta_lead);
-    renderMediaBlocks(d.media_blocks);
+
+    // Announcement bar
+    if (d.announcements && d.announcements.length) {
+      const track = document.querySelector('.announcement-track');
+      if (track) {
+        const doubled = [...d.announcements, ...d.announcements];
+        track.innerHTML = doubled.map(a => {
+          const txt = a.link_url ? a.text+' <a href="'+a.link_url+'">'+(a.link_label||a.link_url)+'</a>' : a.text;
+          return '<span class="announcement-item">'+txt+'</span><span class="announcement-sep">·</span>';
+        }).join('');
+      }
+    }
   }
 
   function applyPage(d) {
@@ -225,9 +192,10 @@
     // CTA
     setEl(document.querySelector('.cta-card h2'), d.cta_h2);
     setEl(document.querySelector('.cta-card .section-lead'), d.cta_lead);
+
+    renderRenderGallery(d.renders);
     renderMediaBlocks(d.media_blocks);
 
-    
     // Show/hide gallery images based on whether src is set
     document.querySelectorAll('img[data-cms]').forEach(img => {
       if (img.src && img.src !== '' && !img.src.endsWith('/orion-site/') && img.src !== window.location.href) {
@@ -255,6 +223,57 @@
         if (el.tagName === 'IMG') el.src = d[key]; else setEl(el, d[key]);
       });
     });
+  }
+
+
+  function renderRenderGallery(renders) {
+    const section = document.getElementById('helix-renders-section');
+    const container = document.getElementById('helix-renders');
+    if (!section || !container) return;
+    const items = (renders || []).filter(r => r && r.src);
+    if (!items.length) { section.style.display = 'none'; return; }
+    section.style.display = 'block';
+    container.innerHTML = items.map(r => `
+      <figure style="background:white;border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm)">
+        <img src="${r.src}" alt="${r.alt||r.title||''}" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block" onerror="this.closest('figure').style.display='none'">
+        ${r.title ? `<figcaption style="padding:12px 14px;font-size:13px;font-weight:500;color:var(--dark)">${r.title}</figcaption>` : ''}
+      </figure>
+    `).join('');
+  }
+
+  function renderMediaBlocks(blocks) {
+    const section = document.getElementById('media-blocks-section');
+    const container = document.getElementById('media-blocks');
+    if (!section || !container) return;
+    const items = (blocks || []).filter(Boolean);
+    if (!items.length) { section.style.display = 'none'; return; }
+    section.style.display = 'block';
+    container.innerHTML = items.map(block => {
+      if (block.type === 'video' && block.url) {
+        const embed = toEmbed(block.url);
+        return `<section style="background:white;border:1px solid var(--border);border-radius:22px;overflow:hidden;box-shadow:var(--shadow-sm);margin-bottom:20px">
+          <div style="aspect-ratio:16/9;background:#000;position:relative"><iframe src="${embed}" style="position:absolute;inset:0;width:100%;height:100%;border:0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+          <div style="padding:18px 20px">${block.title ? `<h3 style="font-size:20px;letter-spacing:-0.01em;margin-bottom:6px">${block.title}</h3>` : ''}${block.caption ? `<p style="font-size:14px;line-height:1.65;color:var(--mid-gray)">${block.caption}</p>` : ''}</div>
+        </section>`;
+      }
+      if (block.type === 'carousel') {
+        const slides = String(block.slides || '').split(/
++/).map(s=>s.trim()).filter(Boolean);
+        if (!slides.length) return '';
+        return `<section style="background:white;border:1px solid var(--border);border-radius:22px;padding:18px 18px 14px;box-shadow:var(--shadow-sm);margin-bottom:20px">
+          ${block.title ? `<h3 style="font-size:20px;letter-spacing:-0.01em;margin-bottom:14px">${block.title}</h3>` : ''}
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">${slides.map(src => `<img src="${src}" alt="${block.alt||block.title||''}" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px;border:1px solid var(--border-light)" onerror="this.style.display='none'">`).join('')}</div>
+        </section>`;
+      }
+      if (block.url || block.src) {
+        const src = block.src || block.url;
+        return `<section style="background:white;border:1px solid var(--border);border-radius:22px;overflow:hidden;box-shadow:var(--shadow-sm);margin-bottom:20px">
+          <img src="${src}" alt="${block.alt||block.title||''}" style="width:100%;aspect-ratio:16/10;object-fit:cover;display:block" onerror="this.closest('section').style.display='none'">
+          ${block.title || block.caption ? `<div style="padding:18px 20px">${block.title ? `<h3 style="font-size:20px;letter-spacing:-0.01em;margin-bottom:${block.caption ? '6px':'0'}">${block.title}</h3>` : ''}${block.caption ? `<p style="font-size:14px;line-height:1.65;color:var(--mid-gray)">${block.caption}</p>` : ''}</div>` : ''}
+        </section>`;
+      }
+      return '';
+    }).join('');
   }
 
   function loadCollections(data) {
@@ -302,7 +321,6 @@
 
     get('/_data/pages.json').then(allPages => {
       if (!allPages) return;
-      applyAnnouncements((allPages.global && allPages.global.announcements) || (allPages.homepage && allPages.homepage.announcements) || []);
       if (isHome && allPages.homepage) applyHomepage(allPages.homepage);
       else if (allPages[PAGE]) applyPage(allPages[PAGE]);
     });

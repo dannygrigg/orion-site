@@ -247,15 +247,7 @@ tr:hover td{background:var(--off)}
 // ── SITE BASE URL ─────────────────────────────────────────
 // Since admin.html is served from the same GitHub Pages origin,
 // fetching other pages on the same origin works without CORS issues
-const SITE = window.location.origin + (window.location.pathname.includes('/orion-site') ? '/orion-site/' : '/');
-
-async function fetchPagesJson(){
-  try{
-    const r = await fetch(SITE + '_data/pages.json?v=' + Date.now());
-    if(!r.ok) return null;
-    return await r.json();
-  }catch(e){ return null; }
-}
+const SITE = 'https://dannygrigg.github.io/orion-site/';
 
 // ── PAGE DEFINITIONS ──────────────────────────────────────
 // Each page: what file to fetch and how to extract its content
@@ -337,9 +329,6 @@ const PAGE_DEFS = {
         {id:'hero_line1',type:'text',label:'Headline line 1'},
         {id:'hero_line2',type:'text',label:'Headline line 2 (italic blue)'},
         {id:'hero_body',type:'textarea',label:'Body text'},
-      ]},
-      {id:'media',label:'Flexible Media Blocks',icon:'🧩',fields:[
-        {id:'media_blocks',type:'repeater',label:'Homepage media blocks',cols:['type','title','src','url','caption','alt','slides'],colLabels:['Type (image / video / carousel)','Title','Image URL','Video URL','Caption','Alt text','Carousel image URLs']}
       ]},
       {id:'stats',label:'Stats Bar',icon:'📊',fields:[
         {id:'stat1_label',type:'text',label:'Stat 1 — label'},{id:'stat1_number',type:'text',label:'Stat 1 — number'},{id:'stat1_note',type:'text',label:'Stat 1 — note'},
@@ -449,6 +438,12 @@ const PAGE_DEFS = {
         {id:'spec6_key',type:'text',label:'Spec 6 key'},{id:'spec6_val',type:'text',label:'Spec 6 value'},
       ]},
       {id:'cta',label:'CTA',icon:'📢',fields:[{id:'cta_h2',type:'text',label:'Headline'},{id:'cta_lead',type:'textarea',label:'Body text'}]},
+      {id:'renders',label:'Helix Renders',icon:'🖼️',fields:[
+        {id:'renders',type:'repeater',label:'Render gallery',cols:['title','src','alt'],colLabels:['Title','Image URL','Alt text'],textareaCols:[]}
+      ]},
+      {id:'media',label:'Flexible Media Blocks',icon:'🎞️',fields:[
+        {id:'media_blocks',type:'repeater',label:'Blocks',cols:['type','title','url','caption','alt','slides'],colLabels:['Type (image/video/carousel)','Title','Image or video URL','Caption','Alt text','Carousel image URLs (one per line)'],textareaCols:['slides']}
+      ]},
     ]
   },
 
@@ -603,21 +598,21 @@ function nav(id) {
 async function renderPageWithFetch(pageId) {
   const def = PAGE_DEFS[pageId];
   const ct = document.getElementById('mainCt');
-  ct.innerHTML = `<div class="pg-loading"><div class="pg-spinner"></div><div class="pg-load-txt">Loading saved content for ${def.label}…</div></div>`;
 
-  const allPages = await fetchPagesJson();
-  const jsonData = allPages && allPages[pageId] ? allPages[pageId] : null;
+  // Show loading state
+  ct.innerHTML = `<div class="pg-loading"><div class="pg-spinner"></div><div class="pg-load-txt">Fetching live content from ${def.file}…</div></div>`;
 
+  // Fetch live data if not cached
   if(!fetchedPages[pageId]) {
     fetchedPages[pageId] = await fetchLivePage(pageId);
   }
-  const liveData = fetchedPages[pageId] || {};
+  const liveData = fetchedPages[pageId];
 
-  const baseData = Object.assign({}, liveData, jsonData || {});
-  const pageData = Object.assign({}, baseData, DB.pages[pageId] || {});
-
+  // Merge: saved edits take priority over live data (so your changes persist)
+  const pageData = Object.assign({}, liveData, DB.pages[pageId]||{});
+  // But if no saved data yet, use the live data as starting point
   if(!DB.pages[pageId] || Object.keys(DB.pages[pageId]).length === 0) {
-    DB.pages[pageId] = {...baseData};
+    DB.pages[pageId] = {...liveData};
     saveL();
   }
 
@@ -693,18 +688,14 @@ function renderFieldRows(pageId, sec, pageData) {
 }
 
 function renderRepeater(pageId, f, items) {
+  const textareaCols = f.textareaCols || [];
   let html = `<div style="margin-bottom:8px"><div class="fr-lbl" style="margin-bottom:8px;font-size:12px;font-weight:500">${f.label}</div><div id="rep-${pageId}-${f.id}">`;
   items.forEach((item,i)=>{
     html += `<div style="border:1px solid var(--border);border-radius:var(--r);padding:10px;margin-bottom:7px;background:var(--off);position:relative">
       <button style="position:absolute;top:7px;right:7px;background:var(--red-bg);border:1px solid rgba(229,62,62,0.2);border-radius:6px;padding:3px 7px;font-size:11px;color:var(--red);cursor:pointer" onclick="delRep('${pageId}','${f.id}',${i})">✕</button>
-      ${f.cols.map((c,ci)=>{
-        const isLong = c === 'slides' || c === 'caption';
-        const val = esc(item[c]||'');
-        return `<div class="field" style="margin-bottom:7px"><label>${f.colLabels[ci]}</label>${isLong
-          ? `<textarea class="ann-i" style="min-height:${c==='slides'?'90px':'56px'}" onchange="updRep('${pageId}','${f.id}',${i},'${c}',this.value)">${val}</textarea>`
-          : `<input class="ann-i" type="text" value="${val}" onchange="updRep('${pageId}','${f.id}',${i},'${c}',this.value)">`
-        }${c==='slides' ? '<div class="field-hint">One image URL per line</div>' : ''}</div>`;
-      }).join('')}
+      ${f.cols.map((c,ci)=>`<div class="field" style="margin-bottom:7px"><label>${f.colLabels[ci]}</label>${textareaCols.includes(c)
+        ? `<textarea class="ann-i" style="min-height:72px;line-height:1.5;resize:vertical" onchange="updRep('${pageId}','${f.id}',${i},'${c}',this.value)">${esc(item[c]||'')}</textarea>`
+        : `<input class="ann-i" type="text" value="${esc(item[c]||'')}" onchange="updRep('${pageId}','${f.id}',${i},'${c}',this.value)">`}</div>`).join('')}
     </div>`;
   });
   html += `</div><button class="btn btn-o btn-sm" onclick="addRep('${pageId}','${f.id}')"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add</button></div>`;
