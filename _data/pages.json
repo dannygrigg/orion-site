@@ -3,47 +3,52 @@
     "hero_video_url": "https://www.youtube.com/watch?v=53RZuWy3kXI",
     "hero_line1": "Your throughput is growing.",
     "hero_line2": "Your building isn't.",
-    "hero_body": "Increase sortation capacity inside your existing facility. Compact, modular, and designed and manufactured in the UK. Available on flexible lease \u2014 from \u00a31,000/month. TEST",
+    "hero_body": "Increase sortation capacity inside your existing facility. Compact, modular, and designed and manufactured in the UK. Available on flexible lease — from £1,000/month.",
     "hero_eyebrow": "Helix Modular Sortation",
     "announcements": [
       {
-        "text": "\ud83c\uddec\ud83c\udde7 Designed & manufactured in the UK",
+        "text": "🇬🇧 Designed & manufactured in the UK",
         "link_url": "",
         "link_label": ""
       },
       {
-        "text": "\u26a1 Work out your ROI, monthly lease & system cost \u2014",
+        "text": "⚡ Work out your ROI, monthly lease & system cost —",
         "link_url": "helix-configurator.html",
         "link_label": "try the configurator"
       },
       {
-        "text": "\ud83d\udce6 Up to 20,000 parcels per hour",
+        "text": "📦 Up to 20,000 parcels per hour",
         "link_url": "",
         "link_label": ""
       },
       {
-        "text": "\ud83d\udd27 15-minute mean time to repair",
+        "text": "🔧 15-minute mean time to repair",
         "link_url": "",
         "link_label": ""
       },
       {
-        "text": "\ud83d\udcb7 Flexible operating lease from \u00a31,000/month",
+        "text": "💷 Flexible operating lease from £1,000/month",
         "link_url": "",
         "link_label": ""
       },
       {
-        "text": "\u2705 24-month parts & labour warranty",
+        "text": "✅ 24-month parts & labour warranty",
         "link_url": "",
         "link_label": ""
       },
       {
-        "text": "\ud83d\ude80 Typical installation in under 4 weeks",
+        "text": "🚀 Typical installation in under 4 weeks",
         "link_url": "",
         "link_label": ""
       },
       {
-        "text": "\ud83c\udfed 87% UK manufactured components",
+        "text": "🏭 87% UK manufactured components",
         "link_url": "",
+        "link_label": ""
+      },
+      {
+        "text": "connect with us on all our socials ",
+        "link_url": "https://linktr.ee/danny.griggORION",
         "link_label": ""
       }
     ],
@@ -51,8 +56,8 @@
     "stat1_number": "20,000+",
     "stat1_note": "parcels per hour",
     "stat2_label": "Lease from",
-    "stat2_number": "\u00a31,000",
-    "stat2_note": "per month \u2014 subject to spec & finance approval",
+    "stat2_number": "£1,000",
+    "stat2_note": "per month — subject to spec & finance approval",
     "stat3_label": "Mean time to repair",
     "stat3_number": "15 min",
     "stat3_note": "on critical components",
@@ -60,9 +65,9 @@
     "stat4_number": "24 mo",
     "stat4_note": "on every system",
     "feat1_title": "Modular by design",
-    "feat1_desc": "Add or reconfigure 300mm cassette modules as your operation grows. Capacity scales with your business \u2014 not your building.",
+    "feat1_desc": "Add or reconfigure 300mm cassette modules as your operation grows. Capacity scales with your business — not your building.",
     "feat2_title": "15-minute MTTR",
-    "feat2_desc": "Critical components are designed for rapid swap-out. Mean time to repair is 15 minutes \u2014 keeping your operation running at peak.",
+    "feat2_desc": "Critical components are designed for rapid swap-out. Mean time to repair is 15 minutes — keeping your operation running at peak.",
     "feat3_title": "High-throughput sorting",
     "feat3_desc": "Swivel wheel divert technology delivers up to 20,000+ parcels per hour with 3 sort directions across any parcel size mix.",
     "feat4_title": "Compact footprint",
@@ -70,11 +75,11 @@
     "feat5_title": "Designed & built in the UK",
     "feat5_desc": "87% of components manufactured in-house. Shorter lead times, faster support, and a supply chain free from global disruption risk.",
     "feat6_title": "24-month warranty",
-    "feat6_desc": "Every Helix system ships with a 24-month standard warranty \u2014 not a paid extra. We stand behind our engineering.",
-    "dark_h2_line1": "A sorter engineered",
+    "feat6_desc": "Every Helix system ships with a 24-month standard warranty — not a paid extra. We stand behind our engineering.",
+    "dark_h2_line1": "A sorter engineered to the",
     "dark_h2_line2": "millimetre",
     "dark_lead": "Every component is specified, tested, and refined for parcel sortation environments. Purpose-built, not adapted.",
-    "dark_image": "",
+    "dark_image": "https://photos.app.goo.gl/9Gv2eFT5njWkbUK36",
     "spec1_key": "Module pitch",
     "spec1_val": "300 mm",
     "spec2_key": "Sort directions",
@@ -91,22 +96,33 @@
     "spec7_val": "Designed & manufactured in UK",
     "proof1_number": "87%",
     "proof1_label": "In-house manufacturing",
-    "proof1_desc": "Full control over quality, lead time, and supply chain risk \u2014 from our UK facility.",
+    "proof1_desc": "Full control over quality, lead time, and supply chain risk — from our UK facility.",
     "proof2_number": "15min",
     "proof2_label": "Mean time to repair",
-    "proof2_desc": "Cassette-style modules swap in under 15 minutes \u2014 no specialist tools required.",
+    "proof2_desc": "Cassette-style modules swap in under 15 minutes — no specialist tools required.",
     "proof3_number": "24mo",
     "proof3_label": "Standard warranty",
-    "proof3_desc": "Every system ships with 24 months as standard \u2014 not as a paid extra.",
+    "proof3_desc": "Every system ships with 24 months as standard — not as a paid extra.",
     "proof4_number": "3way",
     "proof4_label": "Sort directions",
-    "proof4_desc": "Left, right, straight \u2014 maximising destination density without increasing footprint.",
-    "cta_h2": "Build your business casein minutes",
-    "cta_lead": "Enter your throughput, parcel mix, and destinations. Get system size, cost, ROI, and monthly finance options \u2014 entry systems from \u00a34,000/month on a 60-month lease. Ready to share internally.",
-    "cta_btn": "Open configurator"
+    "proof4_desc": "Left, right, straight — maximising destination density without increasing footprint.",
+    "cta_h2": "Build your business case in minutes",
+    "cta_lead": "Enter your throughput, parcel mix, and destinations. Get system size, cost, ROI, and monthly finance options — entry systems from £4,000/month on a 60-month lease. Ready to share internally.",
+    "cta_btn": "Open configurator",
+    "media_blocks": [
+      {
+        "type": "video",
+        "title": "Helix in action",
+        "src": "",
+        "url": "https://www.youtube.com/watch?v=53RZuWy3kXI",
+        "caption": "Live system running",
+        "alt": "",
+        "slides": ""
+      }
+    ]
   },
   "helix-product": {
-    "hero_video_url": "",
+    "hero_video_url": "https://www.youtube.com/watch?v=arXARqBWLQ4&t=1793s",
     "hero_eyebrow": "",
     "hero_h1": "The <em>Helix</em> sortation system",
     "hero_sub": "",
@@ -141,36 +157,59 @@
     "spec2_val": "",
     "spec3_key": "",
     "spec3_val": "",
-    "spec4_key": "Max throughput",
+    "spec4_key": "",
     "spec4_val": "20,000 parcels/hour",
     "spec5_key": "Max parcel size",
-    "spec5_val": "2500L \u00d7 1000W",
+    "spec5_val": "2500L × 1000W",
     "spec6_key": "",
     "spec6_val": "",
     "cta_h2": "Configure a Helix systemaround your operation",
     "cta_lead": "Enter your throughput, destinations, and parcel mix. Get a live system layout, cost estimate, ROI calculation, and finance options in minutes.",
-    "renders": [
+    "media_blocks": [
       {
-        "title": "Induction render",
+        "type": "carousel",
+        "title": "Helix renders",
         "src": "",
-        "alt": "Helix induction render"
-      },
-      {
-        "title": "Swivel wheel render",
-        "src": "",
-        "alt": "Helix swivel wheel render"
-      },
-      {
-        "title": "Chute render",
-        "src": "",
-        "alt": "Helix chute render"
+        "url": "",
+        "caption": "",
+        "alt": "",
+        "slides": "https://res.cloudinary.com/drlcvguny/image/upload/q_auto/f_auto/v1776259926/helix_apc_v2_sm36op.jpg\nhttps://res.cloudinary.com/drlcvguny/image/upload/q_auto/f_auto/v1776259913/ChatGPT_Image_Mar_20_2026_12_31_22_PM_itgwzo.png\nhttps://res.cloudinary.com/drlcvguny/image/upload/q_auto/f_auto/v1776259895/helix_grey_background_good_i3wn7h.jpg\n"
       }
-    ],
-    "media_blocks": []
+    ]
   },
   "products": {
     "hero_image": "",
     "hero_h1": "Products built for every environment",
-    "hero_sub": "From high-speed parcel sortation to pallet handling and food-grade conveyors \u2014 Orion MIS designs, manufactures, and integrates systems built around your specific operation."
+    "hero_sub": "From high-speed parcel sortation to pallet handling and food-grade conveyors — Orion MIS designs, manufactures, and integrates systems built around your specific operation."
+  },
+  "solutions": {
+    "hero_image": "",
+    "hero_eyebrow": "",
+    "hero_h1": "Every operation is different.Our systems adapt.",
+    "hero_sub": "From e-commerce fulfilment to food manufacturing and automotive production — Orion MIS has delivered automation systems across every major industrial sector.",
+    "sol1_tag": "",
+    "sol1_title": "",
+    "sol1_desc": "",
+    "sol2_tag": "",
+    "sol2_title": "",
+    "sol2_desc": "",
+    "sol3_tag": "",
+    "sol3_title": "",
+    "sol3_desc": "",
+    "sol4_tag": "",
+    "sol4_title": "",
+    "sol4_desc": "",
+    "sol5_tag": "",
+    "sol5_title": "",
+    "sol5_desc": ""
+  },
+  "case-studies": {
+    "hero_image": "",
+    "hero_h1": "Real operations, real outcomes",
+    "hero_sub": "Every Orion system is built around a specific operational challenge. Here's how we've solved them — with the numbers to back it up.",
+    "cs1_title": "",
+    "cs2_title": "",
+    "cs3_title": "",
+    "cs4_title": ""
   }
 }
