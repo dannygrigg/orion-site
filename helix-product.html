@@ -21,176 +21,122 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;display:flex;align-items:
 .feature-grid,.renders-grid,.media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.feature-card,.render-card,.media-card{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:28px;box-shadow:var(--shadow)}.feature-title,.render-title,.media-title{font-size:18px;font-weight:500;margin-bottom:8px}.feature-desc,.render-desc,.media-caption{font-size:14px;font-weight:300;line-height:1.7;color:var(--mid)}
 .specs-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px}.spec-list{list-style:none;background:var(--white);border:1px solid var(--border);border-radius:20px;padding:12px 24px;box-shadow:var(--shadow)}.spec-list li{display:flex;justify-content:space-between;gap:20px;padding:14px 0;border-bottom:1px solid var(--border)}.spec-list li:last-child{border-bottom:none}.spec-key{color:var(--mid);font-weight:300}.spec-val{font-weight:500;color:var(--dark);text-align:right}
 .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.gallery-grid img,.render-card img,.media-card img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px;display:block;background:#eef1f4}.media-card iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:14px;background:#000}.media-card.carousel .carousel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.cta-section{padding:72px 48px}.cta-card{max-width:1280px;margin:0 auto;background:var(--dark);border-radius:28px;padding:64px 72px;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center;position:relative;overflow:hidden}.cta-card h2{color:var(--white)}.cta-card .section-lead{color:rgba(255,255,255,.5);margin-bottom:0}.btn-white{background:var(--white);color:var(--dark);padding:13px 28px;border-radius:980px;text-decoration:none;font-weight:500}
-footer{background:#fff;border-top:1px solid var(--border);padding:40px 48px}.footer-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px}.footer-logo img{height:40px}.footer-desc{margin-top:12px;color:var(--mid);font-weight:300;line-height:1.7;max-width:340px}.footer-col h4{font-size:14px;margin-bottom:14px}.footer-col ul{list-style:none}.footer-col li{margin-bottom:10px}.footer-col a{color:var(--mid);text-decoration:none}.footer-bottom{max-width:1280px;margin:24px auto 0;padding-top:20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;color:var(--mid);font-size:12px}
-@media(max-width:1000px){nav{padding:0 20px}.nav-links{display:none}.page-hero{padding:88px 24px 0}.page-hero-inner,.specs-wrap,.cta-card,.footer-inner{grid-template-columns:1fr}.stats-inner{grid-template-columns:1fr 1fr;padding:0 24px}.section,.cta-section,footer{padding-left:24px;padding-right:24px}.feature-grid,.renders-grid,.media-grid,.gallery-grid,.media-card.carousel .carousel-grid{grid-template-columns:1fr}.cta-card{padding:42px 30px}}
-</style>
-</head>
-<body>
-<div class="announcement-bar"><div class="announcement-track"></div></div>
-<nav>
-  <a class="nav-logo" href="index.html"><img src="https://www.orionmis.co.uk/front/images/comp/logo.png" alt="Orion MIS"></a>
-  <ul class="nav-links">
-    <li><a href="helix-product.html">Helix</a></li>
-    <li><a href="products.html">Products</a></li>
-    <li><a href="solutions.html">Solutions</a></li>
-    <li><a href="case-studies.html">Case Studies</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="hub.html">Hub</a></li>
-    <li><a href="helix-configurator.html" class="nav-cta">Configure Helix</a></li>
-  </ul>
-</nav>
-
-<div class="page-hero">
-  <div class="page-hero-inner">
-    <div class="hero-content">
-      <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><span>Products</span><span>›</span><span style="color:var(--dark)">Helix</span></div>
-      <div class="page-eyebrow"></div>
-      <h1></h1>
-      <p class="page-hero-sub"></p>
-      <div class="hero-actions">
-        <a href="helix-configurator.html" class="btn btn-primary">Configure your system</a>
-        <a href="#specs" class="btn btn-outline">View full spec</a>
-      </div>
-    </div>
-    <div class="hero-video-wrap" id="heroWrap">
-      <img id="heroFallback" src="https://img.youtube.com/vi/arXARqBWLQ4/maxresdefault.jpg" alt="Helix system">
-      <div class="hero-video-overlay"></div>
-      <div class="hero-video-badge">Helix — live installation</div>
-    </div>
-  </div>
-</div>
-
-<div class="stats-bar">
-  <div class="stats-inner">
-    <div class="stat-item"><div class="stat-label">Max throughput</div><div class="stat-number">20,000</div><div class="stat-note">parcels/hour</div></div>
-    <div class="stat-item"><div class="stat-label">Module pitch</div><div class="stat-number">300mm</div><div class="stat-note">per cassette module</div></div>
-    <div class="stat-item"><div class="stat-label">Sort directions</div><div class="stat-number">3-way</div><div class="stat-note">left / right / straight</div></div>
-    <div class="stat-item"><div class="stat-label">Standard warranty</div><div class="stat-number">24 mo</div><div class="stat-note">on every system</div></div>
-  </div>
-</div>
-
-<section class="section" style="background:var(--white);padding-top:20px">
-  <div class="section-inner">
-    <div class="gallery-grid" id="helix-renders"></div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="section-inner">
-    <div class="section-eyebrow">Product highlights</div>
-    <h2>Built for real <em>operations</em></h2>
-    <p class="section-lead">Compact, modular, and fast to deploy. Helix is designed to deliver serious throughput inside existing buildings without heavy disruption.</p>
-    <div class="feature-grid">
-      <div class="feature-card"><div class="feature-title"></div><div class="feature-desc"></div></div>
-      <div class="feature-card"><div class="feature-title"></div><div class="feature-desc"></div></div>
-      <div class="feature-card"><div class="feature-title"></div><div class="feature-desc"></div></div>
-      <div class="feature-card"><div class="feature-title"></div><div class="feature-desc"></div></div>
-      <div class="feature-card"><div class="feature-title"></div><div class="feature-desc"></div></div>
-      <div class="feature-card"><div class="feature-title"></div><div class="feature-desc"></div></div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="specs">
-  <div class="section-inner">
-    <div class="section-eyebrow">Technical specification</div>
-    <h2>Full system <em>specification</em></h2>
-    <p class="section-lead">Core Helix numbers pulled directly from your page data so you can change them cleanly without fighting the template.</p>
-    <div class="specs-wrap">
-      <ul class="spec-list">
-        <li><span class="spec-key">Module pitch</span><span class="spec-val">300 mm</span></li>
-        <li><span class="spec-key">Sort directions</span><span class="spec-val">Left / Right / Straight</span></li>
-        <li><span class="spec-key">Divert technology</span><span class="spec-val">Swivel wheel</span></li>
-      </ul>
-      <ul class="spec-list">
-        <li><span class="spec-key">Max throughput</span><span class="spec-val">20,000 parcels/hour</span></li>
-        <li><span class="spec-key">Max parcel size</span><span class="spec-val">2500L × 1000W</span></li>
-        <li><span class="spec-key">Warranty</span><span class="spec-val">24 months</span></li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="flex-media" style="background:var(--white)">
-  <div class="section-inner">
-    <div class="section-eyebrow">Flexible media</div>
-    <h2>Video, imagery and <em>renders</em></h2>
-    <p class="section-lead">Anything you add in Helix media blocks will show here.</p>
-    <div class="media-grid" id="media-blocks"></div>
-  </div>
-</section>
-
-<div class="cta-section">
-  <div class="cta-card">
-    <div>
-      <div class="section-eyebrow" style="color:#2997ff">Ready to size your system?</div>
-      <h2></h2>
-      <p class="section-lead"></p>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;position:relative;z-index:1">
-      <a href="helix-configurator.html" class="btn-white">Open configurator</a>
-      <a href="contact.html" style="font-size:14px;color:rgba(255,255,255,.5);text-decoration:none">Or speak to our engineering team →</a>
-    </div>
-  </div>
-</div>
+footer{padding:40px 20px 28px!important}
+  .footer-inner{grid-template-columns:1fr 1fr!important;gap:28px!important}
+  .footer-logo{margin-bottom:20px}
+  .footer-bottom{flex-direction:column;gap:6px;text-align:center}
+  
+  /* Configurator */
+  .config-layout{grid-template-columns:1fr!important}
+  .config-panel{position:static!important}
+  
+  /* Contact form */
+  .contact-grid{grid-template-columns:1fr!important}
+  
+  /* Images */
+  .solution-img-grid{grid-template-columns:1fr 1fr!important}
+  .product-gallery .main-img{aspect-ratio:4/3}
+  
+  /* Hub page */
+  .hub-.hub-nav-btn{font-size:12px;padding:7px 14px}
+  
+  /* Sidebar on case studies */
+  .sidebar{margin-top:0}
+  .back-link{margin-bottom:20px}
+}
 
 <footer>
   <div class="footer-inner">
     <div>
       <div class="footer-logo"><img src="https://www.orionmis.co.uk/front/images/comp/logo.png" alt="Orion MIS"></div>
       <p class="footer-desc">Warehouse automation systems designed and manufactured in the UK.</p>
+      <div class="footer-contact">
+        <a href="tel:+443333355269"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>+44 333 335 5269</a>
+        <a href="mailto:info@orionmis.co.uk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>info@orionmis.co.uk</a>
+        <a href="https://maps.google.com/?q=Orion+MIS+Fontwell+Chichester" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Fontwell Avenue, Chichester, PO20 3RU</a>
+        <a href="#" onclick="Tawk_API.toggle();return false;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>Live chat available</a>
+      </div>
     </div>
-    <div class="footer-col"><h4>Products</h4><ul><li><a href="helix-product.html">Helix Sorter</a></li><li><a href="products.html">Products</a></li></ul></div>
-    <div class="footer-col"><h4>Solutions</h4><ul><li><a href="solutions.html">Solutions</a></li><li><a href="case-studies.html">Case Studies</a></li></ul></div>
-    <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About Orion</a></li><li><a href="hub.html">Hub</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col">
+      <h4>Products</h4>
+      <ul>
+        <li><a href="helix-product.html">Helix Sorter</a></li>
+        <li><a href="unit-handling.html">Unit Handling</a></li>
+        <li><a href="pallet-heavy.html">Pallet &amp; Heavy Duty</a></li>
+        <li><a href="food-beverage.html">Food &amp; Beverage</a></li>
+        <li><a href="helix-configurator.html">Configurator</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Solutions</h4>
+      <ul>
+        <li><a href="solutions.html#parcel">Parcel &amp; E-commerce</a></li>
+        <li><a href="solutions.html#asrs">Warehouse &amp; ASRS</a></li>
+        <li><a href="solutions.html#robotics">Robotics &amp; AMR</a></li>
+        <li><a href="solutions.html#pallet-automotive">Automotive</a></li>
+        <li><a href="solutions.html#food-manufacturing">Food &amp; Beverage</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html">About Orion</a></li>
+        <li><a href="case-studies.html">Case Studies</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="hub.html">Orion Hub</a></li>
+        <li><a href="hub.html" target="_blank">News</a></li>
+      </ul>
+    </div>
   </div>
-  <div class="footer-bottom"><span>© 2025 Orion MIS Ltd. All rights reserved.</span><span>Designed & manufactured in the UK</span></div>
-</footer>
+  <div class="footer-bottom">
+    <span>© 2025 Orion MIS Ltd. All rights reserved.</span>
+    <span>Designed &amp; manufactured in the UK</span>
+  </div>
+</footer>E html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Helix Modular Sorter — Orion MIS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--white:#fff;--off:#f5f5f7;--border:#e2e2e7;--mid:#86868b;--dark:#1d1d1f;--blue:#0066cc;--blue-bg:#f0f6ff;--radius:20px;--radius-xl:28px;--font-display:'DM Serif Display',serif;--font-body:'DM Sans',sans-serif;--shadow:0 8px 24px rgba(0,0,0,.06)}
+*{box-sizing:border-box;margin:0;padding:0} html{scroll-behavior:smooth} body{font-family:var(--font-body);background:var(--off);color:var(--dark);-webkit-font-smoothing:antialiased;overflow-x:hidden;padding-top:100px}
+.announcement-bar{background:#1d1d1f;height:36px;overflow:hidden;position:fixed;top:0;left:0;right:0;z-index:300;border-bottom:1px solid rgba(255,255,255,.12)}
+.announcement-track{display:flex;align-items:center;height:36px;white-space:nowrap;animation:scrollBanner 35s linear infinite}.announcement-track:hover{animation-play-state:paused}.announcement-item{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:400;color:rgba(255,255,255,.8);padding:0 32px;flex-shrink:0}.announcement-item a{color:#fff;font-weight:500;text-decoration:underline;text-underline-offset:2px}.announcement-sep{color:rgba(255,255,255,.25);font-size:10px;flex-shrink:0}@keyframes scrollBanner{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+nav{position:fixed;top:36px;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(255,255,255,.96);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.06)}
+.nav-logo img{height:36px;display:block}.nav-links{display:flex;gap:24px;list-style:none;align-items:center}.nav-links a{font-size:14px;color:#1d1d1f;text-decoration:none;opacity:.7}.nav-links a:hover{opacity:1}.nav-cta{background:#1d1d1f;color:#fff!important;padding:9px 20px;border-radius:980px;opacity:1!important}
+.page-hero{background:var(--white);border-bottom:1px solid var(--border);padding:108px 48px 0;overflow:hidden}.page-hero-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:end}.hero-content{padding-bottom:64px}.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mid);margin-bottom:20px}.breadcrumb a{color:var(--mid);text-decoration:none}.page-eyebrow{font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);display:flex;align-items:center;gap:8px;margin-bottom:16px}.page-eyebrow:before{content:'';width:16px;height:1px;background:var(--blue)}
+.page-hero h1{font-family:var(--font-display);font-size:clamp(40px,4.5vw,64px);line-height:1.04;letter-spacing:-.02em;color:var(--dark);margin-bottom:20px}.page-hero h1 em{font-style:italic;color:var(--blue)}.page-hero-sub{font-size:18px;font-weight:300;line-height:1.65;color:var(--mid);max-width:520px;margin-bottom:36px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;gap:7px;padding:12px 24px;border-radius:980px;font-size:15px;font-weight:500;text-decoration:none;border:none;white-space:nowrap}.btn-primary{background:var(--dark);color:var(--white)}.btn-outline{background:transparent;color:var(--blue);border:1.5px solid var(--border)}
+.hero-video-wrap{position:relative;border-radius:var(--radius-xl) var(--radius-xl) 0 0;overflow:hidden;box-shadow:0 -4px 40px rgba(0,0,0,.1);background:var(--dark);aspect-ratio:16/10}.hero-video-wrap iframe,.hero-video-wrap img{position:absolute;top:0;left:0;width:100%;height:100%;border:0}.hero-video-wrap img{object-fit:cover}.hero-video-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.25) 0%, transparent 60%)}.hero-video-badge{position:absolute;bottom:20px;left:20px;background:rgba(0,0,0,.55);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:8px 14px;font-size:12px;font-weight:500;color:rgba(255,255,255,.85)}
+.stats-bar{background:var(--dark)}.stats-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.08);padding:0 48px}.stat-item{background:var(--dark);padding:22px 28px}.stat-label{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px}.stat-number{font-family:var(--font-display);font-size:28px;line-height:1;letter-spacing:-.02em;color:var(--white);margin-bottom:4px}.stat-note{font-size:12px;color:rgba(255,255,255,.35);font-weight:300}
+.section{padding:72px 48px}.section-inner{max-width:1280px;margin:0 auto}.section-eyebrow{font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);display:flex;align-items:center;gap:8px;margin-bottom:14px}.section-eyebrow:before{content:'';width:16px;height:1px;background:var(--blue)}h2{font-family:var(--font-display);font-size:clamp(30px,3.5vw,44px);line-height:1.08;letter-spacing:-.02em;color:var(--dark);margin-bottom:14px}h2 em{font-style:italic;color:var(--blue)}.section-lead{font-size:17px;font-weight:300;line-height:1.65;color:var(--mid);max-width:620px;margin-bottom:40px}
+.feature-grid,.renders-grid,.media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.feature-card,.render-card,.media-card{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:28px;box-shadow:var(--shadow)}.feature-title,.render-title,.media-title{font-size:18px;font-weight:500;margin-bottom:8px}.feature-desc,.render-desc,.media-caption{font-size:14px;font-weight:300;line-height:1.7;color:var(--mid)}
+.specs-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px}.spec-list{list-style:none;background:var(--white);border:1px solid var(--border);border-radius:20px;padding:12px 24px;box-shadow:var(--shadow)}.spec-list li{display:flex;justify-content:space-between;gap:20px;padding:14px 0;border-bottom:1px solid var(--border)}.spec-list li:last-child{border-bottom:none}.spec-key{color:var(--mid);font-weight:300}.spec-val{font-weight:500;color:var(--dark);text-align:right}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.gallery-grid img,.render-card img,.media-card img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px;display:block;background:#eef1f4}.media-card iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:14px;background:#000}.media-card.carousel .carousel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.cta-section{padding:72px 48px}.cta-card{max-width:1280px;margin:0 auto;background:var(--dark);border-radius:28px;padding:64px 72px;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center;position:relative;overflow:hidden}.cta-card h2{color:var(--white)}.cta-card .section-lead{color:rgba(255,255,255,.5);margin-bottom:0}.btn-white{background:var(--white);color:var(--dark);padding:13px 28px;border-radius:980px;text-decoration:none;font-weight:500}
+footer{padding:40px 20px 28px!important}
+  .footer-inner{grid-template-columns:1fr 1fr!important;gap:28px!important}
+  .footer-logo{margin-bottom:20px}
+  .footer-bottom{flex-direction:column;gap:6px;text-align:center}
+  
+  /* Configurator */
+  .config-layout{grid-template-columns:1fr!important}
+  .config-panel{position:static!important}
+  
+  /* Contact form */
+  .contact-grid{grid-template-columns:1fr!important}
+  
+  /* Images */
+  .solution-img-grid{grid-template-columns:1fr 1fr!important}
+  .product-gallery .main-img{aspect-ratio:4/3}
+  
+  /* Hub page */
+  .hub-.hub-nav-btn{font-size:12px;padding:7px 14px}
+  
+  /* Sidebar on case studies */
+  .sidebar{margin-top:0}
+  .back-link{margin-bottom:20px}
+}
 
-<script>
-(function(){
-  const base = window.location.pathname.includes('/orion-site') ? '/orion-site' : '';
-  const qs = '?v=' + Date.now();
 
-  function toEmbed(url){
-    if(!url) return '';
-    if(url.includes('/embed/')) return url;
-    const m = url.match(/(?:v=|youtu\.be\/|@[^/]+\/videos\/|shorts\/)([a-zA-Z0-9_-]{6,})/);
-    if(!m) return '';
-    const v = m[1];
-    return 'https://www.youtube.com/embed/'+v+'?autoplay=1&mute=1&loop=1&playlist='+v+'&controls=0&rel=0&modestbranding=1&playsinline=1';
-  }
-  function esc(s){return (s||'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
-  function setText(sel,val,html){const el=document.querySelector(sel); if(el && val!==undefined && val!==null && val!==''){ html? el.innerHTML=val : el.textContent=val; }}
-  function renderAnnouncements(items){const track=document.querySelector('.announcement-track'); if(!track||!items||!items.length) return; const doubled=[...items,...items]; track.innerHTML=doubled.map(a=>{const txt=a.link_url?esc(a.text)+' <a href="'+a.link_url+'">'+esc(a.link_label||a.link_url)+'</a>':esc(a.text); return '<span class="announcement-item">'+txt+'</span><span class="announcement-sep">·</span>';}).join('')}
-  function renderVideo(url){const wrap=document.getElementById('heroWrap'); if(!wrap||!url) return; const embed=toEmbed(url); if(!embed) return; wrap.innerHTML='<iframe src="'+embed+'" allow="autoplay; encrypted-media" allowfullscreen></iframe><div class="hero-video-overlay"></div><div class="hero-video-badge">Helix — live installation</div>'}
-  function renderRenders(renders){const el=document.getElementById('helix-renders'); if(!el||!renders||!renders.length) return; el.innerHTML=renders.map(r=>'<div class="render-card"><img src="'+esc(r.src)+'" alt="'+esc(r.alt||r.title||'Helix render')+'">'+(r.title?'<div class="render-title" style="margin-top:14px">'+esc(r.title)+'</div>':'')+'</div>').join('')}
-  function renderBlocks(blocks){const el=document.getElementById('media-blocks'); if(!el||!blocks||!blocks.length) return; el.innerHTML=blocks.map(b=>{
-    if(b.type==='video'){ const embed=toEmbed(b.url); return '<div class="media-card"><div class="media-title">'+esc(b.title||'Video')+'</div>'+(embed?'<iframe src="'+embed+'" allowfullscreen></iframe>':'')+(b.caption?'<div class="media-caption" style="margin-top:12px">'+esc(b.caption)+'</div>':'')+'</div>'; }
-    if(b.type==='image'){ return '<div class="media-card"><div class="media-title">'+esc(b.title||'Image')+'</div><img src="'+esc(b.src||'')+'" alt="'+esc(b.alt||b.title||'Image')+'">'+(b.caption?'<div class="media-caption" style="margin-top:12px">'+esc(b.caption)+'</div>':'')+'</div>'; }
-    if(b.type==='carousel'){ const slides=(b.slides||'').split(/\n+/).map(s=>s.trim()).filter(Boolean); return '<div class="media-card carousel" style="grid-column:1/-1"><div class="media-title">'+esc(b.title||'Gallery')+'</div><div class="carousel-grid">'+slides.map(s=>'<img src="'+esc(s)+'" alt="'+esc(b.title||'Carousel image')+'">').join('')+'</div></div>'; }
-    return '';
-  }).join('')}
-
-  fetch(base+'/_data/pages.json'+qs).then(r=>r.json()).then(data=>{
-    const home=data.homepage||{}; const d=data['helix-product']||{};
-    renderAnnouncements(home.announcements||[]);
-    setText('.page-eyebrow', d.hero_eyebrow || 'Modular wheel sorter');
-    setText('.page-hero h1', d.hero_h1 || 'The <em>Helix</em> sortation system', true);
-    setText('.page-hero-sub', d.hero_sub || 'A compact, high-throughput modular sorter designed and manufactured in the UK. Built for real fulfilment environments — not ideal ones.');
-    renderVideo(d.hero_video_url);
-    const stats=document.querySelectorAll('.stat-item');
-    [[d.stat1_label,d.stat1_number,d.stat1_note],[d.stat2_label,d.stat2_number,d.stat2_note],[d.stat3_label,d.stat3_number,d.stat3_note],[d.stat4_label,d.stat4_number,d.stat4_note]].forEach((s,i)=>{ if(!stats[i]) return; setText.call(null,null); stats[i].querySelector('.stat-label').textContent=s[0]||''; stats[i].querySelector('.stat-number').textContent=s[1]||''; stats[i].querySelector('.stat-note').textContent=s[2]||''; });
-    const feats=document.querySelectorAll('.feature-card');
-    [[d.feat1_title,d.feat1_desc],[d.feat2_title,d.feat2_desc],[d.feat3_title,d.feat3_desc],[d.feat4_title,d.feat4_desc],[d.feat5_title,d.feat5_desc],[d.feat6_title,d.feat6_desc]].forEach((f,i)=>{ if(!feats[i]) return; feats[i].querySelector('.feature-title').textContent=f[0]||''; feats[i].querySelector('.feature-desc').textContent=f[1]||''; });
-    const specLists=document.querySelectorAll('.spec-list li');
-    [[d.spec1_key,d.spec1_val],[d.spec2_key,d.spec2_val],[d.spec3_key,d.spec3_val],[d.spec4_key,d.spec4_val],[d.spec5_key,d.spec5_val],[d.spec6_key,d.spec6_val]].forEach((s,i)=>{ if(!specLists[i]) return; specLists[i].querySelector('.spec-key').textContent=s[0]||''; specLists[i].querySelector('.spec-val').textContent=s[1]||''; });
-    renderRenders(d.renders||[]);
-    renderBlocks(d.media_blocks||[]);
-    setText('.cta-card h2', d.cta_h2 || 'Configure a Helix system around your operation');
-    setText('.cta-card .section-lead', d.cta_lead || 'Enter your throughput, destinations, and parcel mix. Get a live system layout, cost estimate, ROI calculation, and finance options in minutes.');
-  }).catch(err=>console.error('Helix page data load failed', err));
-})();
-</script>
-</body>
-</html>
