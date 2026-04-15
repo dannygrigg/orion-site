@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!-- v3 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -7,21 +7,407 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
-:root{--white:#fff;--off:#f5f5f7;--border:#e2e2e7;--mid:#86868b;--dark:#1d1d1f;--blue:#0066cc;--blue-bg:#f0f6ff;--radius:20px;--radius-xl:28px;--font-display:'DM Serif Display',serif;--font-body:'DM Sans',sans-serif;--shadow:0 8px 24px rgba(0,0,0,.06)}
-*{box-sizing:border-box;margin:0;padding:0} html{scroll-behavior:smooth} body{font-family:var(--font-body);background:var(--off);color:var(--dark);-webkit-font-smoothing:antialiased;overflow-x:hidden;padding-top:100px}
-.announcement-bar{background:#1d1d1f;height:36px;overflow:hidden;position:fixed;top:0;left:0;right:0;z-index:300;border-bottom:1px solid rgba(255,255,255,.12)}
-.announcement-track{display:flex;align-items:center;height:36px;white-space:nowrap;animation:scrollBanner 35s linear infinite}.announcement-track:hover{animation-play-state:paused}.announcement-item{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:400;color:rgba(255,255,255,.8);padding:0 32px;flex-shrink:0}.announcement-item a{color:#fff;font-weight:500;text-decoration:underline;text-underline-offset:2px}.announcement-sep{color:rgba(255,255,255,.25);font-size:10px;flex-shrink:0}@keyframes scrollBanner{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-nav{position:fixed;top:36px;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(255,255,255,.96);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.06)}
-.nav-logo img{height:36px;display:block}.nav-links{display:flex;gap:24px;list-style:none;align-items:center}.nav-links a{font-size:14px;color:#1d1d1f;text-decoration:none;opacity:.7}.nav-links a:hover{opacity:1}.nav-cta{background:#1d1d1f;color:#fff!important;padding:9px 20px;border-radius:980px;opacity:1!important}
-.page-hero{background:var(--white);border-bottom:1px solid var(--border);padding:108px 48px 0;overflow:hidden}.page-hero-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:end}.hero-content{padding-bottom:64px}.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mid);margin-bottom:20px}.breadcrumb a{color:var(--mid);text-decoration:none}.page-eyebrow{font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);display:flex;align-items:center;gap:8px;margin-bottom:16px}.page-eyebrow:before{content:'';width:16px;height:1px;background:var(--blue)}
-.page-hero h1{font-family:var(--font-display);font-size:clamp(40px,4.5vw,64px);line-height:1.04;letter-spacing:-.02em;color:var(--dark);margin-bottom:20px}.page-hero h1 em{font-style:italic;color:var(--blue)}.page-hero-sub{font-size:18px;font-weight:300;line-height:1.65;color:var(--mid);max-width:520px;margin-bottom:36px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;gap:7px;padding:12px 24px;border-radius:980px;font-size:15px;font-weight:500;text-decoration:none;border:none;white-space:nowrap}.btn-primary{background:var(--dark);color:var(--white)}.btn-outline{background:transparent;color:var(--blue);border:1.5px solid var(--border)}
-.hero-video-wrap{position:relative;border-radius:var(--radius-xl) var(--radius-xl) 0 0;overflow:hidden;box-shadow:0 -4px 40px rgba(0,0,0,.1);background:var(--dark);aspect-ratio:16/10}.hero-video-wrap iframe,.hero-video-wrap img{position:absolute;top:0;left:0;width:100%;height:100%;border:0}.hero-video-wrap img{object-fit:cover}.hero-video-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.25) 0%, transparent 60%)}.hero-video-badge{position:absolute;bottom:20px;left:20px;background:rgba(0,0,0,.55);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:8px 14px;font-size:12px;font-weight:500;color:rgba(255,255,255,.85)}
-.stats-bar{background:var(--dark)}.stats-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.08);padding:0 48px}.stat-item{background:var(--dark);padding:22px 28px}.stat-label{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px}.stat-number{font-family:var(--font-display);font-size:28px;line-height:1;letter-spacing:-.02em;color:var(--white);margin-bottom:4px}.stat-note{font-size:12px;color:rgba(255,255,255,.35);font-weight:300}
-.section{padding:72px 48px}.section-inner{max-width:1280px;margin:0 auto}.section-eyebrow{font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);display:flex;align-items:center;gap:8px;margin-bottom:14px}.section-eyebrow:before{content:'';width:16px;height:1px;background:var(--blue)}h2{font-family:var(--font-display);font-size:clamp(30px,3.5vw,44px);line-height:1.08;letter-spacing:-.02em;color:var(--dark);margin-bottom:14px}h2 em{font-style:italic;color:var(--blue)}.section-lead{font-size:17px;font-weight:300;line-height:1.65;color:var(--mid);max-width:620px;margin-bottom:40px}
-.feature-grid,.renders-grid,.media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.feature-card,.render-card,.media-card{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:28px;box-shadow:var(--shadow)}.feature-title,.render-title,.media-title{font-size:18px;font-weight:500;margin-bottom:8px}.feature-desc,.render-desc,.media-caption{font-size:14px;font-weight:300;line-height:1.7;color:var(--mid)}
-.specs-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px}.spec-list{list-style:none;background:var(--white);border:1px solid var(--border);border-radius:20px;padding:12px 24px;box-shadow:var(--shadow)}.spec-list li{display:flex;justify-content:space-between;gap:20px;padding:14px 0;border-bottom:1px solid var(--border)}.spec-list li:last-child{border-bottom:none}.spec-key{color:var(--mid);font-weight:300}.spec-val{font-weight:500;color:var(--dark);text-align:right}
-.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.gallery-grid img,.render-card img,.media-card img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px;display:block;background:#eef1f4}.media-card iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:14px;background:#000}.media-card.carousel .carousel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.cta-section{padding:72px 48px}.cta-card{max-width:1280px;margin:0 auto;background:var(--dark);border-radius:28px;padding:64px 72px;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center;position:relative;overflow:hidden}.cta-card h2{color:var(--white)}.cta-card .section-lead{color:rgba(255,255,255,.5);margin-bottom:0}.btn-white{background:var(--white);color:var(--dark);padding:13px 28px;border-radius:980px;text-decoration:none;font-weight:500}
-footer{padding:40px 20px 28px!important}
+/* ── NAV ── */
+.announcement-bar{background:#1d1d1f;height:36px;overflow:hidden;position:fixed;top:0;left:0;right:0;z-index:300;border-bottom:1px solid rgba(255,255,255,0.12)}
+.announcement-track{display:flex;align-items:center;height:36px;white-space:nowrap;animation:scrollBanner 35s linear infinite}
+.announcement-track:hover{animation-play-state:paused}
+.announcement-item{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:400;color:rgba(255,255,255,0.8);padding:0 32px;flex-shrink:0;font-family:'DM Sans',sans-serif}
+.announcement-item a{color:#fff;font-weight:500;text-decoration:underline;text-underline-offset:2px}
+.announcement-sep{color:rgba(255,255,255,0.25);font-size:10px;flex-shrink:0}
+@keyframes scrollBanner{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+nav{position:fixed;top:36px;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(255,255,255,0.96);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,0.06)}
+.nav-logo img{height:36px;display:block}
+.nav-links{display:flex;gap:24px;list-style:none;align-items:center;margin:0;padding:0}
+.nav-links a{font-size:14px;color:#1d1d1f;text-decoration:none;opacity:0.7;transition:opacity 0.2s}
+.nav-links a:hover{opacity:1}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-configure{position:relative}
+.nav-configure-btn{display:flex;align-items:center;gap:6px;background:#1d1d1f;color:white;padding:8px 18px;border-radius:980px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;border:none;cursor:pointer;white-space:nowrap;transition:background 0.2s}
+.nav-configure-btn:hover{background:#333}
+.nav-configure-btn.open svg{transform:rotate(180deg)}
+.nav-configure-dropdown{display:none;position:absolute;top:calc(100% + 10px);right:0;background:white;border:1px solid #e2e2e7;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.12);min-width:240px;overflow:hidden;z-index:400}
+.nav-configure-dropdown.open{display:block}
+.nav-configure-dropdown a{display:flex;align-items:center;gap:12px;padding:14px 18px;text-decoration:none;color:#1d1d1f;font-size:13px;font-weight:500;transition:background 0.15s;border-bottom:1px solid #f0f0f5}
+.nav-configure-dropdown a:last-child{border-bottom:none}
+.nav-configure-dropdown a:hover{background:#f5f5f7}
+.nav-configure-dropdown .dd-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-configure-dropdown a.helix-opt .dd-icon{background:#f0f6ff;color:#0066cc}
+.nav-configure-dropdown a.conv-opt .dd-icon{background:#edfaf4;color:#00a86b}
+.nav-configure-dropdown a div{display:flex;flex-direction:column;gap:2px}
+.nav-configure-dropdown a strong{font-size:13px;font-weight:500;color:#1d1d1f;display:block}
+.nav-configure-dropdown a small{font-size:11px;font-weight:300;color:#86868b}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border:none;background:none}
+.hamburger span{display:block;width:22px;height:2px;background:#1d1d1f;border-radius:2px;transition:all 0.3s}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-nav{display:none;position:fixed;top:100px;left:0;right:0;background:rgba(255,255,255,0.99);border-bottom:2px solid #e2e2e7;padding:16px 24px 24px;z-index:500;flex-direction:column;gap:4px}
+.mobile-nav.open{display:flex}
+.mobile-nav a{font-size:16px;color:#1d1d1f;text-decoration:none;padding:12px 0;border-bottom:1px solid #f0f0f5;display:block}
+.mobile-nav a:last-of-type{border-bottom:none}
+.mobile-nav a.mobile-cta{background:#1d1d1f;color:white!important;text-align:center;border-radius:12px;padding:14px;margin-top:8px;font-weight:500;border:none;display:block;text-decoration:none}
+@media(max-width:1000px){nav{padding:0 20px}.hamburger{display:flex}.nav-links{display:none!important}.nav-configure-btn{display:none}}
+/* ── HAMBURGER ── */
+/* ── CONFIGURE DROPDOWN ── */
+/* ── MOBILE NAV (sibling of nav, not inside it) ── */
+/* ── RESPONSIVE ── */
+@media(max-width:1000px){}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white: #ffffff;
+  --off-white: #f5f5f7;
+  --border: #e2e2e7;
+  --border-light: #f0f0f5;
+  --mid-gray: #86868b;
+  --dark: #1d1d1f;
+  --blue: #0066cc;
+  --blue-light: #2997ff;
+  --blue-bg: #f0f6ff;
+  --font-display: 'DM Serif Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.04);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--off-white);
+  color: var(--dark);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  padding-top: 100px;
+}
+.nav-cta { background: var(--dark); color: var(--white) !important; opacity: 1 !important; padding: 9px 20px; border-radius: 980px; font-weight: 500 !important; }
+.nav-cta:hover { background: #333 !important; }
+
+/* ── PAGE HERO ── */
+.page-hero {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 108px 48px 0;
+  overflow: hidden;
+}
+.page-hero-inner {
+  max-width: 1280px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 64px; align-items: end;
+}
+.hero-content { padding-bottom: 64px; }
+
+.breadcrumb {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--mid-gray); margin-bottom: 20px;
+  opacity: 0; animation: fadeUp 0.6s ease 0.05s forwards;
+}
+.breadcrumb a { color: var(--mid-gray); text-decoration: none; }
+.breadcrumb a:hover { color: var(--blue); }
+.breadcrumb span { opacity: 0.5; }
+
+.page-eyebrow {
+  font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--blue);
+  display: flex; align-items: center; gap: 8px; margin-bottom: 16px;
+  opacity: 0; animation: fadeUp 0.6s ease 0.1s forwards;
+}
+.page-eyebrow::before { content: ''; width: 16px; height: 1px; background: var(--blue); }
+
+.page-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 4.5vw, 64px);
+  line-height: 1.04; letter-spacing: -0.02em;
+  color: var(--dark); margin-bottom: 20px;
+  opacity: 0; animation: fadeUp 0.7s ease 0.15s forwards;
+}
+.page-hero h1 em { font-style: italic; color: var(--blue); }
+
+.page-hero-sub {
+  font-size: 18px; font-weight: 300; line-height: 1.65;
+  color: var(--mid-gray); max-width: 480px; margin-bottom: 36px;
+  opacity: 0; animation: fadeUp 0.7s ease 0.2s forwards;
+}
+
+.hero-actions {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp 0.7s ease 0.25s forwards;
+}
+
+.hero-video-wrap {
+  position: relative;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  overflow: hidden;
+  box-shadow: 0 -4px 40px rgba(0,0,0,0.1);
+  opacity: 0; animation: fadeUp 0.9s ease 0.2s forwards;
+  background: var(--dark);
+  aspect-ratio: 16/10;
+}
+.hero-video-wrap video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-video-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.25) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-video-badge {
+  position: absolute; bottom: 20px; left: 20px;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius-sm); padding: 8px 14px;
+  font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.85);
+  letter-spacing: 0.04em;
+}
+
+/* ── STATS BAR ── */
+.stats-bar { background: var(--dark); }
+.stats-inner {
+  max-width: 1280px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: rgba(255,255,255,0.08); padding: 0 48px;
+}
+.stat-item { background: var(--dark); padding: 22px 28px; }
+.stat-label { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 6px; }
+.stat-number { font-family: var(--font-display); font-size: 28px; line-height: 1; letter-spacing: -0.02em; color: var(--white); margin-bottom: 4px; }
+.stat-note { font-size: 12px; color: rgba(255,255,255,0.35); font-weight: 300; }
+
+/* ── SHARED ── */
+.section { padding: 72px 48px; }
+.section-inner { max-width: 1280px; margin: 0 auto; }
+.section-eyebrow { font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+.section-eyebrow::before { content: ''; width: 16px; height: 1px; background: var(--blue); }
+h2 { font-family: var(--font-display); font-size: clamp(30px, 3.5vw, 44px); line-height: 1.08; letter-spacing: -0.02em; color: var(--dark); margin-bottom: 14px; }
+h2 em { font-style: italic; color: var(--blue); }
+.section-lead { font-size: 17px; font-weight: 300; line-height: 1.65; color: var(--mid-gray); max-width: 540px; margin-bottom: 40px; }
+
+.btn { display: inline-flex; align-items: center; gap: 7px; padding: 12px 24px; border-radius: 980px; font-family: var(--font-body); font-size: 15px; font-weight: 500; text-decoration: none; cursor: pointer; border: none; transition: all 0.2s; white-space: nowrap; }
+.btn-primary { background: var(--dark); color: var(--white); }
+.btn-primary:hover { background: #333; transform: translateY(-1px); }
+.btn-outline { background: transparent; color: var(--dark); border: 1px solid var(--border); }
+.btn-outline:hover { border-color: var(--dark); }
+.btn-blue { background: var(--blue); color: var(--white); }
+.btn-blue:hover { background: #0055b3; }
+
+/* ── HOW IT WORKS ── */
+.how-section { background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+.how-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--border);
+  border-radius: var(--radius-lg); overflow: hidden; margin-top: 48px;
+}
+.how-card { background: var(--white); padding: 40px 36px; position: relative; }
+.how-number {
+  font-family: var(--font-display);
+  font-size: 72px; line-height: 1; letter-spacing: -0.04em;
+  color: var(--off-white); margin-bottom: 20px;
+  position: absolute; top: 24px; right: 28px;
+}
+.how-icon { width: 44px; height: 44px; background: var(--off-white); border: 1px solid var(--border); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; position: relative; z-index: 1; }
+.how-icon svg { width: 22px; height: 22px; stroke: var(--dark); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.how-title { font-size: 18px; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 10px; position: relative; z-index: 1; }
+.how-desc { font-size: 14px; font-weight: 300; line-height: 1.75; color: var(--mid-gray); position: relative; z-index: 1; }
+
+/* ── TECH SPECS ── */
+.specs-section { background: var(--off-white); }
+.specs-layout {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 24px; margin-top: 0;
+}
+.specs-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.specs-card-header {
+  padding: 20px 28px; border-bottom: 1px solid var(--border-light);
+  display: flex; align-items: center; gap: 12px;
+}
+.specs-card-icon { width: 36px; height: 36px; background: var(--off-white); border: 1px solid var(--border); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; }
+.specs-card-icon svg { width: 18px; height: 18px; stroke: var(--dark); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.specs-card-title { font-size: 15px; font-weight: 500; }
+.specs-table { width: 100%; border-collapse: collapse; }
+.specs-table tr { border-bottom: 1px solid var(--border-light); }
+.specs-table tr:last-child { border-bottom: none; }
+.specs-table td { padding: 14px 28px; font-size: 14px; }
+.specs-table td:first-child { color: var(--mid-gray); font-weight: 300; width: 55%; }
+.specs-table td:last-child { color: var(--dark); font-weight: 500; text-align: right; }
+
+/* ── DARK DEEP DIVE ── */
+.deep-section { background: var(--dark); padding: 80px 48px; }
+.deep-inner { max-width: 1280px; margin: 0 auto; }
+.deep-section .section-eyebrow { color: var(--blue-light); }
+.deep-section .section-eyebrow::before { background: var(--blue-light); }
+.deep-section h2 { color: var(--white); }
+.deep-section h2 em { color: var(--blue-light); }
+.deep-section .section-lead { color: rgba(255,255,255,0.45); max-width: 600px; }
+
+.deep-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 1px; background: rgba(255,255,255,0.07);
+  border-radius: var(--radius-lg); overflow: hidden; margin-top: 48px;
+}
+.deep-card { background: var(--dark); padding: 40px 36px; }
+.deep-card-num { font-family: var(--font-display); font-size: 13px; color: var(--blue-light); margin-bottom: 16px; letter-spacing: 0.06em; }
+.deep-card-title { font-size: 20px; font-weight: 500; color: var(--white); margin-bottom: 12px; letter-spacing: -0.01em; line-height: 1.3; }
+.deep-card-desc { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.45); line-height: 1.75; }
+
+/* ── APPLICATIONS ── */
+.apps-section { background: var(--white); border-top: 1px solid var(--border); }
+.apps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+.app-card {
+  background: var(--off-white); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 32px 28px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.app-card:hover { border-color: rgba(0,102,204,0.3); transform: translateY(-2px); }
+.app-tag { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--blue); background: var(--blue-bg); display: inline-block; padding: 3px 9px; border-radius: 980px; margin-bottom: 14px; }
+.app-title { font-size: 17px; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 10px; line-height: 1.3; }
+.app-desc { font-size: 14px; font-weight: 300; line-height: 1.7; color: var(--mid-gray); }
+
+/* ── MODULAR SECTION ── */
+.modular-section { background: var(--off-white); }
+.modular-inner { max-width: 1280px; margin: 0 auto; }
+.modular-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 48px; }
+.module-visual {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius-xl); padding: 48px;
+  display: flex; flex-direction: column; gap: 8px;
+  box-shadow: var(--shadow-sm);
+}
+.module-block {
+  height: 56px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px; font-size: 13px; font-weight: 500;
+}
+.module-block.sorter { background: var(--dark); color: var(--white); }
+.module-block.belt { background: var(--off-white); border: 1px solid var(--border); color: var(--mid-gray); }
+.module-block.chute { background: var(--blue-bg); border: 1px solid rgba(0,102,204,0.2); color: var(--blue); }
+.module-block.return { background: #fff8ed; border: 1px solid #f0d9a0; color: #b87900; }
+.module-label { display: flex; align-items: center; gap: 8px; }
+.module-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.module-block.sorter .module-dot { background: var(--blue-light); }
+.module-block.belt .module-dot { background: var(--mid-gray); }
+.module-block.chute .module-dot { background: var(--blue); }
+.module-block.return .module-dot { background: #b87900; }
+.module-mm { font-size: 12px; opacity: 0.6; }
+
+.modular-points { display: flex; flex-direction: column; gap: 20px; }
+.modular-point { display: flex; gap: 16px; align-items: flex-start; }
+.modular-point-icon { width: 36px; height: 36px; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.modular-point-icon svg { width: 18px; height: 18px; stroke: var(--dark); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.modular-point-title { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+.modular-point-desc { font-size: 14px; font-weight: 300; color: var(--mid-gray); line-height: 1.65; }
+
+/* ── CTA ── */
+.cta-section { padding: 72px 48px; }
+.cta-card {
+  max-width: 1280px; margin: 0 auto;
+  background: var(--dark); border-radius: var(--radius-xl);
+  padding: 64px 72px;
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 48px; align-items: center;
+  position: relative; overflow: hidden;
+}
+.cta-card::before { content: ''; position: absolute; top: -80px; right: -80px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(0,102,204,0.2) 0%, transparent 70%); }
+.cta-card .section-eyebrow { color: var(--blue-light); }
+.cta-card .section-eyebrow::before { background: var(--blue-light); }
+.cta-card h2 { color: var(--white); font-size: clamp(28px, 3vw, 40px); }
+.cta-card .section-lead { color: rgba(255,255,255,0.5); margin-bottom: 0; }
+.btn-white { background: var(--white); color: var(--dark); padding: 13px 28px; border-radius: 980px; font-family: var(--font-body); font-size: 15px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; transition: transform 0.2s, box-shadow 0.2s; position: relative; z-index: 1; }
+.btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.25); }
+
+/* ── FOOTER ── */
+footer { background: var(--dark); padding: 64px 48px 40px; }
+.footer-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
+.footer-logo { margin-bottom: 16px; }
+.footer-logo img { height: 32px; width: auto; opacity: 0.85; filter: brightness(0) invert(1); }
+.footer-desc { font-size: 13px; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,0.4); max-width: 260px; margin-bottom: 24px; }
+.footer-contact { display: flex; flex-direction: column; gap: 8px; }
+.footer-contact a { font-size: 13px; color: rgba(255,255,255,0.4); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: color 0.2s; font-weight: 300; }
+.footer-contact a:hover { color: var(--white); }
+.footer-contact svg { width: 14px; height: 14px; stroke: rgba(255,255,255,0.3); flex-shrink: 0; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.footer-col h4 { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 14px; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.footer-col a { font-size: 13px; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; font-weight: 300; }
+.footer-col a:hover { color: var(--white); }
+.footer-bottom { max-width: 1280px; margin: 40px auto 0; padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: rgba(255,255,255,0.25); }
+
+/* ── REVEAL ── */
+.reveal { opacity: 1 !important; transform: none !important; }
+
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .page-hero { padding: 90px 24px 0; }
+  .page-hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-content { padding-bottom: 0; }
+  .hero-video-wrap { border-radius: var(--radius-xl); }
+  .stats-inner { padding: 0 24px; grid-template-columns: repeat(2, 1fr); }
+  .section { padding: 56px 24px; }
+  .deep-section { padding: 56px 24px; }
+  .how-grid { grid-template-columns: 1fr; }
+  .specs-layout { grid-template-columns: 1fr; }
+  .deep-grid { grid-template-columns: 1fr; }
+  .apps-grid { grid-template-columns: 1fr; }
+  .modular-layout { grid-template-columns: 1fr; }
+  .cta-section { padding: 56px 24px; }
+  .cta-card { grid-template-columns: 1fr; padding: 48px 36px; gap: 28px; }
+  footer { padding: 48px 24px 32px; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── HAMBURGER NAV ── */
+.mobile-/* ── MOBILE BREAKPOINT (≤768px) ── */
+
+/* ── SCROLLING BANNER ── */
+100%{transform:translateX(-50%)}}
+
+@media(max-width:768px){
+  /* Hero */
+  .page-header,.hero{padding:88px 20px 44px!important}
+  .page-header h1,.hero h1,h1{font-size:clamp(28px,7vw,42px)!important}
+  .page-header-sub,.hero-sub{font-size:15px!important}
+  
+  /* Stats bar */
+  .stats-bar{padding:0!important}
+  .stats-inner{grid-template-columns:1fr 1fr!important;gap:1px}
+  .stat{padding:16px 14px!important}
+  .stat-num{font-size:26px!important}
+  
+  /* Grids → single column */
+  .product-grid,.news-grid,.social-grid,.vault-grid,
+  .cs-grid,.solution-grid,.features-grid{grid-template-columns:1fr!important}
+  
+  /* Two-col layouts → stack */
+  .product-inner,.solution-inner,.body-inner,.cta-card,
+  .footer-inner,.case-grid{grid-template-columns:1fr!important;direction:ltr!important;gap:24px!important}
+  
+  /* Tab bar → scrollable */
+  .tab-bar{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;white-space:nowrap;padding:0 20px}
+  .tab-bar::-webkit-scrollbar{display:none}
+  .tab-btn{padding:12px 16px!important;font-size:13px!important;white-space:nowrap}
+  
+  /* Cards */
+  .product-card,.news-card,.vault-card,.event-card{border-radius:14px!important}
+  .event-card{grid-template-columns:64px 1fr!important;gap:12px!important}
+  .event-badge{display:none!important}
+  
+  /* CTA sections */
+  .cta-section{padding:48px 20px!important}
+  .cta-card{padding:36px 24px!important;gap:24px!important}
+  .cta-title{font-size:26px!important}
+  .btn-white{width:100%;justify-content:center}
+  
+  /* Sections */
+  .section,.solution-section,.product-section{padding:48px 20px!important}
+  
+  /* Footer */
+  footer{padding:40px 20px 28px!important}
   .footer-inner{grid-template-columns:1fr 1fr!important;gap:28px!important}
   .footer-logo{margin-bottom:20px}
   .footer-bottom{flex-direction:column;gap:6px;text-align:center}
@@ -45,6 +431,396 @@ footer{padding:40px 20px 28px!important}
   .back-link{margin-bottom:20px}
 }
 
+/* ── SMALL PHONES (≤480px) ── */
+@media(max-width:480px){
+  .stats-inner{grid-template-columns:1fr!important}
+  .footer-inner{grid-template-columns:1fr!important}
+  .solution-img-grid{grid-template-columns:1fr!important}
+  .thumb-row{flex-wrap:wrap}
+  h1{font-size:clamp(24px,8vw,36px)!important}
+}
+
+/* ── HELIX DYNAMIC CONTENT ── */
+.helix-dynamic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.helix-dynamic-render{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm)}
+.helix-dynamic-render img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.helix-dynamic-render .caption{padding:12px 14px;font-size:13px;color:var(--mid-gray)}
+.helix-dynamic-stack{display:grid;gap:18px;margin-top:18px}
+.helix-dynamic-card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm)}
+.helix-dynamic-card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.helix-dynamic-card iframe{width:100%;aspect-ratio:16/9;border:0;display:block;background:#000}
+.helix-dynamic-carousel{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:12px}
+.helix-dynamic-carousel img{aspect-ratio:4/3;border-radius:12px}
+@media(max-width:900px){
+  .helix-dynamic-grid,.helix-dynamic-carousel{grid-template-columns:1fr}
+}
+
+</style>
+</head>
+<body>
+<!-- SCROLLING ANNOUNCEMENT BAR -->
+<div class="announcement-bar">
+  <div class="announcement-track">
+    <span class="announcement-item">🇬🇧 Designed &amp; manufactured in the UK</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">⚡ Work out your ROI, monthly lease &amp; system cost — <a href="helix-configurator.html">try the configurator</a></span><span class="announcement-sep">·</span>
+    <span class="announcement-item">📦 Up to 20,000 parcels per hour</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🔧 15-minute mean time to repair</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">💷 Flexible operating lease from £1,000/month</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">✅ 24-month parts &amp; labour warranty</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🚀 Typical installation in under 4 weeks</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🏭 87% UK manufactured components</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🇬🇧 Designed &amp; manufactured in the UK</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">⚡ Work out your ROI, monthly lease &amp; system cost — <a href="helix-configurator.html">try the configurator</a></span><span class="announcement-sep">·</span>
+    <span class="announcement-item">📦 Up to 20,000 parcels per hour</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🔧 15-minute mean time to repair</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">💷 Flexible operating lease from £1,000/month</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">✅ 24-month parts &amp; labour warranty</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🚀 Typical installation in under 4 weeks</span><span class="announcement-sep">·</span>
+    <span class="announcement-item">🏭 87% UK manufactured components</span><span class="announcement-sep">·</span>
+  </div>
+<nav id="mainNav">
+  <a href="index.html" class="nav-logo">
+    <img src="https://www.orionmis.co.uk/front/images/comp/logo.png" alt="Orion MIS">
+  </a>
+  <ul class="nav-links">
+    <li><a href="helix-product.html">Helix</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="solutions.html">Solutions</a></li>
+    <li><a href="case-studies.html">Case Studies</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="hub.html">Hub</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-configure" id="navConfigure">
+      <button class="nav-configure-btn" id="navConfigureBtn" onclick="toggleConfigureDropdown()">
+        Configure system
+        <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="nav-configure-dropdown" id="navConfigureDropdown">
+        <a href="helix-configurator.html" class="helix-opt">
+          <span class="dd-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+          <div><strong>Helix sorter</strong><small>High-speed sortation &mdash; up to 20,000 pph</small></div>
+        </a>
+        <a href="conveyor-configurator.html" class="conv-opt">
+          <span class="dd-icon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span>
+          <div><strong>Conveyor system</strong><small>Unit handling, pallet &amp; food-grade</small></div>
+        </a>
+      </div>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMobileNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <a href="helix-product.html">Helix</a>
+  <a href="products.html">Products</a>
+  <a href="solutions.html">Solutions</a>
+  <a href="case-studies.html">Case Studies</a>
+  <a href="about.html">About</a>
+  <a href="hub.html">Hub</a>
+  <a href="helix-configurator.html" class="mobile-cta">&#9889; Configure Helix sorter</a>
+  <a href="conveyor-configurator.html" class="mobile-cta" style="background:#0066cc;margin-top:6px">&#128230; Configure conveyor system</a>
+</div>
+</div>
+
+<!-- NAV -->
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="hero-content">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <span>Products</span>
+        <span>›</span>
+        <span style="color:var(--dark);">Helix</span>
+      </div>
+      <div class="page-eyebrow">Modular wheel sorter</div>
+      <h1>The <em>Helix</em> sortation system</h1>
+      <p class="page-hero-sub">A compact, high-throughput modular sorter designed and manufactured in the UK. Built for real fulfilment environments — not ideal ones.</p>
+      <div class="hero-actions">
+        <a href="helix-configurator.html" class="btn btn-primary">
+          Configure your system
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#specs" class="btn btn-outline">View full spec</a>
+      </div>
+    </div>
+    <div class="hero-video-wrap">
+      <video autoplay muted loop playsinline>
+        <source src="0216.mp4" type="video/mp4">
+        <!-- Fallback thumbnail -->
+        <img src="https://img.youtube.com/vi/ZJhXlXHJ_5c/maxresdefault.jpg" alt="Helix system">
+      </video>
+      <div class="hero-video-overlay"></div>
+      <div class="hero-video-badge">Helix — Live installation</div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-label">Max throughput</div>
+      <div class="stat-number">9,000+</div>
+      <div class="stat-note">parcels per hour</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Module pitch</div>
+      <div class="stat-number">300mm</div>
+      <div class="stat-note">per cassette module</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Sort directions</div>
+      <div class="stat-number">3-way</div>
+      <div class="stat-note">left / right / straight</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Standard warranty</div>
+      <div class="stat-number">24 mo</div>
+      <div class="stat-note">on every system</div>
+    </div>
+  </div>
+<section class="section" style="background:var(--white);padding-top:0">
+  <div class="section-inner" style="max-width:1280px;margin:0 auto">
+    <div id="cms-gallery" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:0">
+      <img data-cms="gallery_1" src="" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;display:none">
+      <img data-cms="gallery_2" src="" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;display:none">
+      <img data-cms="gallery_3" src="" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;display:none">
+      <img data-cms="gallery_4" src="" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;display:none">
+    </div>
+  </div>
+</section>
+
+<section class="section" id="helixDynamicContent" style="background:var(--off-white);padding-top:24px;padding-bottom:24px;display:none">
+  <div class="section-inner" style="max-width:1280px;margin:0 auto">
+    <div id="helix-dynamic-renders" class="helix-dynamic-grid"></div>
+    <div id="helix-dynamic-media" class="helix-dynamic-stack"></div>
+  </div>
+</section>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section how-section">
+  <div class="section-inner">
+    <div class="section-eyebrow">How it works</div>
+    <h2>Sorting in three steps,<br><em>at pace</em></h2>
+    <p class="section-lead">The Helix system combines induction, vision, and high-speed swivel wheel sortation into a compact, modular platform that fits inside your existing building.</p>
+    <div class="how-grid">
+      <div class="how-card reveal">
+        <div class="how-number">01</div>
+        <div class="how-icon"><svg viewBox="0 0 24 24"><path d="M5 12H3l9-9 9 9h-2"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg></div>
+        <div class="how-title">Induction &amp; singulation</div>
+        <div class="how-desc">Parcels enter via the loading conveyor and are singulated — separated into a single stream with controlled gap spacing. Vision cameras read barcodes, capture dimensions, and assign each parcel to a sort destination in real time.</div>
+      </div>
+      <div class="how-card reveal">
+        <div class="how-number">02</div>
+        <div class="how-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div>
+        <div class="how-title">Swivel wheel divert</div>
+        <div class="how-desc">Each Helix module uses swivel wheel technology to divert parcels left, right, or straight at up to 2.5 m/s. Modules are 300mm in pitch — the more modules per Helix, the longer the parcel it can handle reliably.</div>
+      </div>
+      <div class="how-card reveal">
+        <div class="how-number">03</div>
+        <div class="how-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="how-title">Chute outfeed</div>
+        <div class="how-desc">Diverted parcels travel down powered or non-powered chute conveyors to their destination lane. Each Helix unit handles two sort destinations — left and right — allowing compact system layouts with high destination counts.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH SPECS -->
+<section class="section specs-section" id="specs">
+  <div class="section-inner">
+    <div class="section-eyebrow">Technical specification</div>
+    <h2>Full system <em>specification</em></h2>
+    <p class="section-lead">Every dimension, performance figure, and operational parameter for the Helix modular sortation system.</p>
+    <div class="specs-layout reveal">
+      <div class="specs-card">
+        <div class="specs-card-header">
+          <div class="specs-card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+          <div class="specs-card-title">Mechanical</div>
+        </div>
+        <table class="specs-table">
+          <tr><td>Module pitch</td><td>300 mm</td></tr>
+          <tr><td>System widths available</td><td>650 / 750 / 850 / 950 / 1050 mm</td></tr>
+          <tr><td>Divert technology</td><td>Swivel wheel</td></tr>
+          <tr><td>Sort directions per module</td><td>Left / Right / Straight</td></tr>
+          <tr><td>Max parcel weight</td><td>30 kg</td></tr>
+          <tr><td>Min parcel dimensions</td><td>100 × 60 mm</td></tr>
+          <tr><td>Max parcel dimensions</td><td>1,500 × 800 mm</td></tr>
+          <tr><td>Frame construction</td><td>Mild steel, powder coated</td></tr>
+        </table>
+      </div>
+      <div class="specs-card">
+        <div class="specs-card-header">
+          <div class="specs-card-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div class="specs-card-title">Performance</div>
+        </div>
+        <table class="specs-table">
+          <tr><td>Max conveyor speed</td><td>2,500 mm/s</td></tr>
+          <tr><td>Max throughput</td><td>~9,000 parcels/hr</td></tr>
+          <tr><td>Sort accuracy</td><td>&gt;99.9%</td></tr>
+          <tr><td>Mean time to repair</td><td>15 minutes</td></tr>
+          <tr><td>Standard warranty</td><td>24 months</td></tr>
+          <tr><td>Electrical supply</td><td>415V 3-phase 50Hz</td></tr>
+          <tr><td>Control system</td><td>PLC + WCS integration</td></tr>
+          <tr><td>Operating temperature</td><td>5°C to 40°C</td></tr>
+        </table>
+      </div>
+      <div class="specs-card">
+        <div class="specs-card-header">
+          <div class="specs-card-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="specs-card-title">Manufacturing &amp; support</div>
+        </div>
+        <table class="specs-table">
+          <tr><td>Design origin</td><td>UK</td></tr>
+          <tr><td>Manufacture origin</td><td>UK</td></tr>
+          <tr><td>In-house components</td><td>87%</td></tr>
+          <tr><td>Average quote lead time</td><td>5 working days</td></tr>
+          <tr><td>Average deployment</td><td>30 days</td></tr>
+          <tr><td>Support availability</td><td>24/7 call-out</td></tr>
+          <tr><td>Remote diagnostics</td><td>Included</td></tr>
+        </table>
+      </div>
+      <div class="specs-card">
+        <div class="specs-card-header">
+          <div class="specs-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg></div>
+          <div class="specs-card-title">Vision &amp; integration</div>
+        </div>
+        <table class="specs-table">
+          <tr><td>Camera options</td><td>Basic / Vision / Dimensioning</td></tr>
+          <tr><td>Barcode reading</td><td>1D / 2D / QR</td></tr>
+          <tr><td>Dimensioning</td><td>Optional (LxWxH)</td></tr>
+          <tr><td>WCS integration</td><td>Standard</td></tr>
+          <tr><td>ERP / WMS integration</td><td>Available</td></tr>
+          <tr><td>Data output</td><td>JSON / REST API</td></tr>
+          <tr><td>SCADA / reporting</td><td>Optional</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DARK DEEP DIVE -->
+<div class="deep-section">
+  <div class="deep-inner">
+    <div class="section-eyebrow">Engineering detail</div>
+    <h2>Why every decision <em>matters</em></h2>
+    <p class="section-lead">The Helix isn't a catalogue product with a new badge. Every dimension, material, and mechanism has been chosen for parcel sortation specifically.</p>
+    <div class="deep-grid">
+      <div class="deep-card reveal">
+        <div class="deep-card-num">01 — Module design</div>
+        <div class="deep-card-title">300mm pitch isn't arbitrary</div>
+        <div class="deep-card-desc">The 300mm module pitch was chosen to balance parcel support area against system compactness. Shorter modules would require more units for long parcels. Longer modules would waste footprint on small parcels. 300mm is the engineering optimum for mixed parcel profiles.</div>
+      </div>
+      <div class="deep-card reveal">
+        <div class="deep-card-num">02 — Divert mechanism</div>
+        <div class="deep-card-title">Swivel wheel: speed without shock</div>
+        <div class="deep-card-desc">Swivel wheel diverts steer parcels rather than pushing them. This means no impact force on the parcel, no jams from friction, and consistent divert accuracy at full speed. At 2,500 mm/s, that matters enormously for sort accuracy and machine life.</div>
+      </div>
+      <div class="deep-card reveal">
+        <div class="deep-card-num">03 — Cassette construction</div>
+        <div class="deep-card-title">15-minute MTTR by design, not chance</div>
+        <div class="deep-card-desc">Each Helix module is a self-contained cassette. Bearing, wheel assembly, and drive are all accessible without tools from the top of the machine. No need to stop the whole system — a module swaps in 15 minutes while adjacent modules continue running.</div>
+      </div>
+      <div class="deep-card reveal">
+        <div class="deep-card-num">04 — UK manufacture</div>
+        <div class="deep-card-title">87% in-house isn't a marketing claim</div>
+        <div class="deep-card-desc">87% of Helix components are manufactured at Orion's UK facility. This means we control tolerances, we control lead times, and we control the supply chain. When a customer needs a part urgently, we don't wait for a container from overseas.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- APPLICATIONS -->
+<section class="section apps-section">
+  <div class="section-inner">
+    <div class="section-eyebrow">Applications</div>
+    <h2>Where <em>Helix</em> performs</h2>
+    <p class="section-lead">Helix is deployed across parcel distribution, e-commerce fulfilment, and 3PL environments. Here's where it delivers the strongest results.</p>
+    <div class="apps-grid">
+      <div class="app-card reveal">
+        <div class="app-tag">Parcel distribution</div>
+        <div class="app-title">Parcel hubs &amp; sortation centres</div>
+        <div class="app-desc">High-volume, mixed-size parcel flows. Helix handles the throughput with consistent accuracy at pace, reducing manual touchpoints and labour cost per parcel.</div>
+      </div>
+      <div class="app-card reveal">
+        <div class="app-tag">E-commerce</div>
+        <div class="app-title">Fulfilment centre outbound</div>
+        <div class="app-desc">Peak trading puts enormous pressure on outbound sortation. Helix scales modularly — add capacity during peak, reconfigure after. No structural changes to the building required.</div>
+      </div>
+      <div class="app-card reveal">
+        <div class="app-tag">3PL &amp; Warehouse</div>
+        <div class="app-title">Third-party logistics operations</div>
+        <div class="app-desc">3PLs need flexibility as client mixes change. Helix's modular architecture and configurable destination layout means the system adapts to new clients without capital reinvestment.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULAR ARCHITECTURE -->
+<section class="section modular-section">
+  <div class="modular-inner">
+    <div class="section-eyebrow">System architecture</div>
+    <h2>A system built in <em>blocks</em></h2>
+    <p class="section-lead">Every Helix installation is assembled from the same modular building blocks — meaning it can be sized precisely to your operation, then expanded later without replacing what's already there.</p>
+    <div class="modular-layout">
+      <div class="module-visual reveal">
+        <div class="module-block belt"><div class="module-label"><div class="module-dot"></div>Loading conveyor</div><div class="module-mm">Variable</div></div>
+        <div class="module-block belt"><div class="module-label"><div class="module-dot"></div>GapEx / singulation</div><div class="module-mm">1,000–2,000mm</div></div>
+        <div class="module-block belt"><div class="module-label"><div class="module-dot"></div>Vision / camera</div><div class="module-mm">Overhead</div></div>
+        <div class="module-block sorter"><div class="module-label"><div class="module-dot"></div>Helix unit 1</div><div class="module-mm">300mm × n</div></div>
+        <div class="module-block chute"><div class="module-label"><div class="module-dot"></div>Chute outfeed ×2</div><div class="module-mm">3,000–10,000mm</div></div>
+        <div class="module-block belt"><div class="module-label"><div class="module-dot"></div>Outfeed conveyor</div><div class="module-mm">Variable</div></div>
+        <div class="module-block sorter"><div class="module-label"><div class="module-dot"></div>Helix unit 2</div><div class="module-mm">300mm × n</div></div>
+        <div class="module-block chute"><div class="module-label"><div class="module-dot"></div>Chute outfeed ×2</div><div class="module-mm">3,000–10,000mm</div></div>
+        <div class="module-block return"><div class="module-label"><div class="module-dot"></div>Return loop (ROM)</div><div class="module-mm">Site-specific</div></div>
+      </div>
+      <div class="modular-points">
+        <div class="modular-point reveal">
+          <div class="modular-point-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+          <div><div class="modular-point-title">Modules are standardised</div><div class="modular-point-desc">Every Helix module is built to the same specification. Spares are interchangeable across all installations.</div></div>
+        </div>
+        <div class="modular-point reveal">
+          <div class="modular-point-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg></div>
+          <div><div class="modular-point-title">Scales vertically or horizontally</div><div class="modular-point-desc">Add Helix units to increase destination count, or add modules per Helix to handle longer parcels. Both can be done after initial installation.</div></div>
+        </div>
+        <div class="modular-point reveal">
+          <div class="modular-point-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div><div class="modular-point-title">No building work required</div><div class="modular-point-desc">The entire system sits within your existing floor plan. No structural modifications, no planning permission, no extended shutdown.</div></div>
+        </div>
+        <div class="modular-point reveal">
+          <div class="modular-point-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg></div>
+          <div><div class="modular-point-title">Fast to deploy</div><div class="modular-point-desc">Orion's average deployment lead time is 30 days from order. The modular design means most installation work happens off-site before delivery.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-card reveal">
+    <div>
+      <div class="section-eyebrow">Ready to size your system?</div>
+      <h2 style="color:var(--white); margin-bottom:12px;">Configure a Helix system<br>around your operation</h2>
+      <p class="section-lead">Enter your throughput, destinations, and parcel mix. Get a live system layout, cost estimate, ROI calculation, and finance options in minutes.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start;position:relative;z-index:1;">
+      <a href="helix-configurator.html" class="btn-white">
+        Open configurator
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="contact.html" target="_blank" style="font-size:14px;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.8)'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Or speak to our engineering team →</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div>
@@ -92,51 +868,81 @@ footer{padding:40px 20px 28px!important}
     <span>© 2025 Orion MIS Ltd. All rights reserved.</span>
     <span>Designed &amp; manufactured in the UK</span>
   </div>
-</footer>E html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Helix Modular Sorter — Orion MIS</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
-<style>
-:root{--white:#fff;--off:#f5f5f7;--border:#e2e2e7;--mid:#86868b;--dark:#1d1d1f;--blue:#0066cc;--blue-bg:#f0f6ff;--radius:20px;--radius-xl:28px;--font-display:'DM Serif Display',serif;--font-body:'DM Sans',sans-serif;--shadow:0 8px 24px rgba(0,0,0,.06)}
-*{box-sizing:border-box;margin:0;padding:0} html{scroll-behavior:smooth} body{font-family:var(--font-body);background:var(--off);color:var(--dark);-webkit-font-smoothing:antialiased;overflow-x:hidden;padding-top:100px}
-.announcement-bar{background:#1d1d1f;height:36px;overflow:hidden;position:fixed;top:0;left:0;right:0;z-index:300;border-bottom:1px solid rgba(255,255,255,.12)}
-.announcement-track{display:flex;align-items:center;height:36px;white-space:nowrap;animation:scrollBanner 35s linear infinite}.announcement-track:hover{animation-play-state:paused}.announcement-item{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:400;color:rgba(255,255,255,.8);padding:0 32px;flex-shrink:0}.announcement-item a{color:#fff;font-weight:500;text-decoration:underline;text-underline-offset:2px}.announcement-sep{color:rgba(255,255,255,.25);font-size:10px;flex-shrink:0}@keyframes scrollBanner{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-nav{position:fixed;top:36px;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(255,255,255,.96);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.06)}
-.nav-logo img{height:36px;display:block}.nav-links{display:flex;gap:24px;list-style:none;align-items:center}.nav-links a{font-size:14px;color:#1d1d1f;text-decoration:none;opacity:.7}.nav-links a:hover{opacity:1}.nav-cta{background:#1d1d1f;color:#fff!important;padding:9px 20px;border-radius:980px;opacity:1!important}
-.page-hero{background:var(--white);border-bottom:1px solid var(--border);padding:108px 48px 0;overflow:hidden}.page-hero-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:end}.hero-content{padding-bottom:64px}.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mid);margin-bottom:20px}.breadcrumb a{color:var(--mid);text-decoration:none}.page-eyebrow{font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);display:flex;align-items:center;gap:8px;margin-bottom:16px}.page-eyebrow:before{content:'';width:16px;height:1px;background:var(--blue)}
-.page-hero h1{font-family:var(--font-display);font-size:clamp(40px,4.5vw,64px);line-height:1.04;letter-spacing:-.02em;color:var(--dark);margin-bottom:20px}.page-hero h1 em{font-style:italic;color:var(--blue)}.page-hero-sub{font-size:18px;font-weight:300;line-height:1.65;color:var(--mid);max-width:520px;margin-bottom:36px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;gap:7px;padding:12px 24px;border-radius:980px;font-size:15px;font-weight:500;text-decoration:none;border:none;white-space:nowrap}.btn-primary{background:var(--dark);color:var(--white)}.btn-outline{background:transparent;color:var(--blue);border:1.5px solid var(--border)}
-.hero-video-wrap{position:relative;border-radius:var(--radius-xl) var(--radius-xl) 0 0;overflow:hidden;box-shadow:0 -4px 40px rgba(0,0,0,.1);background:var(--dark);aspect-ratio:16/10}.hero-video-wrap iframe,.hero-video-wrap img{position:absolute;top:0;left:0;width:100%;height:100%;border:0}.hero-video-wrap img{object-fit:cover}.hero-video-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.25) 0%, transparent 60%)}.hero-video-badge{position:absolute;bottom:20px;left:20px;background:rgba(0,0,0,.55);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:8px 14px;font-size:12px;font-weight:500;color:rgba(255,255,255,.85)}
-.stats-bar{background:var(--dark)}.stats-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.08);padding:0 48px}.stat-item{background:var(--dark);padding:22px 28px}.stat-label{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px}.stat-number{font-family:var(--font-display);font-size:28px;line-height:1;letter-spacing:-.02em;color:var(--white);margin-bottom:4px}.stat-note{font-size:12px;color:rgba(255,255,255,.35);font-weight:300}
-.section{padding:72px 48px}.section-inner{max-width:1280px;margin:0 auto}.section-eyebrow{font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);display:flex;align-items:center;gap:8px;margin-bottom:14px}.section-eyebrow:before{content:'';width:16px;height:1px;background:var(--blue)}h2{font-family:var(--font-display);font-size:clamp(30px,3.5vw,44px);line-height:1.08;letter-spacing:-.02em;color:var(--dark);margin-bottom:14px}h2 em{font-style:italic;color:var(--blue)}.section-lead{font-size:17px;font-weight:300;line-height:1.65;color:var(--mid);max-width:620px;margin-bottom:40px}
-.feature-grid,.renders-grid,.media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.feature-card,.render-card,.media-card{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:28px;box-shadow:var(--shadow)}.feature-title,.render-title,.media-title{font-size:18px;font-weight:500;margin-bottom:8px}.feature-desc,.render-desc,.media-caption{font-size:14px;font-weight:300;line-height:1.7;color:var(--mid)}
-.specs-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px}.spec-list{list-style:none;background:var(--white);border:1px solid var(--border);border-radius:20px;padding:12px 24px;box-shadow:var(--shadow)}.spec-list li{display:flex;justify-content:space-between;gap:20px;padding:14px 0;border-bottom:1px solid var(--border)}.spec-list li:last-child{border-bottom:none}.spec-key{color:var(--mid);font-weight:300}.spec-val{font-weight:500;color:var(--dark);text-align:right}
-.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.gallery-grid img,.render-card img,.media-card img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px;display:block;background:#eef1f4}.media-card iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:14px;background:#000}.media-card.carousel .carousel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.cta-section{padding:72px 48px}.cta-card{max-width:1280px;margin:0 auto;background:var(--dark);border-radius:28px;padding:64px 72px;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center;position:relative;overflow:hidden}.cta-card h2{color:var(--white)}.cta-card .section-lead{color:rgba(255,255,255,.5);margin-bottom:0}.btn-white{background:var(--white);color:var(--dark);padding:13px 28px;border-radius:980px;text-decoration:none;font-weight:500}
-footer{padding:40px 20px 28px!important}
-  .footer-inner{grid-template-columns:1fr 1fr!important;gap:28px!important}
-  .footer-logo{margin-bottom:20px}
-  .footer-bottom{flex-direction:column;gap:6px;text-align:center}
-  
-  /* Configurator */
-  .config-layout{grid-template-columns:1fr!important}
-  .config-panel{position:static!important}
-  
-  /* Contact form */
-  .contact-grid{grid-template-columns:1fr!important}
-  
-  /* Images */
-  .solution-img-grid{grid-template-columns:1fr 1fr!important}
-  .product-gallery .main-img{aspect-ratio:4/3}
-  
-  /* Hub page */
-  .hub-.hub-nav-btn{font-size:12px;padding:7px 14px}
-  
-  /* Sidebar on case studies */
-  .sidebar{margin-top:0}
-  .back-link{margin-bottom:20px}
+</footer>
+
+<script>
+
+// ── REVEAL ANIMATION ──────────────────────────────────────
+const reveals = document.querySelectorAll('.reveal');
+if (reveals.length) {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+  reveals.forEach(el => obs.observe(el));
 }
 
+// ── CONFIGURE DROPDOWN ────────────────────────────────────
+function toggleConfigureDropdown() {
+  var btn = document.getElementById('navConfigureBtn');
+  var dd  = document.getElementById('navConfigureDropdown');
+  if (!btn || !dd) return;
+  var isOpen = dd.classList.contains('open');
+  btn.classList.toggle('open', !isOpen);
+  dd.classList.toggle('open', !isOpen);
+}
 
+// ── MOBILE NAV ────────────────────────────────────────────
+function toggleMobileNav() {
+  var h = document.getElementById('hamburger');
+  var m = document.getElementById('mobileNav');
+  if (h) h.classList.toggle('open');
+  if (m) m.classList.toggle('open');
+}
+
+// ── CLOSE ON OUTSIDE CLICK ────────────────────────────────
+document.addEventListener('click', function(e) {
+  var cfg = document.getElementById('navConfigure');
+  if (cfg && !cfg.contains(e.target)) {
+    var b = document.getElementById('navConfigureBtn');
+    var d = document.getElementById('navConfigureDropdown');
+    if (b) b.classList.remove('open');
+    if (d) d.classList.remove('open');
+  }
+  var mob = document.getElementById('mobileNav');
+  var ham = document.getElementById('hamburger');
+  if (mob && ham && !mob.contains(e.target) && !ham.contains(e.target)) {
+    mob.classList.remove('open');
+    ham.classList.remove('open');
+  }
+});
+
+// ── NAV SHADOW ON SCROLL ──────────────────────────────────
+window.addEventListener('scroll', function() {
+  var n = document.getElementById('mainNav');
+  if (n) n.style.boxShadow = window.scrollY > 10 ? '0 2px 20px rgba(0,0,0,0.08)' : 'none';
+});
+
+</script>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/69bab551f1726d1c37ecec82/1jk0l8hp5';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<script src="cms.js"></script>
+
+<!--End of Tawk.to Script-->
+<script>
+  
