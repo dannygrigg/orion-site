@@ -360,6 +360,7 @@ footer{background:var(--dark);padding:56px 48px 36px;border-top:1px solid rgba(2
     <div class="hub-nav">
       <a href="#news" class="hub-nav-btn">News</a>
       <a href="#events" class="hub-nav-btn">Events</a>
+      <a href="#youtube" class="hub-nav-btn">YouTube</a>
       <a href="#social" class="hub-nav-btn">Social</a>
       <a href="#vault" class="hub-nav-btn">The Vault</a>
     </div>
@@ -376,7 +377,7 @@ footer{background:var(--dark);padding:56px 48px 36px;border-top:1px solid rgba(2
       </div>
       <a href="hub.html" target="_blank" class="view-all">All news <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
-    <div id="cms-news-feed" class="news-grid" id="cms-news-feed">
+    <div id="cms-news-feed" class="news-grid">
       <!-- Populated by JS from NEWS_DATA below -->
     </div>
   </div>
@@ -398,8 +399,22 @@ footer{background:var(--dark);padding:56px 48px 36px;border-top:1px solid rgba(2
   </div>
 </section>
 
+<!-- YOUTUBE -->
+<section class="section" id="youtube">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">YouTube</div>
+        <h2>Latest on <em>YouTube</em></h2>
+      </div>
+      <a href="https://www.youtube.com/@orionautomation1" target="_blank" rel="noopener" class="view-all">Open channel <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+    <div id="cms-youtube-feed" class="news-grid"></div>
+  </div>
+</section>
+
 <!-- SOCIAL -->
-<section class="section" id="social"><div id="cms-social-feed">
+<section class="section" id="social">
   <div class="section-inner">
     <div class="section-header">
       <div>
@@ -407,80 +422,7 @@ footer{background:var(--dark);padding:56px 48px 36px;border-top:1px solid rgba(2
         <h2>Orion on <em>social</em></h2>
       </div>
     </div>
-    <div id="cms-social-feed" class="social-grid">
-
-      <!-- YOUTUBE -->
-      <div style="display:none" class="social-channel-hidden">
-        <div class="social-header">
-          <div class="social-icon yt-icon">
-            <svg viewBox="0 0 24 24" fill="white"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><polygon fill="#ff0000" points="0,0"/><polygon points="9.75,15.02 15.5,12 9.75,8.98 9.75,15.02" fill="white"/></svg>
-          </div>
-          <div>
-            <div class="social-name">YouTube</div>
-            <div class="social-handle">@OrionMIS</div>
-          </div>
-        </div>
-        <div class="social-body">
-          <div class="yt-embed">
-            <iframe src="https://www.youtube.com/embed/ZJhXlXHJ_5c?rel=0&modestbranding=1" allowfullscreen allow="autoplay; encrypted-media"></iframe>
-          </div>
-          <p class="social-desc">Watch the Helix sorter in action, installation time-lapses, and automation explainers on our YouTube channel.</p>
-          <a href="https://www.youtube.com/@OrionMIS" target="_blank" class="social-follow-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/></svg>
-            Subscribe on YouTube
-          </a>
-        </div>
-      </div>
-
-      <!-- INSTAGRAM -->
-      <div style="display:none" class="social-channel-hidden">
-        <div class="social-header">
-          <div class="social-icon ig-icon">
-            <svg viewBox="0 0 24 24" fill="white"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="white" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="white" stroke-width="2"/><circle cx="18" cy="6" r="1" fill="white"/></svg>
-          </div>
-          <div>
-            <div class="social-name">Instagram</div>
-            <div class="social-handle">@orionmisltd</div>
-          </div>
-        </div>
-        <div class="social-body">
-          <div class="social-posts-note">
-            <strong>Follow us on Instagram</strong>
-            Behind the scenes at Orion — installations, engineering, and life at our Chichester facility. Due to Instagram's platform restrictions, live feed embedding isn't available. Follow us directly for the latest.
-          </div>
-          <p class="social-desc">Install photography, engineering close-ups, team updates, and event coverage direct from our facility.</p>
-          <a href="https://www.instagram.com/orionmisltd" target="_blank" class="social-follow-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1" fill="currentColor" stroke="none"/></svg>
-            Follow on Instagram
-          </a>
-        </div>
-      </div>
-
-      <!-- X / TWITTER -->
-      <div style="display:none" class="social-channel-hidden">
-        <div class="social-header">
-          <div class="social-icon x-icon">
-            <svg viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          </div>
-          <div>
-            <div class="social-name">X (Twitter)</div>
-            <div class="social-handle">@OrionMIS</div>
-          </div>
-        </div>
-        <div class="social-body">
-          <div class="social-posts-note">
-            <strong>Follow us on X</strong>
-            Industry news, product launches, and automation insights. Due to X's current API restrictions, live feed embedding requires a paid X subscription. Follow us directly to stay updated.
-          </div>
-          <p class="social-desc">Industry commentary, product news, and thought leadership on warehouse automation and UK manufacturing.</p>
-          <a href="https://x.com/OrionMIS" target="_blank" class="social-follow-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            Follow on X
-          </a>
-        </div>
-      </div>
-
-    </div>
+    <div id="cms-social-feed" class="news-grid"></div>
   </div>
 </section>
 
@@ -501,7 +443,7 @@ footer{background:var(--dark);padding:56px 48px 36px;border-top:1px solid rgba(2
       <button class="vault-cat-btn" onclick="filterVault('guide',this)">Guides</button>
       <button class="vault-cat-btn" onclick="filterVault('drawing',this)">Drawings</button>
     </div>
-    <div id="cms-vault-list" class="vault-grid" id="cms-vault-list">
+    <div id="cms-vault-list" class="vault-grid">
       <!-- Populated by JS from VAULT_DATA below -->
     </div>
     <div class="vault-edit-note">

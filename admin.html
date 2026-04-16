@@ -247,7 +247,7 @@ tr:hover td{background:var(--off)}
 // ── SITE BASE URL ─────────────────────────────────────────
 // Since admin.html is served from the same GitHub Pages origin,
 // fetching other pages on the same origin works without CORS issues
-const SITE = 'https://dannygrigg.github.io/orion-site/';
+const SITE = window.location.origin + (window.location.pathname.includes('/orion-site') ? '/orion-site/' : '/');
 
 // ── PAGE DEFINITIONS ──────────────────────────────────────
 // Each page: what file to fetch and how to extract its content
