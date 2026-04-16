@@ -49,7 +49,7 @@
       {
         "text": "connect with us on all our socials ",
         "link_url": "https://linktr.ee/danny.griggORION",
-        "link_label": ""
+        "link_label": "view links"
       }
     ],
     "stat1_label": "Max throughput",
@@ -79,7 +79,7 @@
     "dark_h2_line1": "A sorter engineered to the",
     "dark_h2_line2": "millimetre",
     "dark_lead": "Every component is specified, tested, and refined for parcel sortation environments. Purpose-built, not adapted.",
-    "dark_image": "https://photos.app.goo.gl/9Gv2eFT5njWkbUK36",
+    "dark_image": "",
     "spec1_key": "Module pitch",
     "spec1_val": "300 mm",
     "spec2_key": "Sort directions",
@@ -151,19 +151,19 @@
     "feat5_desc": "",
     "feat6_title": "",
     "feat6_desc": "",
-    "spec1_key": "",
-    "spec1_val": "",
-    "spec2_key": "",
-    "spec2_val": "",
-    "spec3_key": "",
-    "spec3_val": "",
-    "spec4_key": "",
+    "spec1_key": "Module pitch",
+    "spec1_val": "300 mm",
+    "spec2_key": "Sort directions",
+    "spec2_val": "Left / Right / Straight",
+    "spec3_key": "Divert technology",
+    "spec3_val": "Swivel wheel",
+    "spec4_key": "Max throughput",
     "spec4_val": "20,000 parcels/hour",
     "spec5_key": "Max parcel size",
     "spec5_val": "2500L × 1000W",
-    "spec6_key": "",
-    "spec6_val": "",
-    "cta_h2": "Configure a Helix systemaround your operation",
+    "spec6_key": "Warranty",
+    "spec6_val": "24 months",
+    "cta_h2": "Configure a Helix system around your operation",
     "cta_lead": "Enter your throughput, destinations, and parcel mix. Get a live system layout, cost estimate, ROI calculation, and finance options in minutes.",
     "media_blocks": [
       {
@@ -197,7 +197,7 @@
   "solutions": {
     "hero_image": "",
     "hero_eyebrow": "",
-    "hero_h1": "Every operation is different.Our systems adapt.",
+    "hero_h1": "Every operation is different. Our systems adapt.",
     "hero_sub": "From e-commerce fulfilment to food manufacturing and automotive production — Orion MIS has delivered automation systems across every major industrial sector.",
     "sol1_tag": "",
     "sol1_title": "",
@@ -223,5 +223,12 @@
     "cs2_title": "",
     "cs3_title": "",
     "cs4_title": ""
+  },
+  "hub": {
+    "hero_h1": "Stay in the loop.<br><em>Everything Orion.</em>",
+    "hero_sub": "News, social content, videos, and Orion resources — all in one place.",
+    "youtube_channel_url": "https://www.youtube.com/@orionautomation1",
+    "youtube_channel_handle": "@orionautomation1",
+    "youtube_intro": "Latest videos from Orion Automation on YouTube."
   }
 }
