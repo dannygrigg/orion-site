@@ -7,7 +7,7 @@
     "hero_eyebrow": "Helix Modular Sortation",
     "announcements": [
       {
-        "text": "🇬🇧 Designed & manufactured in the UK",
+        "text": "🇬🇧 Designed & manufactured in the UK of course",
         "link_url": "",
         "link_label": ""
       },
@@ -49,7 +49,7 @@
       {
         "text": "connect with us on all our socials ",
         "link_url": "https://linktr.ee/danny.griggORION",
-        "link_label": "view links"
+        "link_label": ""
       }
     ],
     "stat1_label": "Max throughput",
@@ -79,7 +79,7 @@
     "dark_h2_line1": "A sorter engineered to the",
     "dark_h2_line2": "millimetre",
     "dark_lead": "Every component is specified, tested, and refined for parcel sortation environments. Purpose-built, not adapted.",
-    "dark_image": "",
+    "dark_image": "https://photos.app.goo.gl/9Gv2eFT5njWkbUK36",
     "spec1_key": "Module pitch",
     "spec1_val": "300 mm",
     "spec2_key": "Sort directions",
@@ -151,19 +151,19 @@
     "feat5_desc": "",
     "feat6_title": "",
     "feat6_desc": "",
-    "spec1_key": "Module pitch",
-    "spec1_val": "300 mm",
-    "spec2_key": "Sort directions",
-    "spec2_val": "Left / Right / Straight",
-    "spec3_key": "Divert technology",
-    "spec3_val": "Swivel wheel",
-    "spec4_key": "Max throughput",
+    "spec1_key": "",
+    "spec1_val": "",
+    "spec2_key": "",
+    "spec2_val": "",
+    "spec3_key": "",
+    "spec3_val": "",
+    "spec4_key": "",
     "spec4_val": "20,000 parcels/hour",
     "spec5_key": "Max parcel size",
     "spec5_val": "2500L × 1000W",
-    "spec6_key": "Warranty",
-    "spec6_val": "24 months",
-    "cta_h2": "Configure a Helix system around your operation",
+    "spec6_key": "",
+    "spec6_val": "",
+    "cta_h2": "Configure a Helix systemaround your operation",
     "cta_lead": "Enter your throughput, destinations, and parcel mix. Get a live system layout, cost estimate, ROI calculation, and finance options in minutes.",
     "media_blocks": [
       {
@@ -197,7 +197,7 @@
   "solutions": {
     "hero_image": "",
     "hero_eyebrow": "",
-    "hero_h1": "Every operation is different. Our systems adapt.",
+    "hero_h1": "Every operation is different.Our systems adapt.",
     "hero_sub": "From e-commerce fulfilment to food manufacturing and automotive production — Orion MIS has delivered automation systems across every major industrial sector.",
     "sol1_tag": "",
     "sol1_title": "",
@@ -224,11 +224,39 @@
     "cs3_title": "",
     "cs4_title": ""
   },
-  "hub": {
-    "hero_h1": "Stay in the loop.<br><em>Everything Orion.</em>",
-    "hero_sub": "News, social content, videos, and Orion resources — all in one place.",
-    "youtube_channel_url": "https://www.youtube.com/@orionautomation1",
-    "youtube_channel_handle": "@orionautomation1",
-    "youtube_intro": "Latest videos from Orion Automation on YouTube."
+  "about": {
+    "hero_image": "",
+    "hero_eyebrow": "",
+    "hero_h1": "The UK's trusted partner for warehouse automation",
+    "hero_sub": "",
+    "story_h2": "Automation that actually works — for your operation",
+    "story_lead": "At Orion MIS, our vision is to enhance user experience and deliver unrivalled customer service. We automate your process, allowing you to achieve maximum operational efficiency.",
+    "story_image": "",
+    "team_h2": "Three things that set us apart",
+    "team_photo": ""
+  },
+  "unit-handling": {
+    "hero_image": "",
+    "hero_eyebrow": "",
+    "hero_h1": "Conveyor systems built for every unit load",
+    "hero_sub": "Modular, configurable conveyor systems for parcels, totes, cartons, and polybags. Designed for continuous-flow environments with ZLP accumulation and speeds up to 2m/s. Available in custom RAL colours and fully integrated with your existing infrastructure.",
+    "feat1_title": "",
+    "feat1_desc": "",
+    "feat2_title": "",
+    "feat2_desc": "",
+    "feat3_title": "",
+    "feat3_desc": "",
+    "spec1_key": "",
+    "spec1_val": "",
+    "spec2_key": "",
+    "spec2_val": "",
+    "spec3_key": "",
+    "spec3_val": ""
+  },
+  "pallet-heavy": {
+    "hero_image": "",
+    "hero_eyebrow": "",
+    "hero_h1": "Heavy duty conveyors built to load",
+    "hero_sub": "Robust pallet handling systems for warehouses, manufacturing, and distribution. Standard capacity up to 1,000kg with 2,000kg drive upgrade available across the full range. CHEP and Euro pallets handled as standard."
   }
 }
