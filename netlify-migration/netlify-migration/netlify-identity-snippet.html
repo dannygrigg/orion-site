@@ -1,0 +1,13 @@
+<!-- Netlify Identity — add this block to every HTML page before </body> -->
+<!-- It handles the CMS auth redirect on first login -->
+<script>
+if (window.netlifyIdentity) {
+  window.netlifyIdentity.on("init", user => {
+    if (!user) {
+      window.netlifyIdentity.on("login", () => {
+        document.location.href = "/admin/";
+      });
+    }
+  });
+}
+</script>

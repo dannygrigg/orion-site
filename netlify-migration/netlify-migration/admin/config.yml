@@ -1,0 +1,423 @@
+# ── ORION MIS — DECAP CMS CONFIGURATION ─────────────────────────
+# Backend: Netlify Identity + Git Gateway (no GitHub token needed)
+# Content stored in _data/ as JSON files
+# cms.js reads these files and applies to pages on load
+
+backend:
+  name: git-gateway
+  branch: main
+
+# Media uploads go to images/uploads/ in the repo
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+# Simple publish — no draft workflow
+publish_mode: simple
+
+site_url: https://orionmis.netlify.app
+
+# ── COLLECTIONS ───────────────────────────────────────────────────
+
+collections:
+
+  # ── HOMEPAGE ──────────────────────────────────────────────────
+  - name: "homepage"
+    label: "🏠 Homepage"
+    files:
+      - name: "homepage"
+        label: "Homepage content"
+        file: "_data/homepage.json"
+        fields:
+          - label: "Hero video URL"
+            name: "hero_video_url"
+            widget: "string"
+            hint: "Paste a YouTube watch URL — e.g. https://www.youtube.com/watch?v=VIDEO_ID"
+
+          - label: "Hero headline — line 1"
+            name: "hero_line1"
+            widget: "string"
+            default: "Your throughput is growing."
+
+          - label: "Hero headline — line 2 (italic blue)"
+            name: "hero_line2"
+            widget: "string"
+            default: "Your building isn't."
+
+          - label: "Hero body text"
+            name: "hero_body"
+            widget: "text"
+
+          - label: "Lease price text"
+            name: "hero_lease"
+            widget: "string"
+            default: "from £1,000/month"
+
+          - label: "Announcement bar messages"
+            name: "announcements"
+            widget: "list"
+            summary: "{{fields.text}}"
+            fields:
+              - { label: "Message text", name: "text", widget: "string" }
+              - { label: "Link URL (optional)", name: "link_url", widget: "string", required: false }
+              - { label: "Link label (optional)", name: "link_label", widget: "string", required: false }
+
+          - label: "Stats bar"
+            name: "stats"
+            widget: "list"
+            summary: "{{fields.label}}: {{fields.number}}"
+            min: 4
+            max: 4
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "Number", name: "number", widget: "string" }
+              - { label: "Note", name: "note", widget: "string" }
+
+          - label: "Feature cards (Why Helix)"
+            name: "features"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "desc", widget: "text" }
+
+          - label: "Dark section — headline line 1"
+            name: "dark_h2_line1"
+            widget: "string"
+
+          - label: "Dark section — headline line 2 (italic blue)"
+            name: "dark_h2_line2"
+            widget: "string"
+
+          - label: "Dark section — lead text"
+            name: "dark_lead"
+            widget: "text"
+
+          - label: "Dark section — product visual image"
+            name: "dark_image"
+            widget: "image"
+            required: false
+            hint: "Upload or paste URL of product image shown in the dark section"
+
+          - label: "Spec table"
+            name: "specs"
+            widget: "list"
+            summary: "{{fields.key}}: {{fields.val}}"
+            fields:
+              - { label: "Key", name: "key", widget: "string" }
+              - { label: "Value", name: "val", widget: "string" }
+
+          - label: "Proof numbers"
+            name: "proof"
+            widget: "list"
+            summary: "{{fields.number}} — {{fields.label}}"
+            fields:
+              - { label: "Number", name: "number", widget: "string" }
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "Description", name: "desc", widget: "text" }
+
+          - label: "CTA headline"
+            name: "cta_h2"
+            widget: "string"
+
+          - label: "CTA body text"
+            name: "cta_lead"
+            widget: "text"
+
+          - label: "CTA button text"
+            name: "cta_btn"
+            widget: "string"
+            default: "Open configurator"
+
+  # ── HELIX PRODUCT PAGE ────────────────────────────────────────
+  - name: "helix_product"
+    label: "⚡ Helix Product"
+    files:
+      - name: "helix-product"
+        label: "Helix Product page"
+        file: "_data/pages/helix-product.json"
+        fields:
+          - { label: "Hero video URL", name: "hero_video_url", widget: "string", required: false }
+          - { label: "Eyebrow label", name: "hero_eyebrow", widget: "string" }
+          - { label: "Headline (supports <em> for blue italic)", name: "hero_h1", widget: "string" }
+          - { label: "Subheadline", name: "hero_sub", widget: "text" }
+          - label: "Stats bar"
+            name: "stats"
+            widget: "list"
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "Number", name: "number", widget: "string" }
+              - { label: "Note", name: "note", widget: "string" }
+          - { label: "Main product image", name: "main_image", widget: "image", required: false }
+          - label: "Gallery images"
+            name: "gallery"
+            widget: "list"
+            max: 4
+            fields:
+              - { label: "Image", name: "url", widget: "image" }
+              - { label: "Alt text", name: "alt", widget: "string", required: false }
+          - label: "Feature cards"
+            name: "features"
+            widget: "list"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "desc", widget: "text" }
+          - label: "Spec table"
+            name: "specs"
+            widget: "list"
+            fields:
+              - { label: "Key", name: "key", widget: "string" }
+              - { label: "Value", name: "val", widget: "string" }
+          - { label: "CTA headline", name: "cta_h2", widget: "string", required: false }
+          - { label: "CTA body text", name: "cta_lead", widget: "text", required: false }
+
+  # ── SOLUTIONS PAGE ────────────────────────────────────────────
+  - name: "solutions_page"
+    label: "💡 Solutions"
+    files:
+      - name: "solutions"
+        label: "Solutions page"
+        file: "_data/pages/solutions.json"
+        fields:
+          - { label: "Hero video URL (optional)", name: "hero_video_url", widget: "string", required: false }
+          - { label: "Hero image", name: "hero_image", widget: "image", required: false }
+          - { label: "Eyebrow", name: "hero_eyebrow", widget: "string", required: false }
+          - { label: "Headline", name: "hero_h1", widget: "string", required: false }
+          - { label: "Subheadline", name: "hero_sub", widget: "text", required: false }
+          - label: "Solution cards"
+            name: "solutions"
+            widget: "list"
+            summary: "{{fields.tag}} — {{fields.title}}"
+            fields:
+              - { label: "Tag/category", name: "tag", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "desc", widget: "text" }
+              - { label: "Image", name: "image", widget: "image", required: false }
+              - { label: "Link anchor", name: "anchor", widget: "string", hint: "e.g. parcel, asrs, robotics" }
+
+  # ── ABOUT PAGE ───────────────────────────────────────────────
+  - name: "about_page"
+    label: "👥 About"
+    files:
+      - name: "about"
+        label: "About page"
+        file: "_data/pages/about.json"
+        fields:
+          - { label: "Hero image", name: "hero_image", widget: "image", required: false }
+          - { label: "Eyebrow", name: "hero_eyebrow", widget: "string", required: false }
+          - { label: "Headline", name: "hero_h1", widget: "string", required: false }
+          - { label: "Subheadline", name: "hero_sub", widget: "text", required: false }
+          - { label: "Story section headline", name: "story_h2", widget: "string", required: false }
+          - { label: "Story lead text", name: "story_lead", widget: "text", required: false }
+          - { label: "Story image", name: "story_image", widget: "image", required: false }
+          - { label: "Team headline", name: "team_h2", widget: "string", required: false }
+          - { label: "Team photo", name: "team_photo", widget: "image", required: false }
+          - label: "Client logos"
+            name: "client_logos"
+            widget: "list"
+            summary: "{{fields.alt}}"
+            hint: "Upload logos here — they will appear in the scrolling logo strip"
+            fields:
+              - { label: "Logo image", name: "url", widget: "image" }
+              - { label: "Company name (alt text)", name: "alt", widget: "string" }
+              - { label: "Website URL (optional)", name: "link", widget: "string", required: false }
+
+  # ── CASE STUDIES PAGE ─────────────────────────────────────────
+  - name: "case_studies_page"
+    label: "📋 Case Studies"
+    files:
+      - name: "case-studies"
+        label: "Case studies index"
+        file: "_data/pages/case-studies.json"
+        fields:
+          - { label: "Hero image", name: "hero_image", widget: "image", required: false }
+          - { label: "Headline", name: "hero_h1", widget: "string", required: false }
+          - { label: "Subheadline", name: "hero_sub", widget: "text", required: false }
+
+  # ── INDIVIDUAL CASE STUDIES ───────────────────────────────────
+  - name: "case_studies"
+    label: "📄 Individual Case Studies"
+    folder: "_data/case-studies"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: "client"
+    summary: "{{client}} — {{title}}"
+    fields:
+      - { label: "Client name", name: "client", widget: "string" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Industry tag", name: "tag", widget: "string", hint: "e.g. Global Logistics" }
+      - { label: "Summary", name: "summary", widget: "text" }
+      - { label: "Hero image", name: "hero_image", widget: "image", required: false }
+      - { label: "System image", name: "system_image", widget: "image", required: false }
+      - label: "Key stats"
+        name: "stats"
+        widget: "list"
+        fields:
+          - { label: "Number/value", name: "number", widget: "string" }
+          - { label: "Label", name: "label", widget: "string" }
+      - { label: "Full story (markdown)", name: "body", widget: "markdown", required: false }
+      - { label: "Page filename", name: "page_file", widget: "string", hint: "e.g. case-expeditors.html" }
+
+  # ── PRODUCTS (sub-pages) ──────────────────────────────────────
+  - name: "product_pages"
+    label: "📦 Product Pages"
+    files:
+      - name: "unit-handling"
+        label: "Unit Handling"
+        file: "_data/pages/unit-handling.json"
+        fields:
+          - { label: "Hero image", name: "hero_image", widget: "image", required: false }
+          - { label: "Eyebrow", name: "hero_eyebrow", widget: "string", required: false }
+          - { label: "Headline", name: "hero_h1", widget: "string", required: false }
+          - { label: "Subheadline", name: "hero_sub", widget: "text", required: false }
+          - label: "Product types"
+            name: "products"
+            widget: "list"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "desc", widget: "text" }
+              - { label: "Image", name: "image", widget: "image", required: false }
+          - label: "Specs"
+            name: "specs"
+            widget: "list"
+            fields:
+              - { label: "Key", name: "key", widget: "string" }
+              - { label: "Value", name: "val", widget: "string" }
+
+      - name: "pallet-heavy"
+        label: "Pallet & Heavy Duty"
+        file: "_data/pages/pallet-heavy.json"
+        fields:
+          - { label: "Hero image", name: "hero_image", widget: "image", required: false }
+          - { label: "Eyebrow", name: "hero_eyebrow", widget: "string", required: false }
+          - { label: "Headline", name: "hero_h1", widget: "string", required: false }
+          - { label: "Subheadline", name: "hero_sub", widget: "text", required: false }
+          - label: "Product types"
+            name: "products"
+            widget: "list"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "desc", widget: "text" }
+              - { label: "Image", name: "image", widget: "image", required: false }
+          - label: "Specs"
+            name: "specs"
+            widget: "list"
+            fields:
+              - { label: "Key", name: "key", widget: "string" }
+              - { label: "Value", name: "val", widget: "string" }
+
+      - name: "food-beverage"
+        label: "Food & Beverage"
+        file: "_data/pages/food-beverage.json"
+        fields:
+          - { label: "Hero image", name: "hero_image", widget: "image", required: false }
+          - { label: "Eyebrow", name: "hero_eyebrow", widget: "string", required: false }
+          - { label: "Headline", name: "hero_h1", widget: "string", required: false }
+          - { label: "Subheadline", name: "hero_sub", widget: "text", required: false }
+          - label: "Product types"
+            name: "products"
+            widget: "list"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "desc", widget: "text" }
+              - { label: "Image", name: "image", widget: "image", required: false }
+
+      - name: "hub"
+        label: "Hub"
+        file: "_data/pages/hub.json"
+        fields:
+          - { label: "Hero image", name: "hero_image", widget: "image", required: false }
+          - { label: "Headline", name: "hero_h1", widget: "string", required: false }
+          - { label: "Subheadline", name: "hero_sub", widget: "text", required: false }
+
+      - name: "contact"
+        label: "Contact"
+        file: "_data/pages/contact.json"
+        fields:
+          - { label: "Hero image", name: "hero_image", widget: "image", required: false }
+          - { label: "Headline", name: "hero_h1", widget: "string", required: false }
+          - { label: "Subheadline", name: "hero_sub", widget: "text", required: false }
+
+  # ── GLOBAL SETTINGS ───────────────────────────────────────────
+  - name: "global"
+    label: "⚙️ Global Settings"
+    files:
+      - name: "global"
+        label: "Contact & Global"
+        file: "_data/global.json"
+        fields:
+          - { label: "Phone", name: "phone", widget: "string" }
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "Address", name: "address", widget: "string" }
+          - { label: "Tawk.to chat ID", name: "tawk_id", widget: "string", required: false }
+
+  # ── NEWS & EVENTS ─────────────────────────────────────────────
+  - name: "news"
+    label: "📰 News & Events"
+    folder: "_data/news"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    identifier_field: "title"
+    summary: "{{title}} — {{date}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - label: "Type"
+        name: "type"
+        widget: "select"
+        options: ["news", "event", "press", "award"]
+        default: "news"
+      - { label: "Date", name: "date", widget: "datetime", date_format: "DD/MM/YYYY", time_format: false }
+      - { label: "Summary", name: "summary", widget: "text" }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Read more link", name: "link", widget: "string", required: false }
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options: ["published", "draft"]
+        default: "published"
+
+  # ── VAULT ─────────────────────────────────────────────────────
+  - name: "vault"
+    label: "🔒 Vault"
+    folder: "_data/vault"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: "name"
+    summary: "{{name}} ({{category}})"
+    fields:
+      - { label: "Document name", name: "name", widget: "string" }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options: ["technical", "commercial", "marketing", "compliance", "training"]
+      - label: "File type"
+        name: "filetype"
+        widget: "select"
+        options: ["pdf", "doc", "xls", "ppt", "dwg", "zip", "link"]
+        default: "pdf"
+      - { label: "URL", name: "url", widget: "string" }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - label: "Access level"
+        name: "access"
+        widget: "select"
+        options: ["public", "partner", "internal"]
+        default: "public"
+      - { label: "Version", name: "version", widget: "string", required: false }
+
+  # ── SOCIAL FEED ───────────────────────────────────────────────
+  - name: "social"
+    label: "📱 Social Feed"
+    folder: "_data/social"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    identifier_field: "caption"
+    summary: "{{platform}} — {{caption}}"
+    fields:
+      - label: "Platform"
+        name: "platform"
+        widget: "select"
+        options: ["linkedin", "twitter", "instagram", "youtube"]
+        default: "linkedin"
+      - { label: "Caption", name: "caption", widget: "text" }
+      - { label: "Date", name: "date", widget: "datetime", date_format: "DD/MM/YYYY", time_format: false }
+      - { label: "Post URL", name: "url", widget: "string", required: false }
+      - { label: "Image", name: "image", widget: "image", required: false }
