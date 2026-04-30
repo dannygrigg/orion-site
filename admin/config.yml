@@ -1,16 +1,13 @@
 backend:
-  name: github
-  repo: dannygrigg/orion-site
+  name: git-gateway
   branch: main
-  base_url: https://api.netlify.com
-  auth_endpoint: auth
-
-publish_mode: simple
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
-site_url: https://dannygrigg.github.io/orion-site
+publish_mode: simple
+
+site_url: https://uksortation.netlify.app
 
 collections:
 
@@ -21,53 +18,198 @@ collections:
         label: "Homepage content"
         file: "_data/homepage.json"
         fields:
-          - label: "Hero video (YouTube embed URL)"
-            name: "hero_video_url"
-            widget: "string"
-            hint: "https://www.youtube.com/embed/VIDEO_ID?autoplay=1&mute=1&loop=1&playlist=VIDEO_ID&controls=0"
-            default: "https://www.youtube.com/embed/53RZuWy3kXI?autoplay=1&mute=1&loop=1&playlist=53RZuWy3kXI&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
-          - { label: "Hero headline line 1", name: "hero_line1", widget: "string", default: "Your throughput is growing." }
-          - { label: "Hero headline line 2 (italic blue)", name: "hero_line2", widget: "string", default: "Your building isn't." }
-          - { label: "Hero body text", name: "hero_body", widget: "text" }
-          - { label: "Lease price text", name: "hero_lease", widget: "string", default: "from £1,000/month" }
+          - {label: "Hero video URL", name: "hero_video_url", widget: "string", hint: "Paste YouTube watch URL"}
+          - {label: "Headline line 1", name: "hero_line1", widget: "string"}
+          - {label: "Headline line 2 (italic blue)", name: "hero_line2", widget: "string"}
+          - {label: "Body text", name: "hero_body", widget: "text"}
+          - {label: "Lease price", name: "hero_lease", widget: "string"}
           - label: "Announcement bar messages"
             name: "announcements"
             widget: "list"
             summary: "{{fields.text}}"
             fields:
-              - { label: "Message", name: "text", widget: "string" }
-              - { label: "Link URL (optional)", name: "link_url", widget: "string", required: false }
-              - { label: "Link label (optional)", name: "link_label", widget: "string", required: false }
+              - {label: "Message", name: "text", widget: "string"}
+              - {label: "Link URL (optional)", name: "link_url", widget: "string", required: false}
+              - {label: "Link label (optional)", name: "link_label", widget: "string", required: false}
+          - label: "Stats bar"
+            name: "stats"
+            widget: "list"
+            fields:
+              - {label: "Label", name: "label", widget: "string"}
+              - {label: "Number", name: "number", widget: "string"}
+              - {label: "Note", name: "note", widget: "string"}
+          - label: "Feature cards"
+            name: "features"
+            widget: "list"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Description", name: "desc", widget: "text"}
+          - {label: "Dark section headline 1", name: "dark_h2_line1", widget: "string"}
+          - {label: "Dark section headline 2 (italic blue)", name: "dark_h2_line2", widget: "string"}
+          - {label: "Dark section lead text", name: "dark_lead", widget: "text"}
+          - {label: "Product visual image", name: "dark_image", widget: "image", required: false}
+          - label: "Spec table"
+            name: "specs"
+            widget: "list"
+            fields:
+              - {label: "Key", name: "key", widget: "string"}
+              - {label: "Value", name: "val", widget: "string"}
+          - label: "Proof numbers"
+            name: "proof"
+            widget: "list"
+            fields:
+              - {label: "Number", name: "number", widget: "string"}
+              - {label: "Label", name: "label", widget: "string"}
+              - {label: "Description", name: "desc", widget: "text"}
+          - {label: "CTA headline", name: "cta_h2", widget: "string"}
+          - {label: "CTA body text", name: "cta_lead", widget: "text"}
+          - {label: "CTA button text", name: "cta_btn", widget: "string"}
 
-  - name: "global_settings"
-    label: "⚙️ Site Settings"
+  - name: "helix_product"
+    label: "⚡ Helix Product"
+    files:
+      - name: "helix-product"
+        label: "Helix Product page"
+        file: "_data/pages/helix-product.json"
+        fields:
+          - {label: "Hero video URL", name: "hero_video_url", widget: "string", required: false}
+          - {label: "Eyebrow", name: "hero_eyebrow", widget: "string"}
+          - {label: "Headline (use <em>word</em> for blue italic)", name: "hero_h1", widget: "string"}
+          - {label: "Subheadline", name: "hero_sub", widget: "text"}
+          - label: "Stats bar"
+            name: "stats"
+            widget: "list"
+            fields:
+              - {label: "Label", name: "label", widget: "string"}
+              - {label: "Number", name: "number", widget: "string"}
+              - {label: "Note", name: "note", widget: "string"}
+          - {label: "Main product image", name: "main_image", widget: "image", required: false}
+          - label: "Gallery images"
+            name: "gallery"
+            widget: "list"
+            max: 4
+            fields:
+              - {label: "Image", name: "url", widget: "image"}
+              - {label: "Alt text", name: "alt", widget: "string", required: false}
+          - label: "Spec table"
+            name: "specs"
+            widget: "list"
+            fields:
+              - {label: "Key", name: "key", widget: "string"}
+              - {label: "Value", name: "val", widget: "string"}
+          - {label: "CTA headline", name: "cta_h2", widget: "string", required: false}
+          - {label: "CTA body text", name: "cta_lead", widget: "text", required: false}
+
+  - name: "page_content"
+    label: "📄 Page Content"
+    files:
+      - name: "solutions"
+        label: "Solutions"
+        file: "_data/pages/solutions.json"
+        fields:
+          - {label: "Hero video URL", name: "hero_video_url", widget: "string", required: false}
+          - {label: "Hero image", name: "hero_image", widget: "image", required: false}
+          - {label: "Headline", name: "hero_h1", widget: "string", required: false}
+          - {label: "Subheadline", name: "hero_sub", widget: "text", required: false}
+          - label: "Solution cards"
+            name: "solutions"
+            widget: "list"
+            fields:
+              - {label: "Tag", name: "tag", widget: "string"}
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Description", name: "desc", widget: "text"}
+              - {label: "Image", name: "image", widget: "image", required: false}
+              - {label: "Anchor ID", name: "anchor", widget: "string"}
+      - name: "about"
+        label: "About"
+        file: "_data/pages/about.json"
+        fields:
+          - {label: "Hero image", name: "hero_image", widget: "image", required: false}
+          - {label: "Headline", name: "hero_h1", widget: "string", required: false}
+          - {label: "Subheadline", name: "hero_sub", widget: "text", required: false}
+          - {label: "Story headline", name: "story_h2", widget: "string", required: false}
+          - {label: "Story lead", name: "story_lead", widget: "text", required: false}
+          - {label: "Story image", name: "story_image", widget: "image", required: false}
+          - label: "Client logos"
+            name: "client_logos"
+            widget: "list"
+            hint: "Upload logos — they appear in the scrolling strip"
+            fields:
+              - {label: "Logo image", name: "url", widget: "image"}
+              - {label: "Company name", name: "alt", widget: "string"}
+              - {label: "Website URL", name: "link", widget: "string", required: false}
+      - name: "case-studies"
+        label: "Case Studies"
+        file: "_data/pages/case-studies.json"
+        fields:
+          - {label: "Hero image", name: "hero_image", widget: "image", required: false}
+          - {label: "Headline", name: "hero_h1", widget: "string", required: false}
+          - {label: "Subheadline", name: "hero_sub", widget: "text", required: false}
+      - name: "hub"
+        label: "Hub"
+        file: "_data/pages/hub.json"
+        fields:
+          - {label: "Hero image", name: "hero_image", widget: "image", required: false}
+          - {label: "Headline", name: "hero_h1", widget: "string", required: false}
+          - {label: "Subheadline", name: "hero_sub", widget: "text", required: false}
+      - name: "contact"
+        label: "Contact"
+        file: "_data/pages/contact.json"
+        fields:
+          - {label: "Hero image", name: "hero_image", widget: "image", required: false}
+          - {label: "Headline", name: "hero_h1", widget: "string", required: false}
+          - {label: "Subheadline", name: "hero_sub", widget: "text", required: false}
+      - name: "unit-handling"
+        label: "Unit Handling"
+        file: "_data/pages/unit-handling.json"
+        fields:
+          - {label: "Hero image", name: "hero_image", widget: "image", required: false}
+          - {label: "Headline", name: "hero_h1", widget: "string", required: false}
+          - {label: "Subheadline", name: "hero_sub", widget: "text", required: false}
+      - name: "pallet-heavy"
+        label: "Pallet & Heavy"
+        file: "_data/pages/pallet-heavy.json"
+        fields:
+          - {label: "Hero image", name: "hero_image", widget: "image", required: false}
+          - {label: "Headline", name: "hero_h1", widget: "string", required: false}
+          - {label: "Subheadline", name: "hero_sub", widget: "text", required: false}
+      - name: "food-beverage"
+        label: "Food & Beverage"
+        file: "_data/pages/food-beverage.json"
+        fields:
+          - {label: "Hero image", name: "hero_image", widget: "image", required: false}
+          - {label: "Headline", name: "hero_h1", widget: "string", required: false}
+          - {label: "Subheadline", name: "hero_sub", widget: "text", required: false}
+
+  - name: "global"
+    label: "⚙️ Global Settings"
     files:
       - name: "global"
         label: "Contact & Global"
         file: "_data/global.json"
         fields:
-          - { label: "Phone", name: "phone", widget: "string" }
-          - { label: "Email", name: "email", widget: "string" }
-          - { label: "Address", name: "address", widget: "string" }
+          - {label: "Phone", name: "phone", widget: "string"}
+          - {label: "Email", name: "email", widget: "string"}
+          - {label: "Address", name: "address", widget: "string"}
+          - {label: "Tawk.to chat ID", name: "tawk_id", widget: "string", required: false}
 
   - name: "news"
     label: "📰 News & Events"
     folder: "_data/news"
     create: true
-    slug: "{{slug}}"
-    summary: "{{title}}"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     identifier_field: "title"
     fields:
-      - { label: "Title", name: "title", widget: "string" }
+      - {label: "Title", name: "title", widget: "string"}
       - label: "Type"
         name: "type"
         widget: "select"
         options: ["news", "event", "press", "award"]
         default: "news"
-      - { label: "Date", name: "date", widget: "datetime", date_format: "DD/MM/YYYY", time_format: false }
-      - { label: "Summary", name: "summary", widget: "text" }
-      - { label: "Image URL", name: "image", widget: "string", required: false }
-      - { label: "Read more link", name: "link", widget: "string", required: false }
+      - {label: "Date", name: "date", widget: "datetime", date_format: "DD/MM/YYYY", time_format: false}
+      - {label: "Summary", name: "summary", widget: "text"}
+      - {label: "Image", name: "image", widget: "image", required: false}
+      - {label: "Read more link", name: "link", widget: "string", required: false}
       - label: "Status"
         name: "status"
         widget: "select"
@@ -79,10 +221,9 @@ collections:
     folder: "_data/vault"
     create: true
     slug: "{{slug}}"
-    summary: "{{name}}"
     identifier_field: "name"
     fields:
-      - { label: "Document name", name: "name", widget: "string" }
+      - {label: "Document name", name: "name", widget: "string"}
       - label: "Category"
         name: "category"
         widget: "select"
@@ -92,46 +233,20 @@ collections:
         widget: "select"
         options: ["pdf", "doc", "xls", "ppt", "dwg", "zip", "link"]
         default: "pdf"
-      - { label: "URL", name: "url", widget: "string" }
-      - { label: "Description", name: "description", widget: "text", required: false }
+      - {label: "URL", name: "url", widget: "string"}
+      - {label: "Description", name: "description", widget: "text", required: false}
       - label: "Access"
         name: "access"
         widget: "select"
         options: ["public", "partner", "internal"]
         default: "public"
-      - { label: "Version", name: "version", widget: "string", required: false }
-
-  - name: "images"
-    label: "🖼️ Images & Media"
-    folder: "_data/images"
-    create: true
-    slug: "{{slug}}"
-    summary: "{{label}} — {{page}}"
-    identifier_field: "label"
-    fields:
-      - { label: "Label", name: "label", widget: "string" }
-      - { label: "Image URL", name: "url", widget: "string" }
-      - label: "Page"
-        name: "page"
-        widget: "select"
-        options:
-          - { label: "Homepage", value: "home" }
-          - { label: "Helix product", value: "helix" }
-          - { label: "Products", value: "products" }
-          - { label: "Solutions", value: "solutions" }
-          - { label: "Case studies", value: "case-studies" }
-          - { label: "About", value: "about" }
-          - { label: "Hub", value: "hub" }
-          - { label: "All pages", value: "all" }
-      - { label: "Section", name: "section", widget: "string", required: false }
-      - { label: "Alt text", name: "alt", widget: "string", required: false }
+      - {label: "Version", name: "version", widget: "string", required: false}
 
   - name: "social"
     label: "📱 Social Feed"
     folder: "_data/social"
     create: true
-    slug: "{{slug}}"
-    summary: "{{platform}} — {{caption}}"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     identifier_field: "caption"
     fields:
       - label: "Platform"
@@ -139,7 +254,7 @@ collections:
         widget: "select"
         options: ["linkedin", "twitter", "instagram", "youtube"]
         default: "linkedin"
-      - { label: "Caption", name: "caption", widget: "text" }
-      - { label: "Date", name: "date", widget: "datetime", date_format: "DD/MM/YYYY", time_format: false }
-      - { label: "Post URL", name: "url", widget: "string", required: false }
-      - { label: "Image URL", name: "image", widget: "string", required: false }
+      - {label: "Caption", name: "caption", widget: "text"}
+      - {label: "Date", name: "date", widget: "datetime", date_format: "DD/MM/YYYY", time_format: false}
+      - {label: "Post URL", name: "url", widget: "string", required: false}
+      - {label: "Image", name: "image", widget: "image", required: false}
