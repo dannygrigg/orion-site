@@ -888,6 +888,13 @@ s0.parentNode.insertBefore(s1,s0);
 </script>
 <!--End of Tawk.to Script-->
 <script src="cms.js"></script>
-</body>
+<script>
+(function(){
+  var h = window.location.hash || '';
+  if (h.indexOf('invite_token=') > -1 || h.indexOf('recovery_token=') > -1 || h.indexOf('confirmation_token=') > -1) {
+    window.location.replace('/admin.html' + h);
+  }
+})();
+</script></body>
 </html>
   
