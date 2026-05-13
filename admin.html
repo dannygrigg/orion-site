@@ -4,30 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Orion MIS — Admin</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --dark:#1d1d1f;--white:#fff;--off:#f5f5f7;--border:#e2e2e7;--mid:#86868b;
-  --blue:#0066cc;--blue-bg:#f0f6ff;--green:#00a86b;--green-bg:#edfaf4;
-  --red:#e53e3e;--red-bg:#fff5f5;--r:10px;--r-lg:16px;
-  --sb:240px; /* sidebar width */
+  --blue:#0066cc;--blue-light:#2997ff;--blue-bg:#f0f6ff;
+  --green:#00a86b;--green-bg:#edfaf4;
+  --amber:#f59e0b;--amber-bg:#fff8eb;
+  --red:#e53e3e;--red-bg:#fff5f5;
+  --r:10px;--r-lg:16px;
+  --sb:240px;
 }
-body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--dark);-webkit-font-smoothing:antialiased;overflow:hidden;height:100vh}
+html,body{height:100%}
+body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--dark);-webkit-font-smoothing:antialiased;overflow:hidden}
 
-/* ── LOGIN ── */
-#loginScreen{position:fixed;inset:0;background:var(--dark);display:flex;align-items:center;justify-content:center;z-index:9999}
-.login-card{background:white;border-radius:20px;padding:44px;width:380px;text-align:center}
-.login-logo{font-family:'DM Serif Display',serif;font-size:32px;letter-spacing:-0.02em;margin-bottom:4px}
-.login-sub{font-size:13px;color:var(--mid);font-weight:300;margin-bottom:28px}
-.lf{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;text-align:left}
-.lf label{font-size:11px;font-weight:500;color:var(--mid);text-transform:uppercase;letter-spacing:0.05em}
-.lf input{padding:10px 13px;border:1.5px solid var(--border);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border 0.2s;width:100%}
-.lf input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,102,204,0.1)}
-.login-btn{width:100%;background:var(--dark);color:white;border:none;border-radius:980px;padding:13px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;margin-top:6px}
-.login-btn:hover{background:#333}
-.login-err{color:var(--red);font-size:12px;margin-top:6px;display:none}
-.login-hint{font-size:11px;color:var(--mid);margin-top:14px}
+/* ── LOGIN GATE ── */
+#gate{position:fixed;inset:0;background:var(--dark);display:flex;align-items:center;justify-content:center;z-index:9999;padding:24px}
+.gate-card{background:white;border-radius:20px;padding:44px;width:100%;max-width:380px;text-align:center}
+.gate-logo{font-family:'DM Serif Display',serif;font-size:32px;letter-spacing:-0.02em;margin-bottom:4px}
+.gate-sub{font-size:13px;color:var(--mid);font-weight:300;margin-bottom:24px}
+.gate-btn{width:100%;background:var(--dark);color:white;border:none;border-radius:980px;padding:13px;font-family:inherit;font-size:15px;font-weight:500;cursor:pointer}
+.gate-btn:hover{background:#333}
+.gate-hint{font-size:11px;color:var(--mid);margin-top:18px;line-height:1.5}
+.gate-err{font-size:12px;color:var(--red);margin-top:12px;display:none}
 
 /* ── APP SHELL ── */
 #app{display:none;height:100vh;overflow:hidden;background:var(--dark)}
@@ -38,1010 +40,1730 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--dark);-
 .sb-logo{padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,0.07)}
 .sb-logo-m{font-family:'DM Serif Display',serif;font-size:20px;color:white;letter-spacing:-0.01em}
 .sb-logo-s{font-size:10px;color:rgba(255,255,255,0.3);margin-top:1px;font-weight:300}
-.sb-sec{padding:12px 14px 3px;font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.2)}
-.nb{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;margin:1px 6px;cursor:pointer;color:rgba(255,255,255,0.45);font-size:12.5px;background:none;border:none;width:calc(100% - 12px);text-align:left;font-family:'DM Sans',sans-serif;transition:all 0.15s}
-.nb:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.8)}
+.sb-sec{padding:14px 14px 4px;font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.22)}
+.nb{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;margin:1px 6px;cursor:pointer;color:rgba(255,255,255,0.5);font-size:12.5px;background:none;border:none;width:calc(100% - 12px);text-align:left;font-family:inherit;transition:all 0.15s;position:relative}
+.nb:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.85)}
 .nb.on{background:rgba(255,255,255,0.1);color:white}
 .nb svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.nb .drafted{margin-left:auto;width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 3px rgba(245,158,11,0.18)}
 .sb-bot{margin-top:auto;padding:12px;border-top:1px solid rgba(255,255,255,0.07)}
-.gh-pill{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:8px 10px;margin-bottom:8px;font-size:10px;color:rgba(255,255,255,0.3);display:flex;align-items:center;gap:6px}
+.sb-user{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:9px 11px;margin-bottom:8px;display:flex;align-items:center;gap:9px}
+.sb-user .av{width:26px;height:26px;border-radius:50%;background:var(--blue);color:white;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+.sb-user .nm{font-size:11.5px;color:rgba(255,255,255,0.85);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.sb-user .em{font-size:9.5px;color:rgba(255,255,255,0.4);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gh-pill{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:7px 10px;margin-bottom:8px;font-size:10px;color:rgba(255,255,255,0.4);display:flex;align-items:center;gap:6px}
 .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;background:#f59e0b}
 .dot.ok{background:#22c55e}.dot.err{background:#ef4444}
-.signout{width:100%;padding:7px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:8px;color:rgba(255,255,255,0.35);font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer}
-.signout:hover{background:rgba(220,50,50,0.12);color:#ff8080}
+.signout{width:100%;padding:7px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:8px;color:rgba(255,255,255,0.4);font-family:inherit;font-size:11px;cursor:pointer}
+.signout:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7)}
 
-/* ── MAIN CONTENT AREA ── */
-.main{margin-left:var(--sb);height:100vh;display:flex;flex-direction:column;overflow:hidden}
-
-/* ── TOP BAR ── */
-.topbar{height:52px;background:#1a1a1c;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0}
-.topbar-left{display:flex;align-items:center;gap:12px}
-.topbar-title{font-size:14px;font-weight:500;color:white;letter-spacing:-0.01em}
-.topbar-page{font-size:11px;color:rgba(255,255,255,0.35);font-family:'Menlo',monospace;background:rgba(255,255,255,0.06);padding:2px 8px;border-radius:5px}
-.topbar-right{display:flex;align-items:center;gap:8px}
-
-/* ── SPLIT PANE ── */
-.split{display:flex;flex:1;overflow:hidden;gap:0}
+/* ── MAIN PANE ── */
+.main{margin-left:var(--sb);height:100vh;display:grid;grid-template-columns:minmax(380px,1fr) 1fr;overflow:hidden;background:#fafafb}
 
 /* ── EDITOR PANE ── */
-.editor-pane{width:420px;min-width:320px;max-width:520px;background:var(--off);overflow-y:auto;border-right:1px solid var(--border);flex-shrink:0}
-.editor-pane::-webkit-scrollbar{width:4px}.editor-pane::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.ed{background:white;overflow-y:auto;border-right:1px solid var(--border);display:flex;flex-direction:column;min-width:0}
+.ed-header{padding:18px 24px 14px;border-bottom:1px solid var(--border);position:sticky;top:0;background:white;z-index:10;flex-shrink:0}
+.ed-title{font-family:'DM Serif Display',serif;font-size:24px;letter-spacing:-0.02em;display:flex;align-items:center;gap:10px}
+.ed-title .badge{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;padding:3px 8px;border-radius:999px;letter-spacing:0.04em;text-transform:uppercase}
+.ed-title .badge.draft{background:var(--amber-bg);color:var(--amber)}
+.ed-title .badge.live{background:var(--green-bg);color:var(--green)}
+.ed-sub{font-size:12px;color:var(--mid);margin-top:2px;font-weight:300}
+.ed-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btn{padding:8px 14px;border-radius:980px;font-family:inherit;font-size:12.5px;font-weight:500;cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;gap:6px;transition:transform 0.05s}
+.btn:active{transform:scale(0.97)}
+.btn:disabled{opacity:0.4;cursor:not-allowed}
+.btn-dark{background:var(--dark);color:white}
+.btn-dark:hover{background:#333}
+.btn-blue{background:var(--blue);color:white}
+.btn-blue:hover{background:#0058b3}
+.btn-green{background:var(--green);color:white}
+.btn-green:hover{background:#008f5a}
+.btn-ghost{background:transparent;color:var(--mid);border-color:var(--border)}
+.btn-ghost:hover{background:var(--off);color:var(--dark)}
+.btn-danger{background:transparent;color:var(--red);border-color:var(--red-bg)}
+.btn-danger:hover{background:var(--red-bg)}
+.ed-body{padding:18px 24px 60px;overflow-y:auto;flex:1}
+
+/* ── FORM FIELDS ── */
+.fld{margin-bottom:18px}
+.fld-label{font-size:11.5px;font-weight:500;color:var(--dark);margin-bottom:5px;display:flex;align-items:center;gap:6px}
+.fld-label .req{color:var(--red)}
+.fld-hint{font-size:11px;color:var(--mid);margin-bottom:6px;font-weight:300;line-height:1.45}
+.fi{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:var(--r);font-family:inherit;font-size:13.5px;outline:none;transition:border 0.15s;background:white;color:var(--dark)}
+.fi:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,102,204,0.08)}
+textarea.fi{min-height:80px;resize:vertical;line-height:1.5;font-family:inherit}
+select.fi{cursor:pointer}
+.fi.code{font-family:'SF Mono',Menlo,monospace;font-size:12px}
+
+/* ── LIST WIDGET ── */
+.list-wrap{border:1px solid var(--border);border-radius:var(--r-lg);background:var(--off);padding:8px}
+.list-empty{padding:18px;text-align:center;color:var(--mid);font-size:12px;font-weight:300}
+.list-item{background:white;border:1px solid var(--border);border-radius:var(--r);margin-bottom:6px;overflow:hidden}
+.list-head{display:flex;align-items:center;padding:9px 12px;cursor:pointer;gap:8px;user-select:none}
+.list-head:hover{background:var(--off)}
+.list-grip{color:var(--mid);font-size:12px;flex-shrink:0;cursor:grab}
+.list-grip:active{cursor:grabbing}
+.list-num{font-size:10px;font-weight:600;color:var(--mid);background:var(--off);padding:2px 7px;border-radius:999px;flex-shrink:0}
+.list-summary{font-size:12.5px;font-weight:400;color:var(--dark);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.list-controls{display:flex;gap:2px;flex-shrink:0}
+.list-ctrl{background:none;border:none;color:var(--mid);cursor:pointer;padding:4px;border-radius:6px;font-size:14px;line-height:1;width:24px;height:24px;display:flex;align-items:center;justify-content:center}
+.list-ctrl:hover{background:var(--off);color:var(--dark)}
+.list-ctrl.danger:hover{background:var(--red-bg);color:var(--red)}
+.list-body{padding:14px 14px 6px;border-top:1px solid var(--border);background:var(--off);display:none}
+.list-item.open .list-body{display:block}
+.list-item.open .list-head{background:var(--off)}
+.list-add{width:100%;padding:9px;background:white;border:1px dashed var(--border);border-radius:var(--r);color:var(--mid);font-family:inherit;font-size:12px;cursor:pointer;margin-top:4px}
+.list-add:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-bg)}
+
+/* ── IMAGE WIDGET ── */
+.img-w{border:1.5px dashed var(--border);border-radius:var(--r-lg);padding:14px;text-align:center;background:var(--off);cursor:pointer;transition:all 0.15s;position:relative}
+.img-w:hover,.img-w.drag{border-color:var(--blue);background:var(--blue-bg)}
+.img-w.has{padding:8px}
+.img-w img{max-width:100%;max-height:180px;border-radius:var(--r);display:block;margin:0 auto}
+.img-w-hint{font-size:11.5px;color:var(--mid);font-weight:300}
+.img-w-hint b{color:var(--dark);font-weight:500}
+.img-w-row{display:flex;gap:6px;margin-top:8px;justify-content:center;flex-wrap:wrap}
+.img-w input[type=file]{display:none}
+.img-url{font-family:'SF Mono',Menlo,monospace;font-size:10.5px;color:var(--mid);word-break:break-all;margin-top:6px;padding:5px 8px;background:white;border-radius:6px;border:1px solid var(--border);text-align:left}
 
 /* ── PREVIEW PANE ── */
-.preview-pane{flex:1;display:flex;flex-direction:column;background:#1a1a1c;overflow:hidden}
-.preview-bar{height:40px;background:#222;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;padding:0 14px;gap:10px;flex-shrink:0}
-.preview-url{font-size:11px;font-family:'Menlo',monospace;color:rgba(255,255,255,0.4);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.preview-btns{display:flex;gap:6px;flex-shrink:0}
-.preview-frame-wrap{flex:1;overflow:hidden;position:relative}
-#previewFrame{width:100%;height:100%;border:none;background:white;display:block}
-.preview-loading{position:absolute;inset:0;background:#1a1a1c;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;pointer-events:none;opacity:0;transition:opacity 0.3s}
-.preview-loading.show{opacity:1;pointer-events:all}
-.preview-spinner{width:20px;height:20px;border:2px solid rgba(255,255,255,0.1);border-top-color:var(--blue);border-radius:50%;animation:spin 0.7s linear infinite}
+.pv{background:#222;display:flex;flex-direction:column;min-width:0}
+.pv-bar{background:#1a1a1a;padding:8px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,0.06);flex-wrap:wrap}
+.pv-vp{display:flex;background:rgba(255,255,255,0.05);border-radius:7px;padding:2px}
+.pv-vp button{background:none;border:none;color:rgba(255,255,255,0.5);padding:5px 11px;border-radius:5px;font-family:inherit;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:4px}
+.pv-vp button:hover{color:white}
+.pv-vp button.on{background:rgba(255,255,255,0.12);color:white}
+.pv-mode{display:flex;background:rgba(255,255,255,0.05);border-radius:7px;padding:2px}
+.pv-mode button{background:none;border:none;color:rgba(255,255,255,0.5);padding:5px 11px;border-radius:5px;font-family:inherit;font-size:11px;cursor:pointer}
+.pv-mode button:hover{color:white}
+.pv-mode button.on{color:white}
+.pv-mode button.on[data-mode=draft]{background:rgba(245,158,11,0.25);color:#fbbf24}
+.pv-mode button.on[data-mode=live]{background:rgba(0,168,107,0.25);color:#34d399}
+.pv-url{flex:1;background:rgba(255,255,255,0.05);border-radius:6px;padding:5px 10px;font-family:'SF Mono',Menlo,monospace;font-size:11px;color:rgba(255,255,255,0.6);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:80px}
+.pv-btn{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);padding:5px 9px;border-radius:6px;font-family:inherit;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:5px}
+.pv-btn:hover{background:rgba(255,255,255,0.1);color:white}
+.pv-frame{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:14px;overflow:auto;background:#222}
+.pv-frame iframe{background:white;border:none;border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,0.3);transition:width 0.2s,height 0.2s}
+.pv-frame.vp-desktop iframe{width:100%;height:calc(100vh - 100px);max-width:none}
+.pv-frame.vp-tablet iframe{width:768px;height:1024px;max-width:100%}
+.pv-frame.vp-mobile iframe{width:390px;height:844px;max-width:100%}
+
+/* ── COLLECTION LIST VIEW ── */
+.coll{padding:24px}
+.coll-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.coll-card{background:white;border:1px solid var(--border);border-radius:var(--r-lg);padding:14px;cursor:pointer;transition:all 0.15s}
+.coll-card:hover{border-color:var(--blue);box-shadow:0 4px 14px rgba(0,0,0,0.05)}
+.coll-card-title{font-size:14px;font-weight:500;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.coll-card-meta{font-size:11px;color:var(--mid);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.coll-card-meta .pill{background:var(--off);padding:2px 8px;border-radius:999px;font-weight:500;font-size:10px}
+.coll-card-meta .pill.draft{background:var(--amber-bg);color:var(--amber)}
+.coll-card-meta .pill.published{background:var(--green-bg);color:var(--green)}
+.coll-add{background:transparent;border:2px dashed var(--border);border-radius:var(--r-lg);padding:14px;cursor:pointer;color:var(--mid);font-family:inherit;display:flex;align-items:center;justify-content:center;font-size:13px;min-height:88px}
+.coll-add:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-bg)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--dark);color:white;padding:11px 20px;border-radius:980px;font-size:13px;z-index:5000;box-shadow:0 8px 24px rgba(0,0,0,0.3);display:none;align-items:center;gap:8px;max-width:90vw}
+.toast.show{display:flex}
+.toast.err{background:var(--red)}
+.toast.ok{background:var(--green)}
+
+/* ── MODAL ── */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:4000;padding:24px}
+.modal.show{display:flex}
+.modal-card{background:white;border-radius:18px;padding:28px;max-width:480px;width:100%}
+.modal-title{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:6px}
+.modal-body{font-size:13.5px;color:var(--mid);line-height:1.5;margin-bottom:18px}
+.modal-row{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+
+/* ── LOADING ── */
+.loading{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--mid);font-size:13px;font-weight:300;gap:10px}
+.spin{width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin 0.7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.preview-msg{font-size:12px;color:rgba(255,255,255,0.4)}
 
-/* ── VIEWPORT SWITCHER ── */
-.vp-btn{padding:4px 8px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);background:none;color:rgba(255,255,255,0.4);font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;transition:all 0.15s}
-.vp-btn.on,.vp-btn:hover{background:rgba(255,255,255,0.1);color:white;border-color:rgba(255,255,255,0.2)}
-.vp-sep{width:1px;height:14px;background:rgba(255,255,255,0.1)}
+/* ── EMPTY ── */
+.empty{text-align:center;padding:60px 24px;color:var(--mid)}
+.empty-title{font-size:16px;font-weight:500;color:var(--dark);margin-bottom:6px}
+.empty-sub{font-size:13px;font-weight:300}
 
-/* ── EDITOR CONTENT ── */
-.ed-header{padding:16px 18px 12px;border-bottom:1px solid var(--border);background:white}
-.ed-page-name{font-size:15px;font-weight:600;color:var(--dark);margin-bottom:2px}
-.ed-page-sub{font-size:11px;color:var(--mid);font-weight:300}
-.ed-section{background:white;margin-bottom:8px}
-.ed-sec-hd{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;cursor:pointer;border-bottom:1px solid var(--border);user-select:none;background:white}
-.ed-sec-hd:hover{background:var(--off)}
-.ed-sec-hd-l{display:flex;align-items:center;gap:8px}
-.ed-sec-icon{font-size:14px}
-.ed-sec-title{font-size:13px;font-weight:500;color:var(--dark)}
-.ed-sec-count{font-size:10px;font-weight:500;padding:2px 7px;border-radius:980px;background:var(--green-bg);color:var(--green)}
-.ed-sec-count.empty{background:var(--off);color:var(--mid);border:1px solid var(--border)}
-.ed-chev{width:14px;height:14px;stroke:var(--mid);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform 0.2s}
-.ed-chev.open{transform:rotate(180deg)}
-.ed-sec-body{display:none;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--off)}
-.ed-sec-body.open{display:block}
+/* ── MOBILE / NARROW ── */
+.mobile-bar{display:none;background:#111;padding:10px 14px;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.08);position:sticky;top:0;z-index:200}
+.menu-btn{background:rgba(255,255,255,0.08);border:none;color:white;width:32px;height:32px;border-radius:7px;font-size:16px;cursor:pointer}
+.mobile-title{font-family:'DM Serif Display',serif;font-size:17px;color:white}
+.mobile-tabs{display:none;background:#1a1a1a;border-bottom:1px solid rgba(255,255,255,0.06)}
+.mobile-tab{flex:1;background:none;border:none;color:rgba(255,255,255,0.5);padding:10px;font-family:inherit;font-size:12px;cursor:pointer;border-bottom:2px solid transparent}
+.mobile-tab.on{color:white;border-bottom-color:var(--blue)}
 
-/* ── FIELD ROWS ── */
-.fr{margin-bottom:10px}
-.fr-label{font-size:11px;font-weight:500;color:var(--mid);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between}
-.fr-hint{font-size:10px;color:var(--mid);font-weight:300;margin-top:2px;line-height:1.4}
-.fi{width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border 0.2s;background:white;color:var(--dark)}
-.fi:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(0,102,204,0.08)}
-.fi.filled{border-color:rgba(0,168,107,0.4);background:white}
-.fi-ta{resize:vertical;min-height:64px;line-height:1.5}
-.fi-img-prev{max-height:70px;border-radius:7px;border:1px solid var(--border);object-fit:cover;margin-top:5px;display:none;max-width:100%}
-.fi-img-prev.show{display:block}
-.fi-vid{background:var(--blue-bg);color:var(--blue);font-size:10px;font-weight:500;padding:2px 8px;border-radius:5px;margin-top:4px;display:none}
-.fi-vid.show{display:inline-block}
-
-/* ── REPEATER ── */
-.rep-item{background:white;border:1px solid var(--border);border-radius:var(--r);padding:10px;margin-bottom:6px;position:relative}
-.rep-del{position:absolute;top:7px;right:7px;background:var(--red-bg);border:1px solid rgba(229,62,62,0.2);border-radius:5px;padding:2px 6px;font-size:10px;color:var(--red);cursor:pointer}
-.rep-del:hover{background:#fed7d7}
-
-/* ── ANN ROWS ── */
-.ann-row{display:grid;grid-template-columns:1fr 100px 90px 28px;gap:4px;align-items:center;padding:5px 0;border-bottom:1px solid var(--border)}
-.ann-row:last-child{border-bottom:none}
-.ann-i{padding:6px 8px;border:1.5px solid var(--border);border-radius:7px;font-size:12px;font-family:'DM Sans',sans-serif;outline:none;width:100%;background:white}
-.ann-i:focus{border-color:var(--blue)}
-.ann-del{padding:5px 7px;background:var(--red-bg);border:none;border-radius:6px;cursor:pointer;color:var(--red);font-size:11px}
-
-/* ── BUTTONS ── */
-.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:980px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;border:none;transition:all 0.2s;text-decoration:none;white-space:nowrap}
-.btn svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.btn-dark{background:var(--dark);color:white}.btn-dark:hover{background:#333}
-.btn-blue{background:var(--blue);color:white}.btn-blue:hover{background:#0055b3}
-.btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--dark)}.btn-ghost:hover{border-color:#999}
-.btn-red{background:var(--red-bg);color:var(--red);border:1px solid rgba(229,62,62,0.15)}
-.btn-green{background:var(--green-bg);color:var(--green);border:1px solid rgba(0,168,107,0.2)}
-.btn-sm{padding:5px 10px;font-size:11px}
-.btn-pub{background:linear-gradient(135deg,#00a86b,#0066cc);color:white;font-size:13px;padding:8px 18px}
-.btn-pub:hover{opacity:0.9}
-.btn-pub.loading{opacity:0.7;pointer-events:none}
-
-/* ── PUBLISH BAR ── */
-.pub-bar{height:52px;background:#111;border-top:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;padding:0 18px;flex-shrink:0}
-.pub-bar-l{font-size:12px;color:rgba(255,255,255,0.35)}
-.pub-changes{background:#f59e0b;color:#1a1000;font-size:10px;font-weight:600;padding:2px 7px;border-radius:980px;margin-left:6px}
-.pub-log{font-family:'Menlo',monospace;font-size:10px;background:rgba(0,0,0,0.3);color:#a8d8a8;border-radius:6px;padding:8px 10px;max-height:80px;overflow-y:auto;line-height:1.6;display:none;margin:0 18px 10px;border:1px solid rgba(255,255,255,0.06)}
-.pub-log.show{display:block}
-
-/* ── COLLECTION TABS ── */
-.coll-tabs{display:flex;border-bottom:1px solid var(--border);background:white}
-.coll-tab{padding:10px 14px;font-size:12px;font-weight:500;cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;color:var(--mid);border-bottom:2px solid transparent;transition:all 0.15s}
-.coll-tab.on{color:var(--blue);border-bottom-color:var(--blue)}
-.coll-body{padding:14px 16px;background:var(--off)}
-
-/* TABLE */
-.tbl{width:100%;border-collapse:collapse;font-size:12px;background:white;border-radius:var(--r);overflow:hidden;border:1px solid var(--border)}
-.tbl th{text-align:left;padding:8px 12px;font-size:10px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--mid);border-bottom:1px solid var(--border);background:var(--off)}
-.tbl td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
-.tbl tr:last-child td{border-bottom:none}
-.tbl tr:hover td{background:var(--off)}
-.badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:980px;font-size:10px;font-weight:500}
-.b-bl{background:var(--blue-bg);color:var(--blue)}.b-g{background:var(--green-bg);color:var(--green)}.b-gr{background:var(--off);color:var(--mid);border:1px solid var(--border)}
-
-/* MODAL */
-.mbg{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.2s}
-.mbg.open{opacity:1;pointer-events:all}
-.modal{background:white;border-radius:16px;padding:24px;width:100%;max-width:520px;max-height:85vh;overflow-y:auto;transform:translateY(8px);transition:transform 0.2s;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-.mbg.open .modal{transform:none}
-.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.mt{font-size:16px;font-weight:500}
-.mx{width:26px;height:26px;border-radius:50%;background:var(--off);border:none;cursor:pointer;font-size:14px;color:var(--mid)}
-.mf{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
-.fg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.fg .full{grid-column:1/-1}
-.field{display:flex;flex-direction:column;gap:4px}
-.field label{font-size:10px;font-weight:500;color:var(--mid);text-transform:uppercase;letter-spacing:0.05em}
-.field input,.field select,.field textarea{padding:9px 11px;border:1.5px solid var(--border);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border 0.2s;width:100%;background:white}
-.field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%2386868b' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-color:white;padding-right:28px;cursor:pointer}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(0,102,204,0.08)}
-.field textarea{resize:vertical;min-height:70px;line-height:1.5}
-
-/* TOAST */
-.toast{position:fixed;bottom:20px;right:20px;padding:10px 14px;border-radius:var(--r);font-size:12px;font-weight:500;z-index:999;transform:translateY(40px);opacity:0;transition:all 0.3s;display:flex;align-items:center;gap:6px;max-width:280px}
-.toast.show{transform:none;opacity:1}
-.t-ok{background:var(--dark);color:white}.t-err{background:#dc2626;color:white}
-.toast svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
-
-/* SETTINGS */
-.sett-section{background:white;border:1px solid var(--border);border-radius:var(--r-lg);padding:18px;margin-bottom:14px}
-.sett-title{font-size:14px;font-weight:500;margin-bottom:4px}
-.sett-sub{font-size:11px;color:var(--mid);font-weight:300;margin-bottom:14px;line-height:1.5}
-.info-box{background:var(--blue-bg);border:1px solid rgba(0,102,204,0.15);border-radius:var(--r);padding:10px 12px;font-size:11px;color:var(--blue);font-weight:300;margin-bottom:12px;line-height:1.6}
-.info-box strong{font-weight:500}
+@media (max-width: 900px){
+  .sb{transform:translateX(-100%);transition:transform 0.2s;width:260px}
+  .sb.open{transform:translateX(0);box-shadow:0 0 40px rgba(0,0,0,0.5)}
+  .main{margin-left:0;grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .mobile-bar{display:flex}
+  .mobile-tabs{display:flex}
+  .ed{display:none;border-right:none}
+  .ed.show{display:flex}
+  .pv{display:none}
+  .pv.show{display:flex}
+  .ed-header{padding:14px 16px 12px}
+  .ed-body{padding:14px 16px 60px}
+  .coll{padding:16px}
+  .sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:90}
+  .sb-overlay.show{display:block}
+  .pv-bar{padding:6px 8px;gap:5px}
+  .pv-vp button,.pv-mode button{padding:5px 8px;font-size:10.5px}
+  .pv-url{display:none}
+  .pv-frame{padding:6px}
+  .pv-frame.vp-tablet iframe,.pv-frame.vp-mobile iframe{max-width:100%;max-height:calc(100vh - 160px)}
+}
+@media (min-width: 901px){
+  .mobile-bar,.mobile-tabs,.sb-overlay{display:none !important}
+}
 </style>
 </head>
 <body>
 
-<!-- ── LOGIN ── -->
-<div id="loginScreen">
-  <div class="login-card">
-    <div class="login-logo">ORION</div>
-    <div class="login-sub">Content Admin</div>
-    <div class="lf"><label>PIN</label><input type="password" id="pinIn" placeholder="••••" maxlength="8"></div>
-    <button class="login-btn" onclick="login()">Sign in</button>
-    <div class="login-err" id="loginErr">Incorrect PIN</div>
-    <div class="login-hint">Default PIN: 1234 · Change in Settings</div>
+<!-- ─── LOGIN GATE ─── -->
+<div id="gate">
+  <div class="gate-card">
+    <div class="gate-logo">Orion MIS</div>
+    <div class="gate-sub">Content admin</div>
+    <button class="gate-btn" onclick="netlifyIdentity.open()">Sign in</button>
+    <div class="gate-hint">Access is invite-only. If you haven't received an invitation, ask Danny.</div>
+    <div class="gate-err" id="gateErr"></div>
   </div>
 </div>
 
-<!-- ── APP ── -->
+<!-- ─── APP ─── -->
 <div id="app">
-  <!-- SIDEBAR -->
-  <div class="sb">
-    <div class="sb-logo"><div class="sb-logo-m">ORION</div><div class="sb-logo-s">Content Admin</div></div>
-    <div class="sb-sec">Pages</div>
-    <button class="nb on" id="nb-homepage" onclick="nav('homepage')"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Homepage</button>
-    <button class="nb" id="nb-helix-product" onclick="nav('helix-product')"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Helix Product</button>
-    <button class="nb" id="nb-products" onclick="nav('products')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Products</button>
-    <button class="nb" id="nb-solutions" onclick="nav('solutions')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Solutions</button>
-    <button class="nb" id="nb-case-studies" onclick="nav('case-studies')"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Case Studies</button>
-    <button class="nb" id="nb-about" onclick="nav('about')"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>About</button>
-    <button class="nb" id="nb-hub" onclick="nav('hub')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>Hub</button>
-    <button class="nb" id="nb-unit-handling" onclick="nav('unit-handling')"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>Unit Handling</button>
-    <button class="nb" id="nb-pallet-heavy" onclick="nav('pallet-heavy')"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Pallet & Heavy</button>
-    <button class="nb" id="nb-food-beverage" onclick="nav('food-beverage')"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/></svg>Food & Beverage</button>
-    <button class="nb" id="nb-contact" onclick="nav('contact')"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a2 2 0 011.72-2.18l3 .01a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 15a16 16 0 006 6z"/></svg>Contact</button>
-    <div class="sb-sec">Collections</div>
-    <button class="nb" id="nb-news" onclick="nav('news')"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>News & Events</button>
-    <button class="nb" id="nb-vault" onclick="nav('vault')"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>Vault</button>
-    <button class="nb" id="nb-social" onclick="nav('social')"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Social Feed</button>
-    <div class="sb-sec">Site</div>
-    <button class="nb" id="nb-settings" onclick="nav('settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Settings</button>
-    <div class="sb-bot">
-      <div class="gh-pill"><span class="dot" id="ghDot"></span><span id="ghTxt" style="font-size:10px">Not connected</span></div>
-      <button class="signout" onclick="signout()">Sign out</button>
-    </div>
+
+  <!-- Mobile bar -->
+  <div class="mobile-bar">
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    <div class="mobile-title">Orion MIS</div>
   </div>
 
-  <!-- MAIN -->
-  <div class="main">
-    <!-- TOP BAR -->
-    <div class="topbar">
-      <div class="topbar-left">
-        <span class="topbar-title" id="tbTitle">Homepage</span>
-        <span class="topbar-page" id="tbFile">index.html</span>
-      </div>
-      <div class="topbar-right">
-        <button class="btn btn-ghost btn-sm" id="refreshBtn" onclick="refreshPreview()" title="Refresh preview">
-          <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>Refresh
-        </button>
-        <button class="btn btn-ghost btn-sm" id="fetchBtn" onclick="fetchLive()" title="Re-fetch live content">
-          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Fetch live
-        </button>
-        <button class="btn btn-pub" id="pubBtn" onclick="qPublish()">
-          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span id="pubBtnTxt">Publish</span>
-        </button>
-      </div>
+  <!-- Sidebar overlay (mobile) -->
+  <div class="sb-overlay" id="sbOverlay" onclick="toggleSidebar(false)"></div>
+
+  <!-- Sidebar -->
+  <aside class="sb" id="sb">
+    <div class="sb-logo">
+      <div class="sb-logo-m">Orion MIS</div>
+      <div class="sb-logo-s">Content admin</div>
     </div>
 
-    <!-- SPLIT PANE -->
-    <div class="split">
-      <!-- EDITOR -->
-      <div class="editor-pane" id="editorPane"></div>
+    <div class="sb-sec">Pages</div>
+    <button class="nb" data-route="page:homepage"><svg viewBox="0 0 24 24"><path d="M3 12 12 3l9 9M5 10v10h14V10"/></svg> Homepage</button>
+    <button class="nb" data-route="page:helix-product"><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg> Helix Product</button>
+    <button class="nb" data-route="page:solutions"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg> Solutions</button>
+    <button class="nb" data-route="page:about"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5 22c0-4 3-7 7-7s7 3 7 7"/></svg> About</button>
+    <button class="nb" data-route="page:case-studies"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg> Case Studies</button>
+    <button class="nb" data-route="page:hub"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg> Hub</button>
+    <button class="nb" data-route="page:contact"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="M3 7l9 7 9-7"/></svg> Contact</button>
+    <button class="nb" data-route="page:unit-handling"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="10" rx="1"/><circle cx="7" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg> Unit Handling</button>
+    <button class="nb" data-route="page:pallet-heavy"><svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="6"/><rect x="4" y="14" width="16" height="6"/></svg> Pallet &amp; Heavy</button>
+    <button class="nb" data-route="page:food-beverage"><svg viewBox="0 0 24 24"><path d="M6 2v8a4 4 0 0 0 4 4v8M6 6h4M14 2v20"/></svg> Food &amp; Beverage</button>
 
-      <!-- PREVIEW -->
-      <div class="preview-pane">
-        <div class="preview-bar">
-          <span class="preview-url" id="previewUrl">uksortation.netlify.app</span>
-          <div class="preview-btns">
-            <button class="vp-btn on" id="vp-desktop" onclick="setViewport('desktop')">Desktop</button>
-            <span class="vp-sep"></span>
-            <button class="vp-btn" id="vp-tablet" onclick="setViewport('tablet')">Tablet</button>
-            <span class="vp-sep"></span>
-            <button class="vp-btn" id="vp-mobile" onclick="setViewport('mobile')">Mobile</button>
-            <span class="vp-sep"></span>
-            <a id="openLiveBtn" href="https://uksortation.netlify.app" target="_blank" class="btn btn-ghost btn-sm">↗ Live</a>
-          </div>
-        </div>
-        <div class="preview-frame-wrap">
-          <iframe id="previewFrame" src="about:blank" title="Preview"></iframe>
-          <div class="preview-loading" id="previewLoading">
-            <div class="preview-spinner"></div>
-            <span class="preview-msg">Loading preview…</span>
-          </div>
+    <div class="sb-sec">Collections</div>
+    <button class="nb" data-route="coll:news"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg> News &amp; Events</button>
+    <button class="nb" data-route="coll:social"><svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M8.5 10.5l7-3M8.5 13.5l7 3"/></svg> Social Feed</button>
+    <button class="nb" data-route="coll:vault"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Vault</button>
+
+    <div class="sb-sec">Settings</div>
+    <button class="nb" data-route="page:global"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"/><path d="M12 5V2M12 22v-3M5 12H2M22 12h-3"/></svg> Global Settings</button>
+
+    <div class="sb-bot">
+      <div class="sb-user" id="sbUser">
+        <div class="av" id="sbAv">·</div>
+        <div style="min-width:0;flex:1">
+          <div class="nm" id="sbName">—</div>
+          <div class="em" id="sbEmail">Signed out</div>
         </div>
       </div>
+      <div class="gh-pill"><span class="dot" id="ghDot"></span><span id="ghStat">Connecting…</span></div>
+      <button class="signout" onclick="signOut()">Sign out</button>
+    </div>
+  </aside>
+
+  <!-- Main area -->
+  <main class="main">
+    <!-- Mobile tab switcher: Edit / Preview -->
+    <div class="mobile-tabs">
+      <button class="mobile-tab on" id="mtEdit" onclick="mobileView('ed')">✎ Edit</button>
+      <button class="mobile-tab" id="mtPv" onclick="mobileView('pv')">⊞ Preview</button>
     </div>
 
-    <!-- PUBLISH LOG -->
-    <div class="pub-log" id="pubLog"></div>
+    <!-- Editor pane -->
+    <section class="ed show" id="ed">
+      <!-- Content rendered by router -->
+    </section>
 
-    <!-- PUBLISH BAR -->
-    <div class="pub-bar">
-      <div class="pub-bar-l">
-        <span id="changeCount" style="color:rgba(255,255,255,0.4)">No unsaved changes</span>
+    <!-- Preview pane -->
+    <section class="pv" id="pv">
+      <div class="pv-bar">
+        <div class="pv-vp">
+          <button class="on" data-vp="desktop" onclick="setVp('desktop')">▭ Desktop</button>
+          <button data-vp="tablet" onclick="setVp('tablet')">▤ Tablet</button>
+          <button data-vp="mobile" onclick="setVp('mobile')">▯ Mobile</button>
+        </div>
+        <div class="pv-mode">
+          <button class="on" data-mode="draft" onclick="setPvMode('draft')">Draft</button>
+          <button data-mode="live" onclick="setPvMode('live')">Live</button>
+        </div>
+        <div class="pv-url" id="pvUrl">—</div>
+        <button class="pv-btn" onclick="refreshPreview()">↻</button>
+        <button class="pv-btn" onclick="openPreviewWindow()">↗</button>
       </div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <span style="font-size:10px;color:rgba(255,255,255,0.25)" id="pubStatus"></span>
-        <button class="btn btn-pub" id="pubBtn2" onclick="qPublish()">
-          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Publish to live site
-        </button>
+      <div class="pv-frame vp-desktop" id="pvFrame">
+        <iframe id="pvIframe" src="about:blank"></iframe>
       </div>
+    </section>
+  </main>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+  <div class="modal-card">
+    <div class="modal-title" id="modalTitle">Confirm</div>
+    <div class="modal-body" id="modalBody">Are you sure?</div>
+    <div class="modal-row">
+      <button class="btn btn-ghost" onclick="modalClose(false)">Cancel</button>
+      <button class="btn btn-dark" id="modalOk" onclick="modalClose(true)">OK</button>
     </div>
   </div>
 </div>
-
-<!-- MODALS -->
-<div class="mbg" id="m-news"><div class="modal">
-  <div class="mh"><div class="mt" id="nMT">Add news item</div><button class="mx" onclick="closeM('news')">×</button></div>
-  <div class="fg">
-    <div class="field full"><label>Title *</label><input type="text" id="n-title" placeholder="e.g. Helix deployed at APC"></div>
-    <div class="field"><label>Type</label><select id="n-type"><option value="news">News</option><option value="event">Event</option><option value="press">Press release</option><option value="award">Award</option></select></div>
-    <div class="field"><label>Date</label><input type="date" id="n-date"></div>
-    <div class="field full"><label>Summary</label><textarea id="n-sum"></textarea></div>
-    <div class="field full"><label>Image URL</label><input type="url" id="n-img" placeholder="https://..."><div style="font-size:10px;color:var(--mid);margin-top:2px">Google Drive, Imgur, or direct URL</div></div>
-    <div class="field full"><label>Read more link</label><input type="url" id="n-link" placeholder="https://..."></div>
-    <div class="field"><label>Status</label><select id="n-stat"><option value="published">Published</option><option value="draft">Draft</option></select></div>
-  </div>
-  <div class="mf"><button class="btn btn-ghost" onclick="closeM('news')">Cancel</button><button class="btn btn-dark" onclick="saveNews()">Save</button></div>
-</div></div>
-
-<div class="mbg" id="m-vault"><div class="modal">
-  <div class="mh"><div class="mt" id="vMT">Add document</div><button class="mx" onclick="closeM('vault')">×</button></div>
-  <div class="fg">
-    <div class="field full"><label>Name *</label><input type="text" id="v-name"></div>
-    <div class="field"><label>Category</label><select id="v-cat"><option value="technical">Technical</option><option value="commercial">Commercial</option><option value="marketing">Marketing</option><option value="compliance">Compliance</option><option value="training">Training</option></select></div>
-    <div class="field"><label>File type</label><select id="v-type"><option value="pdf">PDF</option><option value="doc">Word</option><option value="xls">Spreadsheet</option><option value="ppt">Presentation</option><option value="dwg">CAD/DWG</option><option value="zip">ZIP</option><option value="link">Link</option></select></div>
-    <div class="field full"><label>URL *</label><input type="url" id="v-url"><div style="font-size:10px;color:var(--mid);margin-top:2px">Set Google Drive to "Anyone with link"</div></div>
-    <div class="field full"><label>Description</label><textarea id="v-desc" style="min-height:55px"></textarea></div>
-    <div class="field"><label>Access</label><select id="v-access"><option value="public">Public</option><option value="partner">Partners only</option><option value="internal">Internal</option></select></div>
-    <div class="field"><label>Version</label><input type="text" id="v-ver" placeholder="v2.1"></div>
-  </div>
-  <div class="mf"><button class="btn btn-ghost" onclick="closeM('vault')">Cancel</button><button class="btn btn-dark" onclick="saveVault()">Save</button></div>
-</div></div>
-
-<div class="mbg" id="m-social"><div class="modal">
-  <div class="mh"><div class="mt">Add social post</div><button class="mx" onclick="closeM('social')">×</button></div>
-  <div class="fg">
-    <div class="field"><label>Platform</label><select id="soc-p"><option value="linkedin">LinkedIn</option><option value="twitter">X / Twitter</option><option value="instagram">Instagram</option><option value="youtube">YouTube</option></select></div>
-    <div class="field"><label>Date</label><input type="date" id="soc-d"></div>
-    <div class="field full"><label>Caption</label><textarea id="soc-c"></textarea></div>
-    <div class="field full"><label>Post URL</label><input type="url" id="soc-u"></div>
-    <div class="field full"><label>Image URL</label><input type="url" id="soc-i"></div>
-  </div>
-  <div class="mf"><button class="btn btn-ghost" onclick="closeM('social')">Cancel</button><button class="btn btn-dark" onclick="saveSoc()">Save</button></div>
-</div></div>
-
-<div class="toast" id="toast"><svg id="tIco" viewBox="0 0 24 24"></svg><span id="tMsg"></span></div>
 
 <script>
-// ── SITE CONFIG ───────────────────────────────────────────────
-const SITE = 'https://uksortation.netlify.app';
-const REPO = 'dannygrigg/orion-site';
+'use strict';
+
+// ════════════════════════════════════════════════════════════════════
+// 1. CONFIG & GLOBAL STATE
+// ════════════════════════════════════════════════════════════════════
+
+const SITE_ORIGIN = window.location.origin; // https://uksortation.netlify.app
+const GIT_GW = '/.netlify/git/github'; // Git Gateway proxy to GitHub Contents API
 const BRANCH = 'main';
 
-// ── PAGE DEFINITIONS ──────────────────────────────────────────
+let identity = null;     // netlifyIdentity widget
+let currentUser = null;  // logged-in user
+let route = null;        // current route, e.g. {kind:'page', id:'homepage'} or {kind:'coll', id:'news'} or {kind:'item', coll:'news', slug:'...'}
+let editorData = null;   // current edited object
+let editorDirty = false; // unsaved changes
+let editorMeta = null;   // {path, draftPath, livePath, label, schema, hasDraft, hasLive}
+let pvMode = 'draft';    // 'draft' or 'live'
+let pvVp = 'desktop';    // 'desktop' | 'tablet' | 'mobile'
+let draftIndex = new Set(); // page ids that currently have drafts
+let mobileMode = 'ed';   // 'ed' or 'pv' on narrow screens
+
+// ════════════════════════════════════════════════════════════════════
+// 2. SCHEMAS — mirror admin/config.yml in JS
+//    Each schema entry describes the fields for one file or collection.
+// ════════════════════════════════════════════════════════════════════
+
 const PAGES = {
-  'homepage':     { label:'Homepage',        file:'index.html',          dataFile:'_data/homepage.json',           liveUrl:'' },
-  'helix-product':{ label:'Helix Product',   file:'helix-product.html',  dataFile:'_data/pages/helix-product.json', liveUrl:'helix-product.html' },
-  'products':     { label:'Products',        file:'products.html',       dataFile:'_data/pages/products.json',      liveUrl:'products.html' },
-  'solutions':    { label:'Solutions',       file:'solutions.html',      dataFile:'_data/pages/solutions.json',     liveUrl:'solutions.html' },
-  'case-studies': { label:'Case Studies',    file:'case-studies.html',   dataFile:'_data/pages/case-studies.json',  liveUrl:'case-studies.html' },
-  'about':        { label:'About',           file:'about.html',          dataFile:'_data/pages/about.json',         liveUrl:'about.html' },
-  'hub':          { label:'Hub',             file:'hub.html',            dataFile:'_data/pages/hub.json',           liveUrl:'hub.html' },
-  'unit-handling':{ label:'Unit Handling',   file:'unit-handling.html',  dataFile:'_data/pages/unit-handling.json', liveUrl:'unit-handling.html' },
-  'pallet-heavy': { label:'Pallet & Heavy',  file:'pallet-heavy.html',   dataFile:'_data/pages/pallet-heavy.json',  liveUrl:'pallet-heavy.html' },
-  'food-beverage':{ label:'Food & Beverage', file:'food-beverage.html',  dataFile:'_data/pages/food-beverage.json', liveUrl:'food-beverage.html' },
-  'contact':      { label:'Contact',         file:'contact.html',        dataFile:'_data/pages/contact.json',       liveUrl:'contact.html' },
+  homepage: {
+    label: 'Homepage',
+    file: '_data/homepage.json',
+    previewUrl: '/index.html',
+    fields: [
+      {label:'Hero video URL', name:'hero_video_url', widget:'string', hint:'YouTube watch URL — e.g. https://www.youtube.com/watch?v=...'},
+      {label:'Eyebrow', name:'hero_eyebrow', widget:'string'},
+      {label:'Headline line 1', name:'hero_line1', widget:'string'},
+      {label:'Headline line 2 (blue italic)', name:'hero_line2', widget:'string'},
+      {label:'Body text', name:'hero_body', widget:'text'},
+      {label:'Lease price', name:'hero_lease', widget:'string'},
+      {label:'Announcement bar messages', name:'announcements', widget:'list', summary:'{{text}}', fields:[
+        {label:'Message', name:'text', widget:'string'},
+        {label:'Link URL', name:'link_url', widget:'string', required:false},
+        {label:'Link label', name:'link_label', widget:'string', required:false},
+      ]},
+      {label:'Stats bar', name:'stats', widget:'list', summary:'{{number}} — {{label}}', fields:[
+        {label:'Label', name:'label', widget:'string'},
+        {label:'Number', name:'number', widget:'string'},
+        {label:'Note', name:'note', widget:'string'},
+      ]},
+      {label:'Feature cards', name:'features', widget:'list', summary:'{{title}}', fields:[
+        {label:'Title', name:'title', widget:'string'},
+        {label:'Description', name:'desc', widget:'text'},
+      ]},
+      {label:'Dark section headline 1', name:'dark_h2_line1', widget:'string'},
+      {label:'Dark section headline 2 (blue italic)', name:'dark_h2_line2', widget:'string'},
+      {label:'Dark section lead', name:'dark_lead', widget:'text'},
+      {label:'Product visual image', name:'dark_image', widget:'image', required:false},
+      {label:'Spec table', name:'specs', widget:'list', summary:'{{key}}: {{val}}', fields:[
+        {label:'Key', name:'key', widget:'string'},
+        {label:'Value', name:'val', widget:'string'},
+      ]},
+      {label:'Proof numbers', name:'proof', widget:'list', summary:'{{number}} — {{label}}', fields:[
+        {label:'Number', name:'number', widget:'string'},
+        {label:'Label', name:'label', widget:'string'},
+        {label:'Description', name:'desc', widget:'text'},
+      ]},
+      {label:'CTA headline', name:'cta_h2', widget:'string'},
+      {label:'CTA body', name:'cta_lead', widget:'text'},
+      {label:'CTA button', name:'cta_btn', widget:'string'},
+    ],
+  },
+  'helix-product': {
+    label: 'Helix Product',
+    file: '_data/pages/helix-product.json',
+    previewUrl: '/helix-product.html',
+    fields: [
+      {label:'Hero video URL', name:'hero_video_url', widget:'string', required:false},
+      {label:'Eyebrow', name:'hero_eyebrow', widget:'string'},
+      {label:'Headline (use <em>word</em> for blue italic)', name:'hero_h1', widget:'string'},
+      {label:'Subheadline', name:'hero_sub', widget:'text'},
+      {label:'Stats bar', name:'stats', widget:'list', summary:'{{number}} — {{label}}', fields:[
+        {label:'Label', name:'label', widget:'string'},
+        {label:'Number', name:'number', widget:'string'},
+        {label:'Note', name:'note', widget:'string'},
+      ]},
+      {label:'Main product image', name:'main_image', widget:'image', required:false},
+      {label:'Gallery images (max 4)', name:'gallery', widget:'list', max:4, summary:'{{alt}}', fields:[
+        {label:'Image', name:'url', widget:'image'},
+        {label:'Alt text', name:'alt', widget:'string', required:false},
+      ]},
+      {label:'Spec table', name:'specs', widget:'list', summary:'{{key}}: {{val}}', fields:[
+        {label:'Key', name:'key', widget:'string'},
+        {label:'Value', name:'val', widget:'string'},
+      ]},
+      {label:'CTA headline', name:'cta_h2', widget:'string', required:false},
+      {label:'CTA body', name:'cta_lead', widget:'text', required:false},
+    ],
+  },
+  solutions: {
+    label: 'Solutions',
+    file: '_data/pages/solutions.json',
+    previewUrl: '/solutions.html',
+    fields: [
+      {label:'Hero video URL', name:'hero_video_url', widget:'string', required:false},
+      {label:'Hero image', name:'hero_image', widget:'image', required:false},
+      {label:'Headline', name:'hero_h1', widget:'string', required:false},
+      {label:'Subheadline', name:'hero_sub', widget:'text', required:false},
+      {label:'Solution cards', name:'solutions', widget:'list', summary:'{{title}}', fields:[
+        {label:'Tag', name:'tag', widget:'string'},
+        {label:'Title', name:'title', widget:'string'},
+        {label:'Description', name:'desc', widget:'text'},
+        {label:'Image', name:'image', widget:'image', required:false},
+        {label:'Anchor ID', name:'anchor', widget:'string'},
+      ]},
+    ],
+  },
+  about: {
+    label: 'About',
+    file: '_data/pages/about.json',
+    previewUrl: '/about.html',
+    fields: [
+      {label:'Hero image', name:'hero_image', widget:'image', required:false},
+      {label:'Headline', name:'hero_h1', widget:'string', required:false},
+      {label:'Subheadline', name:'hero_sub', widget:'text', required:false},
+      {label:'Story headline', name:'story_h2', widget:'string', required:false},
+      {label:'Story lead', name:'story_lead', widget:'text', required:false},
+      {label:'Story image', name:'story_image', widget:'image', required:false},
+      {label:'Client logos', name:'client_logos', widget:'list', summary:'{{alt}}', hint:'Logos appear in the scrolling strip', fields:[
+        {label:'Logo image', name:'url', widget:'image'},
+        {label:'Company name', name:'alt', widget:'string'},
+        {label:'Website URL', name:'link', widget:'string', required:false},
+      ]},
+    ],
+  },
+  'case-studies': {
+    label: 'Case Studies',
+    file: '_data/pages/case-studies.json',
+    previewUrl: '/case-studies.html',
+    fields: [
+      {label:'Hero image', name:'hero_image', widget:'image', required:false},
+      {label:'Headline', name:'hero_h1', widget:'string', required:false},
+      {label:'Subheadline', name:'hero_sub', widget:'text', required:false},
+    ],
+  },
+  hub: {
+    label: 'Hub',
+    file: '_data/pages/hub.json',
+    previewUrl: '/hub.html',
+    fields: [
+      {label:'Hero image', name:'hero_image', widget:'image', required:false},
+      {label:'Headline', name:'hero_h1', widget:'string', required:false},
+      {label:'Subheadline', name:'hero_sub', widget:'text', required:false},
+    ],
+  },
+  contact: {
+    label: 'Contact',
+    file: '_data/pages/contact.json',
+    previewUrl: '/contact.html',
+    fields: [
+      {label:'Hero image', name:'hero_image', widget:'image', required:false},
+      {label:'Headline', name:'hero_h1', widget:'string', required:false},
+      {label:'Subheadline', name:'hero_sub', widget:'text', required:false},
+    ],
+  },
+  'unit-handling': {
+    label: 'Unit Handling',
+    file: '_data/pages/unit-handling.json',
+    previewUrl: '/unit-handling.html',
+    fields: [
+      {label:'Hero image', name:'hero_image', widget:'image', required:false},
+      {label:'Headline', name:'hero_h1', widget:'string', required:false},
+      {label:'Subheadline', name:'hero_sub', widget:'text', required:false},
+    ],
+  },
+  'pallet-heavy': {
+    label: 'Pallet & Heavy',
+    file: '_data/pages/pallet-heavy.json',
+    previewUrl: '/pallet-heavy.html',
+    fields: [
+      {label:'Hero image', name:'hero_image', widget:'image', required:false},
+      {label:'Headline', name:'hero_h1', widget:'string', required:false},
+      {label:'Subheadline', name:'hero_sub', widget:'text', required:false},
+    ],
+  },
+  'food-beverage': {
+    label: 'Food & Beverage',
+    file: '_data/pages/food-beverage.json',
+    previewUrl: '/food-beverage.html',
+    fields: [
+      {label:'Hero image', name:'hero_image', widget:'image', required:false},
+      {label:'Headline', name:'hero_h1', widget:'string', required:false},
+      {label:'Subheadline', name:'hero_sub', widget:'text', required:false},
+    ],
+  },
+  global: {
+    label: 'Global Settings',
+    file: '_data/global.json',
+    previewUrl: '/index.html',
+    fields: [
+      {label:'Phone', name:'phone', widget:'string'},
+      {label:'Email', name:'email', widget:'string'},
+      {label:'Address', name:'address', widget:'string'},
+      {label:'Tawk.to chat ID', name:'tawk_id', widget:'string', required:false},
+    ],
+  },
 };
 
-// ── PAGE SECTIONS ─────────────────────────────────────────────
-const PAGE_SECTIONS = {
-  'homepage': [
-    { id:'ann', label:'Announcement Bar', icon:'📣', fields:[
-      { id:'announcements', type:'repeater', label:'Scrolling messages',
-        cols:['text','link_url','link_label'], colLabels:['Message','Link URL (opt.)','Link text (opt.)'] }
-    ]},
-    { id:'hero', label:'Hero Section', icon:'🎬', fields:[
-      { id:'hero_video_url', type:'video', label:'Hero video', hint:'YouTube watch URL — auto-converts' },
-      { id:'hero_eyebrow',   type:'text',  label:'Eyebrow text' },
-      { id:'hero_line1',     type:'text',  label:'Headline line 1' },
-      { id:'hero_line2',     type:'text',  label:'Headline line 2 (italic blue)' },
-      { id:'hero_body',      type:'textarea', label:'Body text' },
-      { id:'hero_lease',     type:'text',  label:'Lease price' },
-    ]},
-    { id:'stats', label:'Stats Bar', icon:'📊', fields:[
-      { id:'stats', type:'list-stats', label:'Stats (4 items)' }
-    ]},
-    { id:'features', label:'Feature Cards', icon:'✨', fields:[
-      { id:'features', type:'list-features', label:'Feature cards (up to 6)' }
-    ]},
-    { id:'dark', label:'Dark Section', icon:'⚙️', fields:[
-      { id:'dark_h2_line1', type:'text',     label:'Headline line 1' },
-      { id:'dark_h2_line2', type:'text',     label:'Headline line 2 (italic blue)' },
-      { id:'dark_lead',     type:'textarea', label:'Lead text' },
-      { id:'dark_image',    type:'image',    label:'Product visual image', hint:'Paste direct image URL' },
-      { id:'specs', type:'list-specs', label:'Spec table' }
-    ]},
-    { id:'proof', label:'Proof Numbers', icon:'🔢', fields:[
-      { id:'proof', type:'list-proof', label:'Proof numbers (4)' }
-    ]},
-    { id:'cta', label:'CTA Section', icon:'📢', fields:[
-      { id:'cta_h2',   type:'text',     label:'Headline' },
-      { id:'cta_lead', type:'textarea', label:'Body text' },
-      { id:'cta_btn',  type:'text',     label:'Button text' },
-    ]},
-  ],
-  'helix-product': [
-    { id:'hero', label:'Page Header', icon:'🎬', fields:[
-      { id:'hero_video_url', type:'video', label:'Hero video' },
-      { id:'hero_eyebrow',   type:'text',  label:'Eyebrow' },
-      { id:'hero_h1',        type:'text',  label:'Headline (use <em>word</em> for blue italic)' },
-      { id:'hero_sub',       type:'textarea', label:'Subheadline' },
-    ]},
-    { id:'stats', label:'Stats Bar', icon:'📊', fields:[
-      { id:'stats', type:'list-stats', label:'Stats' }
-    ]},
-    { id:'images', label:'Product Images & Gallery', icon:'🖼️', fields:[
-      { id:'main_image', type:'image', label:'Main product image' },
-      { id:'gallery', type:'list-gallery', label:'Gallery images (up to 4)' }
-    ]},
-    { id:'specs', label:'Technical Specs', icon:'⚙️', fields:[
-      { id:'specs', type:'list-specs', label:'Spec table' }
-    ]},
-    { id:'cta', label:'CTA', icon:'📢', fields:[
-      { id:'cta_h2',   type:'text',     label:'CTA headline' },
-      { id:'cta_lead', type:'textarea', label:'CTA body text' },
-    ]},
-  ],
+const COLLECTIONS = {
+  news: {
+    label: 'News & Events',
+    folder: '_data/news',
+    previewUrl: '/hub.html',
+    identifier: 'title',
+    slug: (data) => {
+      const d = data.date ? new Date(data.date) : new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth()+1).padStart(2,'0');
+      const day = String(d.getDate()).padStart(2,'0');
+      return `${y}-${m}-${day}-${slugify(data.title || 'untitled')}`;
+    },
+    fields: [
+      {label:'Title', name:'title', widget:'string'},
+      {label:'Type', name:'type', widget:'select', options:['news','event','press','award'], default:'news'},
+      {label:'Date', name:'date', widget:'date'},
+      {label:'Summary', name:'summary', widget:'text'},
+      {label:'Image', name:'image', widget:'image', required:false},
+      {label:'Read more link', name:'link', widget:'string', required:false},
+      {label:'Status', name:'status', widget:'select', options:['published','draft'], default:'published'},
+    ],
+  },
+  social: {
+    label: 'Social Feed',
+    folder: '_data/social',
+    previewUrl: '/hub.html',
+    identifier: 'caption',
+    slug: (data) => {
+      const d = data.date ? new Date(data.date) : new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth()+1).padStart(2,'0');
+      const day = String(d.getDate()).padStart(2,'0');
+      return `${y}-${m}-${day}-${slugify((data.caption || 'post').slice(0,40))}`;
+    },
+    fields: [
+      {label:'Platform', name:'platform', widget:'select', options:['linkedin','twitter','instagram','youtube'], default:'linkedin'},
+      {label:'Caption', name:'caption', widget:'text'},
+      {label:'Date', name:'date', widget:'date'},
+      {label:'Post URL', name:'url', widget:'string', required:false},
+      {label:'Image', name:'image', widget:'image', required:false},
+    ],
+  },
+  vault: {
+    label: 'Vault',
+    folder: '_data/vault',
+    previewUrl: '/hub.html',
+    identifier: 'name',
+    slug: (data) => slugify(data.name || 'document'),
+    fields: [
+      {label:'Document name', name:'name', widget:'string'},
+      {label:'Category', name:'category', widget:'select', options:['technical','commercial','marketing','compliance','training']},
+      {label:'File type', name:'filetype', widget:'select', options:['pdf','doc','xls','ppt','dwg','zip','link'], default:'pdf'},
+      {label:'URL', name:'url', widget:'string'},
+      {label:'Description', name:'description', widget:'text', required:false},
+      {label:'Access', name:'access', widget:'select', options:['public','partner','internal'], default:'public'},
+      {label:'Version', name:'version', widget:'string', required:false},
+    ],
+  },
 };
-// Default sections for simple pages
-const DEFAULT_SECTIONS = [
-  { id:'hero', label:'Page Header', icon:'🎯', fields:[
-    { id:'hero_image',   type:'image',    label:'Header image' },
-    { id:'hero_eyebrow', type:'text',     label:'Eyebrow' },
-    { id:'hero_h1',      type:'text',     label:'Headline' },
-    { id:'hero_sub',     type:'textarea', label:'Subheadline' },
-    { id:'hero_video_url', type:'video',  label:'Hero video (optional)' },
-  ]},
-];
 
-// ── DATA ──────────────────────────────────────────────────────
-let DB = { pages:{}, news:[], vault:[], social:[], settings:{
-  phone:'+44 333 335 5269', email:'info@orionmis.co.uk',
-  address:'Number 1 Fontwell Avenue, Fontwell, Chichester, PO20 3RU'
-}};
-let eId = null;
-let curPage = 'homepage';
-let unsavedChanges = 0;
-let fetchedPages = {};
-let previewViewport = 'desktop';
+// ════════════════════════════════════════════════════════════════════
+// 3. UTILITIES
+// ════════════════════════════════════════════════════════════════════
 
-// ── AUTH ──────────────────────────────────────────────────────
-const getPin = () => localStorage.getItem('orion_pin') || '1234';
-function login() {
-  if(document.getElementById('pinIn').value === getPin()) {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('app').style.display = 'flex';
-    init();
-  } else {
-    document.getElementById('loginErr').style.display = 'block';
-    document.getElementById('pinIn').value = '';
-  }
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function slugify(s){return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,60) || 'untitled'}
+function deepClone(o){return JSON.parse(JSON.stringify(o))}
+function deepEqual(a,b){return JSON.stringify(a)===JSON.stringify(b)}
+
+function toast(msg, kind=''){
+  const t = document.getElementById('toast');
+  t.className = 'toast show' + (kind ? ' '+kind : '');
+  t.textContent = msg;
+  clearTimeout(toast._t);
+  toast._t = setTimeout(()=>{t.classList.remove('show')}, 3500);
 }
-function signout() {
+
+function modal(title, body, okLabel='OK', danger=false){
+  return new Promise(resolve => {
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalBody').textContent = body;
+    const ok = document.getElementById('modalOk');
+    ok.textContent = okLabel;
+    ok.className = 'btn ' + (danger ? 'btn-dark' : 'btn-dark');
+    ok.style.background = danger ? 'var(--red)' : '';
+    document.getElementById('modal').classList.add('show');
+    modal._resolve = resolve;
+  });
+}
+function modalClose(result){
+  document.getElementById('modal').classList.remove('show');
+  if (modal._resolve) { modal._resolve(result); modal._resolve = null; }
+}
+
+// Base64 encode/decode that handles UTF-8 properly
+function b64encode(str){return btoa(unescape(encodeURIComponent(str)))}
+function b64decode(str){return decodeURIComponent(escape(atob(str)))}
+
+// ════════════════════════════════════════════════════════════════════
+// 4. AUTH — Netlify Identity
+// ════════════════════════════════════════════════════════════════════
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (typeof netlifyIdentity === 'undefined') {
+    document.getElementById('gateErr').style.display = 'block';
+    document.getElementById('gateErr').textContent = 'Netlify Identity script failed to load. Refresh the page or check your network.';
+    return;
+  }
+  identity = netlifyIdentity;
+  identity.on('init', user => {
+    if (user) { handleLogin(user); }
+  });
+  identity.on('login', user => { handleLogin(user); identity.close(); });
+  identity.on('logout', () => { handleLogout(); });
+  identity.on('error', err => {
+    document.getElementById('gateErr').style.display = 'block';
+    document.getElementById('gateErr').textContent = 'Sign-in error: ' + (err.message || err);
+  });
+  identity.init();
+});
+
+function handleLogin(user){
+  currentUser = user;
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+
+  const name = user.user_metadata && user.user_metadata.full_name || user.email.split('@')[0];
+  document.getElementById('sbName').textContent = name;
+  document.getElementById('sbEmail').textContent = user.email;
+  document.getElementById('sbAv').textContent = name.charAt(0).toUpperCase();
+
+  testGitGateway();
+  refreshDraftIndex().then(() => {
+    if (!route) navigate('page:homepage');
+    else applyRouteUi();
+  });
+}
+function handleLogout(){
+  currentUser = null;
+  document.getElementById('gate').style.display = 'flex';
   document.getElementById('app').style.display = 'none';
-  document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('pinIn').value = '';
 }
-document.getElementById('pinIn').onkeydown = e => { if(e.key==='Enter') login(); };
+function signOut(){ if (identity) identity.logout(); }
 
-// ── PREVIEW ───────────────────────────────────────────────────
-function loadPreview(url) {
-  const frame = document.getElementById('previewFrame');
-  const loading = document.getElementById('previewLoading');
-  const fullUrl = url ? SITE + '/' + url : SITE + '/';
-  document.getElementById('previewUrl').textContent = fullUrl.replace('https://','');
-  document.getElementById('openLiveBtn').href = fullUrl;
-  loading.classList.add('show');
-  frame.src = fullUrl;
-  frame.onload = () => loading.classList.remove('show');
+async function jwt(){
+  if (!currentUser) throw new Error('Not signed in');
+  // jwt() refreshes the token if needed
+  return await currentUser.jwt();
 }
 
-function refreshPreview() {
-  const p = PAGES[curPage];
-  loadPreview(p?.liveUrl || '');
+// ════════════════════════════════════════════════════════════════════
+// 5. GIT GATEWAY — file read/write through Netlify-proxied GitHub API
+// ════════════════════════════════════════════════════════════════════
+
+async function ggFetch(path, opts={}){
+  const token = await jwt();
+  const headers = Object.assign({
+    'Authorization': 'Bearer ' + token,
+    'Accept': 'application/vnd.github.v3+json',
+  }, opts.headers || {});
+  if (opts.body && !headers['Content-Type']) headers['Content-Type'] = 'application/json';
+  const res = await fetch(GIT_GW + path, Object.assign({}, opts, {headers}));
+  return res;
 }
 
-function setViewport(vp) {
-  previewViewport = vp;
-  ['desktop','tablet','mobile'].forEach(v => document.getElementById('vp-'+v)?.classList.remove('on'));
-  document.getElementById('vp-'+vp)?.classList.add('on');
-  const wrap = document.querySelector('.preview-frame-wrap');
-  const frame = document.getElementById('previewFrame');
-  const widths = { desktop:'100%', tablet:'768px', mobile:'390px' };
-  if(vp === 'desktop') {
-    wrap.style.display = 'flex'; wrap.style.justifyContent = '';
-    frame.style.width = '100%'; frame.style.margin = '';
-  } else {
-    wrap.style.display = 'flex'; wrap.style.justifyContent = 'center';
-    frame.style.width = widths[vp]; frame.style.margin = '0 auto';
-    frame.style.boxShadow = '0 0 0 1px rgba(255,255,255,0.1)';
+// GET file → {sha, content}|null
+async function gitGetFile(filePath){
+  const res = await ggFetch(`/contents/${encodeURI(filePath)}?ref=${BRANCH}`);
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`Read failed: ${filePath} (${res.status})`);
+  const data = await res.json();
+  let content = '';
+  try { content = b64decode((data.content || '').replace(/\n/g,'')); } catch(e){ content = ''; }
+  return { sha: data.sha, content };
+}
+
+// PUT (create or update) a file
+async function gitPutFile(filePath, content, commitMsg){
+  const existing = await gitGetFile(filePath);
+  const body = {
+    message: commitMsg || `Update ${filePath}`,
+    content: b64encode(content),
+    branch: BRANCH,
+  };
+  if (existing) body.sha = existing.sha;
+  const res = await ggFetch(`/contents/${encodeURI(filePath)}`, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(()=>({message:res.statusText}));
+    throw new Error(`Save failed: ${err.message || res.statusText}`);
+  }
+  return await res.json();
+}
+
+// DELETE a file
+async function gitDeleteFile(filePath, commitMsg){
+  const existing = await gitGetFile(filePath);
+  if (!existing) return; // already gone
+  const res = await ggFetch(`/contents/${encodeURI(filePath)}`, {
+    method: 'DELETE',
+    body: JSON.stringify({
+      message: commitMsg || `Delete ${filePath}`,
+      sha: existing.sha,
+      branch: BRANCH,
+    }),
+  });
+  if (!res.ok && res.status !== 404) {
+    const err = await res.json().catch(()=>({message:res.statusText}));
+    throw new Error(`Delete failed: ${err.message || res.statusText}`);
   }
 }
 
-// ── FETCH LIVE CONTENT ────────────────────────────────────────
-async function fetchLive(force=false) {
-  if(!force && fetchedPages[curPage]) { renderPageEditor(curPage, DB.pages[curPage]||{}); return; }
-  toast('Fetching live content…', 'info');
-  document.getElementById('fetchBtn').textContent = 'Fetching…';
+// LIST a directory → array of {name, path, sha, type}
+async function gitListDir(dirPath){
+  const res = await ggFetch(`/contents/${encodeURI(dirPath)}?ref=${BRANCH}`);
+  if (res.status === 404) return [];
+  if (!res.ok) throw new Error(`List failed: ${dirPath}`);
+  const data = await res.json();
+  return Array.isArray(data) ? data : [];
+}
+
+// PUT a binary file (image) — accepts a base64 string already
+async function gitPutBinary(filePath, base64Content, commitMsg){
+  const existing = await gitGetFile(filePath).catch(()=>null);
+  const body = {
+    message: commitMsg || `Upload ${filePath}`,
+    content: base64Content,
+    branch: BRANCH,
+  };
+  if (existing) body.sha = existing.sha;
+  const res = await ggFetch(`/contents/${encodeURI(filePath)}`, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(()=>({message:res.statusText}));
+    throw new Error(`Upload failed: ${err.message || res.statusText}`);
+  }
+  return await res.json();
+}
+
+async function testGitGateway(){
+  setGhStatus('connecting', 'Connecting…');
   try {
-    const resp = await fetch(SITE + '/' + (PAGES[curPage]?.file||'') + '?t='+Date.now());
-    if(!resp.ok) throw new Error('HTTP '+resp.status);
-    const html = await resp.text();
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-    const scraped = scrapePage(curPage, doc);
-    fetchedPages[curPage] = true;
-    // Merge: existing edits take priority, fill blanks with scraped
-    if(!DB.pages[curPage]) DB.pages[curPage] = {};
-    Object.keys(scraped).forEach(k => { if(!DB.pages[curPage][k]) DB.pages[curPage][k] = scraped[k]; });
-    saveL();
-    renderPageEditor(curPage, DB.pages[curPage]);
-    toast('Content loaded from live site ✓');
-  } catch(e) {
-    toast('Could not fetch: '+e.message, 'err');
-  }
-  document.getElementById('fetchBtn').textContent = 'Fetch live';
-}
-
-function scrapePage(pageId, doc) {
-  const gt = s => doc.querySelector(s)?.textContent?.trim()||'';
-  const out = {};
-  // Video
-  const iframe = doc.querySelector('#heroWrap iframe,.hero-video-wrap iframe');
-  const src = iframe?.getAttribute('src')||'';
-  const vm = src.match(/embed\/([a-zA-Z0-9_-]+)/);
-  if(vm) out.hero_video_url = 'https://www.youtube.com/watch?v='+vm[1];
-  // Common fields
-  out.hero_eyebrow = gt('.hero-eyebrow,.page-header-eyebrow');
-  out.hero_h1 = doc.querySelector('.page-header h1,h1')?.innerHTML?.trim()||'';
-  out.hero_sub = gt('.page-header-sub,.hero-sub');
-  // Homepage specific
-  if(pageId==='homepage') {
-    out.hero_line1 = doc.querySelector('.hero h1')?.childNodes[0]?.textContent?.trim()||'';
-    out.hero_line2 = gt('.hero h1 em');
-    out.hero_body = gt('.hero-sub');
-    out.dark_h2_line1 = doc.querySelector('.product-section h2')?.childNodes[0]?.textContent?.trim()||'';
-    out.dark_h2_line2 = gt('.product-section h2 em');
-    out.dark_lead = gt('.product-section .section-lead');
-    out.cta_h2 = gt('.cta-card h2');
-    out.cta_lead = gt('.cta-card .section-lead');
-    out.announcements = [...doc.querySelectorAll('.announcement-item')].slice(0,8).map(a=>({
-      text:(a.childNodes[0]?.textContent||a.textContent).trim(),
-      link_url:a.querySelector('a')?.getAttribute('href')||'',
-      link_label:a.querySelector('a')?.textContent?.trim()||''
-    }));
-    out.stats = [...doc.querySelectorAll('.stat-item')].map(s=>({
-      label:s.querySelector('.stat-label')?.textContent?.trim()||'',
-      number:s.querySelector('.stat-number')?.textContent?.trim()||'',
-      note:s.querySelector('.stat-note')?.textContent?.trim()||''
-    }));
-    out.features = [...doc.querySelectorAll('.feature-card')].map(f=>({
-      title:f.querySelector('.feature-title')?.textContent?.trim()||'',
-      desc:f.querySelector('.feature-desc')?.textContent?.trim()||''
-    }));
-    out.specs = [...doc.querySelectorAll('.spec-list li')].map(li=>({
-      key:li.querySelector('.spec-key')?.textContent?.trim()||'',
-      val:li.querySelector('.spec-val')?.textContent?.trim()||''
-    }));
-    out.proof = [...doc.querySelectorAll('.proof-card')].map(p=>({
-      number:p.querySelector('.proof-number')?.textContent?.trim()||'',
-      label:p.querySelector('.proof-label')?.textContent?.trim()||'',
-      desc:p.querySelector('.proof-desc')?.textContent?.trim()||''
-    }));
-  }
-  if(pageId==='helix-product') {
-    out.stats = [...doc.querySelectorAll('.stat-item')].map(s=>({
-      label:s.querySelector('.stat-label')?.textContent?.trim()||'',
-      number:s.querySelector('.stat-number')?.textContent?.trim()||'',
-      note:s.querySelector('.stat-note')?.textContent?.trim()||''
-    }));
-    out.specs = [...doc.querySelectorAll('.spec-list li')].map(li=>({
-      key:li.querySelector('.spec-key')?.textContent?.trim()||'',
-      val:li.querySelector('.spec-val')?.textContent?.trim()||''
-    }));
-    out.cta_h2 = gt('.cta-card h2');
-    out.cta_lead = gt('.cta-card .section-lead');
-  }
-  return out;
-}
-
-// ── NAV ───────────────────────────────────────────────────────
-function nav(id) {
-  curPage = id;
-  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
-  document.getElementById('nb-'+id)?.classList.add('on');
-  const p = PAGES[id];
-  const isCollection = ['news','vault','social','settings'].includes(id);
-  document.getElementById('tbTitle').textContent = p?.label || LABELS[id] || id;
-  document.getElementById('tbFile').textContent = p?.file || '';
-  // Update preview
-  if(p) loadPreview(p.liveUrl);
-  if(isCollection) { renderCollection(id); return; }
-  if(id==='settings') { renderSettings(); return; }
-  if(p) renderPageEditor(id, DB.pages[id]||{});
-  // Auto-fetch if not fetched yet
-  if(!fetchedPages[id] && p) fetchLive();
-}
-
-const LABELS = {news:'News & Events',vault:'Vault',social:'Social Feed',settings:'Settings'};
-
-// ── PAGE EDITOR ───────────────────────────────────────────────
-function renderPageEditor(pageId, data) {
-  const sections = PAGE_SECTIONS[pageId] || DEFAULT_SECTIONS;
-  let html = `<div class="ed-header">
-    <div class="ed-page-name">${PAGES[pageId]?.label||pageId}</div>
-    <div class="ed-page-sub">${PAGES[pageId]?.file||''} · Click any section to expand and edit</div>
-  </div>`;
-  sections.forEach(sec => {
-    const filledFields = sec.fields.filter(f => !f.type.startsWith('list') && data[f.id] && data[f.id] !== '');
-    const totalFields = sec.fields.filter(f => !f.type.startsWith('list')).length;
-    const filled = filledFields.length;
-    html += `<div class="ed-section">
-      <div class="ed-sec-hd" onclick="toggleSec('${pageId}-${sec.id}')">
-        <div class="ed-sec-hd-l">
-          <span class="ed-sec-icon">${sec.icon}</span>
-          <span class="ed-sec-title">${sec.label}</span>
-          <span class="ed-sec-count ${filled===0?'empty':''}">${filled}/${totalFields}</span>
-        </div>
-        <svg class="ed-chev" id="chev-${pageId}-${sec.id}" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="ed-sec-body" id="body-${pageId}-${sec.id}">
-        ${renderFields(pageId, sec.fields, data)}
-        <div style="display:flex;justify-content:flex-end;margin-top:10px">
-          <button class="btn btn-dark btn-sm" onclick="saveSec('${pageId}','${sec.id}')">
-            <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>Save section
-          </button>
-        </div>
-      </div>
-    </div>`;
-  });
-  document.getElementById('editorPane').innerHTML = html;
-}
-
-function renderFields(pageId, fields, data) {
-  return fields.map(f => {
-    const val = data[f.id];
-    const filled = val !== undefined && val !== '' && !(Array.isArray(val) && !val.length);
-    if(f.type==='repeater') return renderRepeater(pageId, f, data[f.id]||[]);
-    if(f.type==='list-stats') return renderListStats(pageId, data.stats||[]);
-    if(f.type==='list-features') return renderListFeatures(pageId, data.features||[]);
-    if(f.type==='list-specs') return renderListSpecs(pageId, data.specs||[]);
-    if(f.type==='list-proof') return renderListProof(pageId, data.proof||[]);
-    if(f.type==='list-gallery') return renderListGallery(pageId, data.gallery||[]);
-    const isImg = f.type==='image', isVid=f.type==='video', isTa=f.type==='textarea';
-    const ph = isVid ? 'https://www.youtube.com/watch?v=...' : isImg ? 'https://... (direct image URL)' : (f.hint||'');
-    return `<div class="fr">
-      <div class="fr-label">${f.label}</div>
-      ${isTa
-        ? `<textarea class="fi fi-ta ${filled?'filled':''}" id="f-${pageId}-${f.id}" onchange="fc('${pageId}','${f.id}',this.value)">${esc(String(val||''))}</textarea>`
-        : `<input type="${isImg||isVid?'url':'text'}" class="fi ${filled?'filled':''}" id="f-${pageId}-${f.id}" value="${esc(String(val||''))}" placeholder="${esc(ph)}" oninput="fc('${pageId}','${f.id}',this.value)${isImg?';prevImg(this)':isVid?';prevVid(this)':''}">`}
-      ${isImg ? `<img class="fi-img-prev ${filled&&val?'show':''}" src="${esc(val||'')}" onerror="this.classList.remove('show')">` : ''}
-      ${isVid ? `<div class="fi-vid ${filled&&(val||'').includes('youtube')?'show':''}">✓ YouTube video set</div>` : ''}
-      ${f.hint ? `<div class="fr-hint">${f.hint}</div>` : ''}
-    </div>`;
-  }).join('');
-}
-
-function renderListStats(pageId, arr) {
-  if(!arr.length) arr=[{label:'',number:'',note:''},{label:'',number:'',note:''},{label:'',number:'',note:''},{label:'',number:'',note:''}];
-  return `<div class="fr"><div class="fr-label">Stats bar</div>
-    ${arr.map((s,i)=>`<div class="rep-item" style="margin-bottom:6px">
-      <div style="font-size:10px;font-weight:500;color:var(--mid);margin-bottom:6px">STAT ${i+1}</div>
-      <div style="display:grid;grid-template-columns:1fr 80px 1fr;gap:5px">
-        <div><div style="font-size:10px;color:var(--mid);margin-bottom:2px">Label</div><input class="fi" type="text" value="${esc(s.label||'')}" oninput="updListItem('${pageId}','stats',${i},'label',this.value)"></div>
-        <div><div style="font-size:10px;color:var(--mid);margin-bottom:2px">Number</div><input class="fi" type="text" value="${esc(s.number||'')}" style="font-weight:600" oninput="updListItem('${pageId}','stats',${i},'number',this.value)"></div>
-        <div><div style="font-size:10px;color:var(--mid);margin-bottom:2px">Note</div><input class="fi" type="text" value="${esc(s.note||'')}" oninput="updListItem('${pageId}','stats',${i},'note',this.value)"></div>
-      </div>
-    </div>`).join('')}
-  </div>`;
-}
-
-function renderListFeatures(pageId, arr) {
-  return `<div class="fr"><div class="fr-label">Feature cards <span style="font-weight:300;text-transform:none">(${arr.length})</span></div>
-    <div id="feat-list-${pageId}">
-    ${arr.map((f,i)=>`<div class="rep-item">
-      <button class="rep-del" onclick="delListItem('${pageId}','features',${i})">✕</button>
-      <input class="fi" type="text" value="${esc(f.title||'')}" placeholder="Feature title" style="margin-bottom:5px" oninput="updListItem('${pageId}','features',${i},'title',this.value)">
-      <textarea class="fi fi-ta" style="min-height:50px" placeholder="Description..." oninput="updListItem('${pageId}','features',${i},'desc',this.value)">${esc(f.desc||'')}</textarea>
-    </div>`).join('')}
-    </div>
-    <button class="btn btn-ghost btn-sm" style="margin-top:6px;width:100%;justify-content:center" onclick="addListItem('${pageId}','features',{title:'',desc:''})">+ Add feature card</button>
-  </div>`;
-}
-
-function renderListSpecs(pageId, arr) {
-  return `<div class="fr"><div class="fr-label">Spec table</div>
-    ${arr.map((s,i)=>`<div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:5px">
-      <input class="fi" type="text" value="${esc(s.key||'')}" placeholder="Key (e.g. Module pitch)" oninput="updListItem('${pageId}','specs',${i},'key',this.value)">
-      <input class="fi" type="text" value="${esc(s.val||'')}" placeholder="Value (e.g. 300mm)" style="font-weight:500" oninput="updListItem('${pageId}','specs',${i},'val',this.value)">
-    </div>`).join('')}
-    <button class="btn btn-ghost btn-sm" style="margin-top:4px;width:100%;justify-content:center" onclick="addListItem('${pageId}','specs',{key:'',val:''})">+ Add row</button>
-  </div>`;
-}
-
-function renderListProof(pageId, arr) {
-  return `<div class="fr"><div class="fr-label">Proof numbers</div>
-    ${arr.map((p,i)=>`<div class="rep-item">
-      <button class="rep-del" onclick="delListItem('${pageId}','proof',${i})">✕</button>
-      <div style="display:grid;grid-template-columns:80px 1fr;gap:5px;margin-bottom:5px">
-        <input class="fi" type="text" value="${esc(p.number||'')}" placeholder="87%" style="font-weight:600;font-size:16px" oninput="updListItem('${pageId}','proof',${i},'number',this.value)">
-        <input class="fi" type="text" value="${esc(p.label||'')}" placeholder="Label" oninput="updListItem('${pageId}','proof',${i},'label',this.value)">
-      </div>
-      <textarea class="fi fi-ta" style="min-height:44px" placeholder="Description..." oninput="updListItem('${pageId}','proof',${i},'desc',this.value)">${esc(p.desc||'')}</textarea>
-    </div>`).join('')}
-    <button class="btn btn-ghost btn-sm" style="margin-top:4px;width:100%;justify-content:center" onclick="addListItem('${pageId}','proof',{number:'',label:'',desc:''})">+ Add proof point</button>
-  </div>`;
-}
-
-function renderListGallery(pageId, arr) {
-  return `<div class="fr"><div class="fr-label">Gallery images (max 4)</div>
-    ${arr.map((g,i)=>`<div class="rep-item" style="display:grid;grid-template-columns:1fr 60px;gap:8px;align-items:center">
-      <input class="fi" type="url" value="${esc(g.url||'')}" placeholder="https://... (direct image URL)" oninput="updListItem('${pageId}','gallery',${i},'url',this.value)">
-      ${g.url?`<img src="${esc(g.url)}" style="width:56px;height:40px;object-fit:cover;border-radius:6px;border:1px solid var(--border)" onerror="this.style.display='none'">`:
-               `<div style="width:56px;height:40px;background:var(--off);border-radius:6px;border:1px solid var(--border)"></div>`}
-      <button class="rep-del" onclick="delListItem('${pageId}','gallery',${i})">✕</button>
-    </div>`).join('')}
-    ${arr.length<4?`<button class="btn btn-ghost btn-sm" style="margin-top:4px;width:100%;justify-content:center" onclick="addListItem('${pageId}','gallery',{url:'',alt:''})">+ Add image</button>`:''}
-  </div>`;
-}
-
-function renderRepeater(pageId, f, items) {
-  return `<div class="fr"><div class="fr-label">${f.label}</div>
-    <div id="rep-${pageId}-${f.id}">
-    ${items.map((item,i)=>`<div class="rep-item">
-      <button class="rep-del" onclick="delRep('${pageId}','${f.id}',${i})">✕</button>
-      ${f.cols.map((c,ci)=>`<div style="margin-bottom:5px">
-        <div style="font-size:10px;color:var(--mid);margin-bottom:2px">${f.colLabels[ci]}</div>
-        <input class="ann-i" type="text" value="${esc(item[c]||'')}" onchange="updRep('${pageId}','${f.id}',${i},'${c}',this.value)">
-      </div>`).join('')}
-    </div>`).join('')}
-    </div>
-    <button class="btn btn-ghost btn-sm" style="margin-top:6px;width:100%;justify-content:center" onclick="addRep('${pageId}','${f.id}')">+ Add</button>
-  </div>`;
-}
-
-// ── FIELD CHANGE HANDLERS ────────────────────────────────────
-function fc(pageId, fieldId, val) {
-  if(!DB.pages[pageId]) DB.pages[pageId]={};
-  DB.pages[pageId][fieldId] = val;
-  const el = document.getElementById(`f-${pageId}-${fieldId}`);
-  if(el) el.classList.toggle('filled', !!val);
-  markChanged();
-  saveL();
-}
-function prevImg(inp){const p=inp.parentElement.querySelector('.fi-img-prev');if(p){p.src=inp.value.trim();p.classList.toggle('show',!!inp.value.trim());p.onerror=()=>p.classList.remove('show');}}
-function prevVid(inp){const b=inp.parentElement.querySelector('.fi-vid');if(b)b.classList.toggle('show',(inp.value||'').includes('youtube')||(inp.value||'').includes('youtu.be'));}
-
-function updListItem(pageId, key, idx, field, val) {
-  if(!DB.pages[pageId]) DB.pages[pageId]={};
-  if(!DB.pages[pageId][key]) DB.pages[pageId][key]=[];
-  if(!DB.pages[pageId][key][idx]) DB.pages[pageId][key][idx]={};
-  DB.pages[pageId][key][idx][field] = val;
-  markChanged(); saveL();
-}
-function addListItem(pageId, key, template) {
-  if(!DB.pages[pageId]) DB.pages[pageId]={};
-  if(!DB.pages[pageId][key]) DB.pages[pageId][key]=[];
-  DB.pages[pageId][key].push({...template});
-  markChanged(); saveL(); nav(pageId);
-}
-function delListItem(pageId, key, idx) {
-  if(DB.pages[pageId]&&DB.pages[pageId][key]) DB.pages[pageId][key].splice(idx,1);
-  markChanged(); saveL(); nav(pageId);
-}
-function addRep(pid,fid){if(!DB.pages[pid])DB.pages[pid]={};if(!DB.pages[pid][fid])DB.pages[pid][fid]=[];const def=getRepDef(pid,fid);const newItem={};(def?.cols||[]).forEach(c=>newItem[c]='');DB.pages[pid][fid].push(newItem);markChanged();saveL();nav(pid);}
-function delRep(pid,fid,idx){if(DB.pages[pid]&&DB.pages[pid][fid])DB.pages[pid][fid].splice(idx,1);markChanged();saveL();nav(pid);}
-function updRep(pid,fid,idx,col,val){if(!DB.pages[pid])DB.pages[pid]={};if(!DB.pages[pid][fid])DB.pages[pid][fid]=[];if(!DB.pages[pid][fid][idx])DB.pages[pid][fid][idx]={};DB.pages[pid][fid][idx][col]=val;markChanged();saveL();}
-function getRepDef(pid,fid){const secs=PAGE_SECTIONS[pid]||DEFAULT_SECTIONS;for(const s of secs){const f=s.fields.find(f=>f.id===fid&&f.type==='repeater');if(f)return f;}return null;}
-
-function toggleSec(id){const b=document.getElementById('body-'+id),c=document.getElementById('chev-'+id);if(!b)return;const o=b.classList.contains('open');b.classList.toggle('open',!o);c.classList.toggle('open',!o);}
-
-function saveSec(pageId, secId) {
-  saveL(); markChanged(); toast('Section saved ✓');
-  // Refresh to update fill counts
-  const d = DB.pages[pageId]||{};
-  renderPageEditor(pageId, d);
-  const body=document.getElementById(`body-${pageId}-${secId}`);
-  const chev=document.getElementById(`chev-${pageId}-${secId}`);
-  if(body){body.classList.add('open');chev.classList.add('open');}
-}
-
-// ── COLLECTION VIEWS ─────────────────────────────────────────
-function renderCollection(id) {
-  document.getElementById('tbTitle').textContent = LABELS[id]||id;
-  document.getElementById('tbFile').textContent = '';
-  if(id==='news') renderNews();
-  else if(id==='vault') renderVault();
-  else if(id==='social') renderSocial();
-}
-
-function renderNews(){
-  document.getElementById('editorPane').innerHTML = `
-    <div class="ed-header"><div class="ed-page-name">News & Events</div><div class="ed-page-sub">Items appear on the Hub page</div></div>
-    <div style="padding:14px 16px">
-      <button class="btn btn-dark btn-sm" onclick="openM('news')" style="margin-bottom:12px;width:100%;justify-content:center"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add news item</button>
-      ${!DB.news.length ? '<div style="text-align:center;padding:30px;color:var(--mid);font-size:13px;font-weight:300">No news items yet</div>' :
-        `<table class="tbl"><thead><tr><th>Title</th><th>Type</th><th>Status</th><th></th></tr></thead><tbody>
-        ${DB.news.map(n=>`<tr>
-          <td><div style="font-size:12px;font-weight:500">${esc(n.title)}</div>${n.date?`<div style="font-size:10px;color:var(--mid)">${n.date}</div>`:''}</td>
-          <td><span class="badge b-bl">${n.type}</span></td>
-          <td><span class="badge ${n.status==='published'?'b-g':'b-gr'}">${n.status}</span></td>
-          <td><div style="display:flex;gap:4px">
-            <button class="btn btn-ghost btn-sm" onclick="openM('news','${n.id}')">Edit</button>
-            <button class="btn btn-red btn-sm" onclick="delNews('${n.id}')">✕</button>
-          </div></td>
-        </tr>`).join('')}
-        </tbody></table>`}
-    </div>`;
-}
-function renderVault(){
-  const FI={pdf:'📄',doc:'📝',xls:'📊',ppt:'📋',dwg:'📐',zip:'🗜️',link:'🔗'};
-  document.getElementById('editorPane').innerHTML = `
-    <div class="ed-header"><div class="ed-page-name">Vault</div><div class="ed-page-sub">Documents & resources</div></div>
-    <div style="padding:14px 16px">
-      <button class="btn btn-dark btn-sm" onclick="openM('vault')" style="margin-bottom:12px;width:100%;justify-content:center"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add document</button>
-      ${DB.vault.map(v=>`<div style="display:flex;align-items:center;gap:10px;padding:10px;background:white;border:1px solid var(--border);border-radius:var(--r);margin-bottom:6px">
-        <span style="font-size:18px">${FI[v.filetype]||'📄'}</span>
-        <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:500">${esc(v.name)}</div><div style="font-size:10px;color:var(--mid)">${v.category} · ${v.access}</div></div>
-        <div style="display:flex;gap:4px">
-          <a href="${v.url}" target="_blank" class="btn btn-ghost btn-sm">Open</a>
-          <button class="btn btn-red btn-sm" onclick="delVault('${v.id}')">✕</button>
-        </div>
-      </div>`).join('')||'<div style="text-align:center;padding:30px;color:var(--mid);font-size:13px;font-weight:300">No documents yet</div>'}
-    </div>`;
-}
-function renderSocial(){
-  document.getElementById('editorPane').innerHTML = `
-    <div class="ed-header"><div class="ed-page-name">Social Feed</div><div class="ed-page-sub">Posts shown on Hub page</div></div>
-    <div style="padding:14px 16px">
-      <button class="btn btn-dark btn-sm" onclick="openM('social')" style="margin-bottom:12px;width:100%;justify-content:center"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add post</button>
-      ${DB.social.map(p=>`<div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:10px;margin-bottom:6px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-          <span class="badge b-bl">${p.platform}</span>
-          <button class="btn btn-red btn-sm" onclick="delSoc('${p.id}')">✕</button>
-        </div>
-        <div style="font-size:12px;color:var(--dark);line-height:1.5">${esc(p.caption?.slice(0,80))}${p.caption?.length>80?'...':''}</div>
-      </div>`).join('')||'<div style="text-align:center;padding:30px;color:var(--mid);font-size:13px;font-weight:300">No posts yet</div>'}
-    </div>`;
-}
-
-function renderSettings() {
-  document.getElementById('tbTitle').textContent = 'Settings';
-  document.getElementById('tbFile').textContent = '';
-  document.getElementById('editorPane').innerHTML = `
-    <div class="ed-header"><div class="ed-page-name">Settings</div><div class="ed-page-sub">GitHub connection, PIN, and contact details</div></div>
-    <div style="padding:14px 16px">
-      <div class="sett-section">
-        <div class="sett-title">GitHub Connection</div>
-        <div class="sett-sub">Required to publish changes. Your token from <strong>github.com → Settings → Developer settings → Personal access tokens → Tokens (classic) → repo scope</strong></div>
-        <div class="info-box">Token is stored only in your browser. Starts with <code>ghp_</code>.</div>
-        <div class="fr"><div class="fr-label">GitHub Token</div><input type="password" class="fi" id="ghTok" placeholder="ghp_..." value="${localStorage.getItem('orion_tok')||''}"><div class="fr-hint">Stored in your browser only</div></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
-          <div class="fr"><div class="fr-label">Repo</div><input type="text" class="fi" id="ghRepo" value="${localStorage.getItem('orion_repo')||'dannygrigg/orion-site'}"></div>
-          <div class="fr"><div class="fr-label">Branch</div><input type="text" class="fi" id="ghBranch" value="${localStorage.getItem('orion_branch')||'main'}"></div>
-        </div>
-        <button class="btn btn-dark btn-sm" onclick="saveGH()" style="margin-top:10px">Save & test connection</button>
-      </div>
-      <div class="sett-section">
-        <div class="sett-title">Change PIN</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
-          <div class="fr"><div class="fr-label">Current PIN</div><input type="password" class="fi" id="oldPin"></div>
-          <div class="fr"><div class="fr-label">New PIN (4–8 digits)</div><input type="password" class="fi" id="newPin"></div>
-        </div>
-        <button class="btn btn-dark btn-sm" onclick="changePin()">Update PIN</button>
-      </div>
-      <div class="sett-section">
-        <div class="sett-title">Contact Details</div>
-        <div class="sett-sub">Used in footer across all pages</div>
-        <div class="fr"><div class="fr-label">Phone</div><input type="text" class="fi" id="s-ph" value="${esc(DB.settings.phone||'')}"></div>
-        <div class="fr"><div class="fr-label">Email</div><input type="text" class="fi" id="s-em" value="${esc(DB.settings.email||'')}"></div>
-        <div class="fr"><div class="fr-label">Address</div><input type="text" class="fi" id="s-ad" value="${esc(DB.settings.address||'')}"></div>
-        <button class="btn btn-dark btn-sm" onclick="saveSettings()" style="margin-top:8px">Save</button>
-      </div>
-      <div class="sett-section" style="border-color:rgba(229,62,62,0.3)">
-        <div class="sett-title" style="color:var(--red)">Danger zone</div>
-        <div class="sett-sub">Clear all saved content from this browser. The live site will not be affected until you publish.</div>
-        <button class="btn btn-red btn-sm" onclick="if(confirm('Clear all saved content? This cannot be undone.'))clearAll()">Clear all content</button>
-      </div>
-    </div>`;
-}
-
-// ── MODALS ───────────────────────────────────────────────────
-function openM(t,id=null){
-  eId=id;const td=new Date().toISOString().slice(0,10);
-  if(t==='news'){document.getElementById('nMT').textContent=id?'Edit item':'Add news item';if(id){const n=DB.news.find(x=>x.id===id);if(n){document.getElementById('n-title').value=n.title||'';document.getElementById('n-type').value=n.type||'news';document.getElementById('n-date').value=n.date||'';document.getElementById('n-sum').value=n.summary||'';document.getElementById('n-img').value=n.image||'';document.getElementById('n-link').value=n.link||'';document.getElementById('n-stat').value=n.status||'published';}}else{['n-title','n-sum','n-img','n-link'].forEach(x=>document.getElementById(x).value='');document.getElementById('n-date').value=td;document.getElementById('n-type').value='news';document.getElementById('n-stat').value='published';}}
-  if(t==='vault'){document.getElementById('vMT').textContent=id?'Edit':'Add document';if(id){const v=DB.vault.find(x=>x.id===id);if(v){document.getElementById('v-name').value=v.name||'';document.getElementById('v-cat').value=v.category||'technical';document.getElementById('v-type').value=v.filetype||'pdf';document.getElementById('v-url').value=v.url||'';document.getElementById('v-desc').value=v.description||'';document.getElementById('v-access').value=v.access||'public';document.getElementById('v-ver').value=v.version||'';}}else{['v-name','v-url','v-desc','v-ver'].forEach(x=>document.getElementById(x).value='');}}
-  if(t==='social'){['soc-c','soc-u','soc-i'].forEach(x=>document.getElementById(x).value='');document.getElementById('soc-d').value=td;}
-  document.getElementById('m-'+t).classList.add('open');
-}
-function closeM(t){document.getElementById('m-'+t).classList.remove('open');eId=null;}
-document.querySelectorAll('.mbg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
-
-function saveNews(){const t=document.getElementById('n-title').value.trim();if(!t){toast('Title required','err');return;}const item={id:eId||uid(),title:t,type:document.getElementById('n-type').value,date:document.getElementById('n-date').value,summary:document.getElementById('n-sum').value,image:document.getElementById('n-img').value,link:document.getElementById('n-link').value,status:document.getElementById('n-stat').value};if(eId){const i=DB.news.findIndex(x=>x.id===eId);if(i>-1)DB.news[i]=item;}else DB.news.unshift(item);markChanged();saveL();closeM('news');renderNews();toast('Saved ✓');}
-function delNews(id){if(!confirm('Delete?'))return;DB.news=DB.news.filter(x=>x.id!==id);markChanged();saveL();renderNews();toast('Deleted');}
-function saveVault(){const n=document.getElementById('v-name').value.trim(),u=document.getElementById('v-url').value.trim();if(!n||!u){toast('Name and URL required','err');return;}const item={id:eId||uid(),name:n,category:document.getElementById('v-cat').value,filetype:document.getElementById('v-type').value,url:u,description:document.getElementById('v-desc').value,access:document.getElementById('v-access').value,version:document.getElementById('v-ver').value};if(eId){const i=DB.vault.findIndex(x=>x.id===eId);if(i>-1)DB.vault[i]=item;}else DB.vault.unshift(item);markChanged();saveL();closeM('vault');renderVault();toast('Saved ✓');}
-function delVault(id){if(!confirm('Remove?'))return;DB.vault=DB.vault.filter(x=>x.id!==id);markChanged();saveL();renderVault();toast('Removed');}
-function saveSoc(){const c=document.getElementById('soc-c').value.trim();if(!c){toast('Caption required','err');return;}DB.social.unshift({id:uid(),platform:document.getElementById('soc-p').value,date:document.getElementById('soc-d').value,caption:c,url:document.getElementById('soc-u').value,image:document.getElementById('soc-i').value});markChanged();saveL();closeM('social');renderSocial();toast('Added ✓');}
-function delSoc(id){if(!confirm('Delete?'))return;DB.social=DB.social.filter(x=>x.id!==id);markChanged();saveL();renderSocial();toast('Deleted');}
-
-// ── SETTINGS ─────────────────────────────────────────────────
-function saveGH(){const tok=document.getElementById('ghTok').value.trim();const repo=document.getElementById('ghRepo').value.trim();const branch=document.getElementById('ghBranch').value.trim();if(!tok){toast('Enter a token','err');return;}localStorage.setItem('orion_tok',tok);localStorage.setItem('orion_repo',repo||'dannygrigg/orion-site');localStorage.setItem('orion_branch',branch||'main');testGH();}
-async function testGH(){const tok=localStorage.getItem('orion_tok');const repo=localStorage.getItem('orion_repo')||'dannygrigg/orion-site';if(!tok){ghStat(false,'No token');return;}try{const r=await fetch(`https://api.github.com/repos/${repo}`,{headers:{Authorization:`token ${tok}`,Accept:'application/vnd.github.v3+json'}});if(r.ok){ghStat(true,'Connected ✓');toast('GitHub connected ✓');}else{ghStat(false,'Token error');toast('Token error','err');}}catch(e){ghStat(false,'Failed');}}
-function ghStat(ok,msg){document.getElementById('ghDot').className='dot'+(ok?' ok':' err');document.getElementById('ghTxt').textContent=msg;}
-function changePin(){const o=document.getElementById('oldPin')?.value,n=document.getElementById('newPin')?.value;if(o!==getPin()){toast('Current PIN incorrect','err');return;}if(!n||n.length<4){toast('PIN must be 4+ digits','err');return;}localStorage.setItem('orion_pin',n);toast('PIN updated ✓');}
-function saveSettings(){DB.settings.phone=document.getElementById('s-ph').value;DB.settings.email=document.getElementById('s-em').value;DB.settings.address=document.getElementById('s-ad').value;saveL();toast('Saved ✓');}
-function clearAll(){DB={pages:{},news:[],vault:[],social:[],settings:DB.settings};fetchedPages={};saveL();unsavedChanges=0;updateChangeCount();nav('homepage');toast('Cleared');}
-
-// ── PUBLISH ───────────────────────────────────────────────────
-function markChanged(){unsavedChanges++;updateChangeCount();}
-function updateChangeCount(){const n=unsavedChanges;document.getElementById('changeCount').textContent=n?`${n} unsaved change${n!==1?'s':''}`:'All changes saved';document.getElementById('changeCount').style.color=n?'#f59e0b':'rgba(255,255,255,0.3)';}
-
-function qPublish(){pubAll();}
-
-async function pubAll(){
-  const tok=localStorage.getItem('orion_tok');
-  const repo=localStorage.getItem('orion_repo')||'dannygrigg/orion-site';
-  const branch=localStorage.getItem('orion_branch')||'main';
-  if(!tok){toast('Add GitHub token in Settings','err');nav('settings');return;}
-
-  const btn=document.getElementById('pubBtn');
-  const btn2=document.getElementById('pubBtn2');
-  const log=document.getElementById('pubLog');
-  [btn,btn2].forEach(b=>{if(b){b.classList.add('loading');b.querySelector('span')?.setAttribute('data-orig',b.querySelector('span')?.textContent||'');if(b.querySelector('span'))b.querySelector('span').textContent='Publishing…';}});
-  log.classList.add('show');
-  log.textContent='Starting publish…\n';
-
-  async function getFile(path){const r=await fetch(`https://api.github.com/repos/${repo}/contents/${path}?ref=${branch}`,{headers:{Authorization:`token ${tok}`,Accept:'application/vnd.github.v3+json'}});if(r.ok){const d=await r.json();return{sha:d.sha};}return{sha:null};}
-  async function put(path,content,msg){const ex=await getFile(path);const body={message:msg,content:btoa(unescape(encodeURIComponent(content))),branch};if(ex.sha)body.sha=ex.sha;const r=await fetch(`https://api.github.com/repos/${repo}/contents/${path}`,{method:'PUT',headers:{Authorization:`token ${tok}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});const d=await r.json();return r.ok?'✅ '+path:'❌ '+path+': '+(d.message||'').slice(0,50);}
-
-  // Build files list
-  // Homepage gets written to _data/homepage.json
-  // Other pages to _data/pages/PAGE.json
-  const files = [];
-  Object.keys(DB.pages).forEach(pageId => {
-    const p = PAGES[pageId];
-    if(!p) return;
-    const dataFile = p.dataFile;
-    files.push({ path: dataFile, content: JSON.stringify(DB.pages[pageId], null, 2), msg: `Admin: update ${pageId}` });
-  });
-  files.push({ path:'_data/global.json', content:JSON.stringify(DB.settings,null,2), msg:'Admin: update global settings' });
-  // Collections
-  files.push({path:'_data/news/index.json',content:JSON.stringify({files:DB.news.map(n=>n.id+'.json')}),msg:'Admin: news index'});
-  files.push({path:'_data/vault/index.json',content:JSON.stringify({files:DB.vault.map(v=>v.id+'.json')}),msg:'Admin: vault index'});
-  files.push({path:'_data/social/index.json',content:JSON.stringify({files:DB.social.map(s=>s.id+'.json')}),msg:'Admin: social index'});
-  DB.news.forEach(n=>files.push({path:`_data/news/${n.id}.json`,content:JSON.stringify(n,null,2),msg:`Admin: news item ${n.id}`}));
-  DB.vault.forEach(v=>files.push({path:`_data/vault/${v.id}.json`,content:JSON.stringify(v,null,2),msg:`Admin: vault item ${v.id}`}));
-  DB.social.forEach(s=>files.push({path:`_data/social/${s.id}.json`,content:JSON.stringify(s,null,2),msg:`Admin: social post ${s.id}`}));
-
-  let ok=0, fail=0;
-  for(const f of files){
-    const result=await put(f.path,f.content,f.msg);
-    if(result.startsWith('✅'))ok++;else fail++;
-    log.textContent+=result+'\n';
-    log.scrollTop=log.scrollHeight;
-    await new Promise(r=>setTimeout(r,200));
-  }
-
-  // Fix rghba typo across all HTML files
-  log.textContent+='\nFixing announcement bar text colour…\n';
-  await fixHtmlFiles(tok,repo,branch,log);
-
-  [btn,btn2].forEach(b=>{if(b){b.classList.remove('loading');const sp=b.querySelector('span');if(sp)sp.textContent=sp.getAttribute('data-orig')||'Publish';}});
-
-  if(!fail){
-    log.textContent+=`\n✅ Published ${ok} files. Site rebuilding — live in ~30 seconds.\n${SITE}/\n`;
-    log.scrollTop=log.scrollHeight;
-    document.getElementById('pubStatus').textContent='Published ✓';
-    unsavedChanges=0;updateChangeCount();
-    toast('Published! Live in ~30 seconds 🚀');
-    // Refresh preview after 35s
-    setTimeout(()=>{loadPreview(PAGES[curPage]?.liveUrl||'');toast('Preview refreshed');},35000);
-  } else {
-    log.textContent+=`\n⚠️ ${ok} ok, ${fail} failed — check log above`;
-    toast(`${fail} files failed`,'err');
-  }
-}
-
-async function fixHtmlFiles(tok,repo,branch,log){
-  try{
-    const lr=await fetch(`https://api.github.com/repos/${repo}/contents?ref=${branch}`,{headers:{Authorization:`token ${tok}`,Accept:'application/vnd.github.v3+json'}});
-    const files=await lr.json();
-    for(const file of files.filter(f=>f.name.endsWith('.html')&&f.name!=='admin.html')){
-      try{
-        const fr=await fetch(`https://api.github.com/repos/${repo}/contents/${file.name}?ref=${branch}`,{headers:{Authorization:`token ${tok}`,Accept:'application/vnd.github.v3+json'}});
-        const fd=await fr.json();
-        const content=decodeURIComponent(escape(atob(fd.content.replace(/\n/g,''))));
-        if(content.includes('rghba(')){
-          const fixed=content.replace(/rghba\(/g,'rgba(');
-          await fetch(`https://api.github.com/repos/${repo}/contents/${file.name}`,{method:'PUT',headers:{Authorization:`token ${tok}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify({message:`Fix: banner text colour in ${file.name}`,content:btoa(unescape(encodeURIComponent(fixed))),sha:fd.sha,branch})});
-          log.textContent+=`✅ Fixed ${file.name}\n`;
-          log.scrollTop=log.scrollHeight;
-          await new Promise(r=>setTimeout(r,200));
-        }
-      }catch(e){log.textContent+=`⚠️ ${file.name}\n`;}
+    const res = await ggFetch(`/contents/_data/global.json?ref=${BRANCH}`);
+    if (res.ok) { setGhStatus('ok', 'Connected'); return true; }
+    if (res.status === 401 || res.status === 403) {
+      setGhStatus('err', 'Auth failed — re-sign-in');
+      return false;
     }
-  }catch(e){log.textContent+=`⚠️ HTML fix: ${e.message}\n`;}
-}
-
-// ── STORAGE ───────────────────────────────────────────────────
-function saveL(){localStorage.setItem('orion_db',JSON.stringify(DB));}
-function loadL(){try{const s=localStorage.getItem('orion_db');if(s){const d=JSON.parse(s);if(d.pages)DB.pages=d.pages;if(d.news)DB.news=d.news;if(d.vault)DB.vault=d.vault;if(d.social)DB.social=d.social;if(d.settings)DB.settings=d.settings;}}catch(e){}}
-
-// ── HELPERS ───────────────────────────────────────────────────
-const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,5);
-const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-let _tt;
-function toast(msg,t='ok'){
-  const el=document.getElementById('toast');
-  document.getElementById('tMsg').textContent=msg;
-  const ico=document.getElementById('tIco');
-  ico.innerHTML=t==='err'?'<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>':'<polyline points="20 6 9 17 4 12"/>';
-  el.className='toast t-'+(t==='err'?'err':'ok');
-  el.classList.add('show');
-  clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),3000);
-}
-
-// ── INIT ──────────────────────────────────────────────────────
-function init(){
-  loadL();
-  // Set token from old storage keys too
-  const oldTok = localStorage.getItem('orion_tok');
-  if(oldTok) { /* already set */ } else {
-    const t = localStorage.getItem('orion_tok');
-    if(t) localStorage.setItem('orion_tok',t);
+    setGhStatus('err', `HTTP ${res.status}`);
+    return false;
+  } catch (e) {
+    setGhStatus('err', 'Network error');
+    return false;
   }
-  testGH();
-  nav('homepage');
-  setViewport('desktop');
 }
-setInterval(()=>{if(document.getElementById('app').style.display!=='none'){saveL();}},30000);
+function setGhStatus(kind, msg){
+  const dot = document.getElementById('ghDot');
+  const txt = document.getElementById('ghStat');
+  dot.className = 'dot' + (kind === 'ok' ? ' ok' : kind === 'err' ? ' err' : '');
+  txt.textContent = msg;
+}
+
+// ════════════════════════════════════════════════════════════════════
+// 6. DATA HELPERS — read live & draft, list drafts
+// ════════════════════════════════════════════════════════════════════
+
+// Fast public read (no auth needed for public site)
+async function readPublic(filePath){
+  const url = SITE_ORIGIN + '/' + filePath + '?v=' + Date.now();
+  const res = await fetch(url);
+  if (!res.ok) return null;
+  return await res.json();
+}
+
+// Read draft from git (drafts live under _data/_drafts/...)
+function draftPathFor(livePath){
+  // _data/homepage.json → _data/_drafts/homepage.json
+  // _data/pages/about.json → _data/_drafts/pages/about.json
+  // _data/news/2025-foo.json → _data/_drafts/news/2025-foo.json
+  return livePath.replace(/^_data\//, '_data/_drafts/');
+}
+
+async function readDraftJson(livePath){
+  const dPath = draftPathFor(livePath);
+  const file = await gitGetFile(dPath);
+  if (!file) return null;
+  try { return JSON.parse(file.content); } catch(e){ return null; }
+}
+
+async function readLiveJson(livePath){
+  // Prefer fast public read; fall back to git if not deployed yet.
+  const pub = await readPublic(livePath);
+  if (pub) return pub;
+  const file = await gitGetFile(livePath);
+  if (file) {
+    try { return JSON.parse(file.content); } catch(e){}
+  }
+  // Legacy fallback: try _data/pages.json
+  // Maps:
+  //   _data/homepage.json           ← pages.json.homepage
+  //   _data/pages/<id>.json         ← pages.json.<id>
+  //   _data/global.json             ← pages.json.global (rare)
+  let legacyKey = null;
+  if (livePath === '_data/homepage.json') legacyKey = 'homepage';
+  else if (livePath.startsWith('_data/pages/')) legacyKey = livePath.replace('_data/pages/','').replace('.json','');
+  if (legacyKey) {
+    const legacy = await readPublic('_data/pages.json');
+    if (legacy && legacy[legacyKey]) return legacy[legacyKey];
+  }
+  return null;
+}
+
+// Refresh which pages have drafts (sidebar amber dots)
+async function refreshDraftIndex(){
+  draftIndex = new Set();
+  try {
+    // Top-level _data/_drafts/
+    const top = await gitListDir('_data/_drafts').catch(()=>[]);
+    for (const item of top) {
+      if (item.type === 'file' && item.name.endsWith('.json')) {
+        // _data/_drafts/homepage.json → homepage
+        draftIndex.add(item.name.replace(/\.json$/,''));
+      } else if (item.type === 'dir' && item.name === 'pages') {
+        const inner = await gitListDir('_data/_drafts/pages').catch(()=>[]);
+        for (const f of inner) {
+          if (f.type === 'file' && f.name.endsWith('.json')) {
+            draftIndex.add(f.name.replace(/\.json$/,''));
+          }
+        }
+      }
+    }
+  } catch (e) {
+    // not fatal
+  }
+  renderDraftDots();
+}
+function renderDraftDots(){
+  document.querySelectorAll('.nb').forEach(btn => {
+    const old = btn.querySelector('.drafted');
+    if (old) old.remove();
+    const r = btn.getAttribute('data-route');
+    if (!r || !r.startsWith('page:')) return;
+    const id = r.slice(5);
+    if (draftIndex.has(id)) {
+      const dot = document.createElement('span');
+      dot.className = 'drafted';
+      dot.title = 'Unpublished draft';
+      btn.appendChild(dot);
+    }
+  });
+}
+
+// ════════════════════════════════════════════════════════════════════
+// 7. ROUTER
+// ════════════════════════════════════════════════════════════════════
+
+document.querySelectorAll('.nb').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const r = btn.getAttribute('data-route');
+    if (r) navigate(r);
+  });
+});
+
+async function navigate(routeStr){
+  if (editorDirty) {
+    const ok = await modal('Unsaved changes', 'You have unsaved changes. Discard them and continue?', 'Discard', true);
+    if (!ok) return;
+  }
+  editorDirty = false;
+  if (routeStr.startsWith('page:')) {
+    route = { kind:'page', id: routeStr.slice(5) };
+  } else if (routeStr.startsWith('coll:')) {
+    route = { kind:'coll', id: routeStr.slice(5) };
+  } else if (routeStr.startsWith('item:')) {
+    const parts = routeStr.slice(5).split('/');
+    route = { kind:'item', coll: parts[0], slug: parts.slice(1).join('/') };
+  } else if (routeStr === 'new-item') {
+    // Handled inline
+    return;
+  }
+  applyRouteUi();
+}
+
+function applyRouteUi(){
+  // Sidebar active
+  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
+  let activeRoute = null;
+  if (route.kind === 'page') activeRoute = 'page:' + route.id;
+  else if (route.kind === 'coll' || route.kind === 'item') activeRoute = 'coll:' + (route.coll || route.id);
+  if (activeRoute) {
+    const btn = document.querySelector(`.nb[data-route="${activeRoute}"]`);
+    if (btn) btn.classList.add('on');
+  }
+
+  // Mobile: close sidebar after pick
+  if (window.innerWidth <= 900) toggleSidebar(false);
+
+  if (route.kind === 'page') return renderPageEditor(route.id);
+  if (route.kind === 'coll') return renderCollectionList(route.id);
+  if (route.kind === 'item') return renderCollectionItem(route.coll, route.slug);
+}
+
+// ════════════════════════════════════════════════════════════════════
+// 8. PAGE EDITOR — single-file page with draft/live state
+// ════════════════════════════════════════════════════════════════════
+
+async function renderPageEditor(pageId){
+  const schema = PAGES[pageId];
+  if (!schema) {
+    document.getElementById('ed').innerHTML = `<div class="empty"><div class="empty-title">Unknown page</div></div>`;
+    return;
+  }
+
+  // Loading state
+  document.getElementById('ed').innerHTML = `
+    <div class="ed-header">
+      <div class="ed-title">${esc(schema.label)}</div>
+      <div class="ed-sub">Loading…</div>
+    </div>
+    <div class="ed-body"><div class="loading"><div class="spin"></div> Loading content</div></div>`;
+
+  // Load draft + live in parallel
+  const [draftData, liveData] = await Promise.all([
+    readDraftJson(schema.file),
+    readLiveJson(schema.file),
+  ]);
+
+  const hasDraft = draftData !== null;
+  const hasLive = liveData !== null;
+  editorData = deepClone(draftData || liveData || {});
+  editorMeta = {
+    pageId,
+    schema,
+    file: schema.file,
+    draftFile: draftPathFor(schema.file),
+    hasDraft,
+    hasLive,
+    liveSnapshot: liveData ? deepClone(liveData) : null,
+    initial: deepClone(editorData),
+  };
+  editorDirty = false;
+
+  drawPageEditor();
+  updatePreview();
+}
+
+function drawPageEditor(){
+  const m = editorMeta;
+  const ed = document.getElementById('ed');
+  const badge = m.hasDraft
+    ? '<span class="badge draft">Draft</span>'
+    : (m.hasLive ? '<span class="badge live">Live</span>' : '<span class="badge draft">New</span>');
+  const dirtyMark = editorDirty ? ' <span style="color:var(--amber);font-size:11px;font-weight:500;margin-left:8px">● Unsaved</span>' : '';
+
+  ed.innerHTML = `
+    <div class="ed-header">
+      <div class="ed-title">${esc(m.schema.label)} ${badge}${dirtyMark}</div>
+      <div class="ed-sub">${esc(m.file)}</div>
+      <div class="ed-actions">
+        <button class="btn btn-blue" onclick="saveDraft()" ${!editorDirty && m.hasDraft ? 'disabled' : ''}>💾 Save draft</button>
+        <button class="btn btn-green" onclick="publishDraft()" ${!m.hasDraft && !editorDirty ? 'disabled' : ''}>↗ Publish</button>
+        ${m.hasDraft ? '<button class="btn btn-danger" onclick="discardDraft()">Discard draft</button>' : ''}
+        <button class="btn btn-ghost" onclick="resetForm()">↺ Reset</button>
+      </div>
+    </div>
+    <div class="ed-body" id="edBody"></div>`;
+
+  renderFields(m.schema.fields, editorData, document.getElementById('edBody'));
+}
+
+function resetForm(){
+  if (!editorMeta) return;
+  editorData = deepClone(editorMeta.initial);
+  editorDirty = false;
+  drawPageEditor();
+  updatePreview();
+}
+
+async function saveDraft(){
+  if (!editorMeta) return;
+  const m = editorMeta;
+  const btn = document.querySelector('.btn-blue');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<div class="spin" style="border-color:rgba(255,255,255,0.3);border-top-color:white"></div> Saving…'; }
+  try {
+    const content = JSON.stringify(editorData, null, 2);
+    await gitPutFile(m.draftFile, content, `Draft: update ${m.schema.label} (${currentUser.email})`);
+    m.hasDraft = true;
+    m.initial = deepClone(editorData);
+    editorDirty = false;
+    draftIndex.add(m.pageId);
+    renderDraftDots();
+    drawPageEditor();
+    updatePreview();
+    toast('Draft saved ✓', 'ok');
+  } catch (e) {
+    toast(e.message || 'Save failed', 'err');
+    drawPageEditor();
+  }
+}
+
+async function publishDraft(){
+  if (!editorMeta) return;
+  const m = editorMeta;
+  // If there are unsaved changes, save them as the draft first
+  if (editorDirty) {
+    const content = JSON.stringify(editorData, null, 2);
+    try { await gitPutFile(m.draftFile, content, `Draft: update ${m.schema.label} (${currentUser.email})`); m.hasDraft = true; m.initial = deepClone(editorData); editorDirty = false; }
+    catch (e) { toast('Could not save before publishing: ' + e.message, 'err'); return; }
+  }
+
+  const ok = await modal('Publish to live site?', `This will replace the live ${m.schema.label} content. The site will rebuild in about 30 seconds.`, 'Publish', false);
+  if (!ok) return;
+
+  const btn = document.querySelector('.btn-green');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<div class="spin" style="border-color:rgba(255,255,255,0.3);border-top-color:white"></div> Publishing…'; }
+  try {
+    // Copy draft content → live file
+    const content = JSON.stringify(editorData, null, 2);
+    await gitPutFile(m.file, content, `Publish: ${m.schema.label} (${currentUser.email})`);
+    // Delete the draft
+    await gitDeleteFile(m.draftFile, `Publish: clear draft for ${m.schema.label}`);
+    m.hasDraft = false;
+    m.hasLive = true;
+    m.liveSnapshot = deepClone(editorData);
+    m.initial = deepClone(editorData);
+    draftIndex.delete(m.pageId);
+    renderDraftDots();
+    drawPageEditor();
+    updatePreview();
+    toast('Published ✓ Site will rebuild shortly', 'ok');
+  } catch (e) {
+    toast(e.message || 'Publish failed', 'err');
+    drawPageEditor();
+  }
+}
+
+async function discardDraft(){
+  if (!editorMeta) return;
+  const m = editorMeta;
+  const ok = await modal('Discard draft?', 'Unpublished changes will be lost. The live version stays unchanged.', 'Discard', true);
+  if (!ok) return;
+  try {
+    await gitDeleteFile(m.draftFile, `Discard draft: ${m.schema.label}`);
+    m.hasDraft = false;
+    editorData = m.liveSnapshot ? deepClone(m.liveSnapshot) : {};
+    m.initial = deepClone(editorData);
+    editorDirty = false;
+    draftIndex.delete(m.pageId);
+    renderDraftDots();
+    drawPageEditor();
+    updatePreview();
+    toast('Draft discarded', 'ok');
+  } catch (e) {
+    toast(e.message || 'Discard failed', 'err');
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════
+// 9. SCHEMA-DRIVEN FIELD RENDERER
+// ════════════════════════════════════════════════════════════════════
+
+function renderFields(fields, data, container, path=''){
+  container.innerHTML = '';
+  fields.forEach(field => {
+    container.appendChild(renderField(field, data, path));
+  });
+}
+
+function renderField(field, data, path){
+  const wrap = document.createElement('div');
+  wrap.className = 'fld';
+  const fullPath = path ? `${path}.${field.name}` : field.name;
+  const required = field.required !== false;
+  const labelHtml = `<div class="fld-label">${esc(field.label)}${required ? '<span class="req">*</span>' : ''}</div>${field.hint ? `<div class="fld-hint">${esc(field.hint)}</div>` : ''}`;
+
+  if (field.widget === 'string') {
+    wrap.innerHTML = labelHtml;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'fi';
+    input.value = data[field.name] || '';
+    input.addEventListener('input', () => { data[field.name] = input.value; markDirty(); });
+    wrap.appendChild(input);
+  }
+  else if (field.widget === 'text') {
+    wrap.innerHTML = labelHtml;
+    const ta = document.createElement('textarea');
+    ta.className = 'fi';
+    ta.value = data[field.name] || '';
+    ta.addEventListener('input', () => { data[field.name] = ta.value; markDirty(); });
+    wrap.appendChild(ta);
+  }
+  else if (field.widget === 'select') {
+    wrap.innerHTML = labelHtml;
+    const sel = document.createElement('select');
+    sel.className = 'fi';
+    const opts = field.options || [];
+    if (!required) {
+      const o = document.createElement('option'); o.value=''; o.textContent='(none)'; sel.appendChild(o);
+    }
+    opts.forEach(opt => {
+      const o = document.createElement('option');
+      o.value = opt;
+      o.textContent = opt;
+      sel.appendChild(o);
+    });
+    sel.value = data[field.name] || field.default || (required ? opts[0] : '');
+    if (!data[field.name] && field.default) data[field.name] = field.default;
+    sel.addEventListener('change', () => { data[field.name] = sel.value; markDirty(); });
+    wrap.appendChild(sel);
+  }
+  else if (field.widget === 'date') {
+    wrap.innerHTML = labelHtml;
+    const input = document.createElement('input');
+    input.type = 'date';
+    input.className = 'fi';
+    // Accept either ISO or DD/MM/YYYY
+    let val = data[field.name] || '';
+    if (val && val.includes('/')) {
+      const parts = val.split('/');
+      if (parts.length === 3) val = `${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`;
+    } else if (val) {
+      val = String(val).slice(0,10);
+    }
+    input.value = val;
+    input.addEventListener('change', () => { data[field.name] = input.value; markDirty(); });
+    wrap.appendChild(input);
+  }
+  else if (field.widget === 'image') {
+    wrap.innerHTML = labelHtml;
+    wrap.appendChild(renderImageField(field, data));
+  }
+  else if (field.widget === 'list') {
+    wrap.innerHTML = labelHtml;
+    wrap.appendChild(renderListField(field, data));
+  }
+  else {
+    wrap.innerHTML = labelHtml + `<div class="fld-hint">(Unsupported widget: ${esc(field.widget)})</div>`;
+  }
+  return wrap;
+}
+
+function markDirty(){
+  editorDirty = true;
+  // Light header update so user sees the unsaved marker, without redrawing whole form
+  const title = document.querySelector('.ed-title');
+  if (title && !title.querySelector('.unsaved-mark')) {
+    const mark = document.createElement('span');
+    mark.className = 'unsaved-mark';
+    mark.style.cssText = 'color:var(--amber);font-size:11px;font-weight:500;margin-left:8px';
+    mark.textContent = '● Unsaved';
+    title.appendChild(mark);
+  }
+  // Enable the Save Draft button
+  const sb = document.querySelector('.btn-blue');
+  if (sb) sb.disabled = false;
+  const pb = document.querySelector('.btn-green');
+  if (pb) pb.disabled = false;
+  // Debounced preview refresh
+  clearTimeout(markDirty._t);
+  markDirty._t = setTimeout(updatePreviewWithLocalData, 600);
+}
+
+// ────────────────────────────────────────────
+// IMAGE FIELD
+// ────────────────────────────────────────────
+
+function renderImageField(field, data){
+  const wrap = document.createElement('div');
+  const val = data[field.name] || '';
+  wrap.className = 'img-w' + (val ? ' has' : '');
+  wrap.innerHTML = val
+    ? `<img src="${esc(val)}" onerror="this.style.display='none'">
+       <div class="img-url">${esc(val)}</div>
+       <div class="img-w-row">
+         <button class="btn btn-ghost" type="button" data-act="replace">Replace</button>
+         <button class="btn btn-ghost" type="button" data-act="url">Use URL</button>
+         <button class="btn btn-danger" type="button" data-act="clear">Remove</button>
+       </div>`
+    : `<div class="img-w-hint"><b>Drop image here</b> or click to upload<br>JPG, PNG, GIF, WEBP, SVG</div>
+       <div class="img-w-row">
+         <button class="btn btn-ghost" type="button" data-act="url">Paste URL instead</button>
+       </div>`;
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = 'image/*';
+  wrap.appendChild(fileInput);
+
+  const openFilePicker = () => fileInput.click();
+  const setUrl = (url) => {
+    data[field.name] = url || '';
+    markDirty();
+    const parent = wrap.parentElement;
+    const fresh = renderImageField(field, data);
+    parent.replaceChild(fresh, wrap);
+  };
+
+  // Click anywhere (except buttons) opens picker
+  wrap.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-act]');
+    if (btn) {
+      e.stopPropagation();
+      const act = btn.getAttribute('data-act');
+      if (act === 'replace') openFilePicker();
+      else if (act === 'clear') setUrl('');
+      else if (act === 'url') {
+        const url = prompt('Image URL:', data[field.name] || '');
+        if (url !== null) setUrl(url.trim());
+      }
+      return;
+    }
+    if (!val) openFilePicker();
+  });
+
+  // Drag & drop
+  ['dragenter','dragover'].forEach(ev => wrap.addEventListener(ev, e => { e.preventDefault(); wrap.classList.add('drag'); }));
+  ['dragleave','drop'].forEach(ev => wrap.addEventListener(ev, e => { e.preventDefault(); wrap.classList.remove('drag'); }));
+  wrap.addEventListener('drop', async (e) => {
+    const file = e.dataTransfer.files[0];
+    if (!file || !file.type.startsWith('image/')) return;
+    await uploadImage(file, setUrl);
+  });
+  fileInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    await uploadImage(file, setUrl);
+  });
+  return wrap;
+}
+
+async function uploadImage(file, setUrl){
+  if (file.size > 5 * 1024 * 1024) {
+    toast('Image is over 5MB — please compress first', 'err');
+    return;
+  }
+  toast('Uploading image…');
+  try {
+    const base64 = await new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(String(r.result).split(',')[1]);
+      r.onerror = () => reject(new Error('Could not read file'));
+      r.readAsDataURL(file);
+    });
+    const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g,'') || 'jpg';
+    const base = slugify(file.name.replace(/\.[^.]+$/,'')).slice(0,40) || 'image';
+    const ts = Date.now().toString(36);
+    const filename = `${ts}-${base}.${ext}`;
+    const path = `images/uploads/${filename}`;
+    await gitPutBinary(path, base64, `Upload image: ${filename} (${currentUser.email})`);
+    setUrl('/' + path);
+    toast('Image uploaded ✓', 'ok');
+  } catch (e) {
+    toast(e.message || 'Upload failed', 'err');
+  }
+}
+
+// ────────────────────────────────────────────
+// LIST FIELD (repeating sections)
+// ────────────────────────────────────────────
+
+function renderListField(field, data){
+  if (!Array.isArray(data[field.name])) data[field.name] = [];
+  const arr = data[field.name];
+
+  const wrap = document.createElement('div');
+  wrap.className = 'list-wrap';
+
+  const draw = () => {
+    wrap.innerHTML = '';
+    if (!arr.length) {
+      const e = document.createElement('div');
+      e.className = 'list-empty';
+      e.textContent = 'No items yet';
+      wrap.appendChild(e);
+    }
+    arr.forEach((item, i) => {
+      const li = document.createElement('div');
+      li.className = 'list-item';
+      const summary = renderSummary(field.summary, item) || `Item ${i+1}`;
+      const head = document.createElement('div');
+      head.className = 'list-head';
+      head.innerHTML = `
+        <span class="list-grip">⋮⋮</span>
+        <span class="list-num">${i+1}</span>
+        <span class="list-summary">${esc(summary)}</span>
+        <span class="list-controls">
+          <button class="list-ctrl" data-act="up" ${i===0?'disabled':''}>↑</button>
+          <button class="list-ctrl" data-act="down" ${i===arr.length-1?'disabled':''}>↓</button>
+          <button class="list-ctrl danger" data-act="del">✕</button>
+        </span>`;
+      head.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-act]');
+        if (btn) {
+          e.stopPropagation();
+          const act = btn.getAttribute('data-act');
+          if (act === 'up' && i > 0) { [arr[i-1], arr[i]] = [arr[i], arr[i-1]]; markDirty(); draw(); }
+          if (act === 'down' && i < arr.length-1) { [arr[i+1], arr[i]] = [arr[i], arr[i+1]]; markDirty(); draw(); }
+          if (act === 'del') {
+            modal('Remove item?', 'This will be undone if you reset.', 'Remove', true).then(ok => {
+              if (ok) { arr.splice(i,1); markDirty(); draw(); }
+            });
+          }
+          return;
+        }
+        li.classList.toggle('open');
+      });
+      li.appendChild(head);
+
+      const body = document.createElement('div');
+      body.className = 'list-body';
+      renderFields(field.fields, item, body);
+      li.appendChild(body);
+      wrap.appendChild(li);
+    });
+
+    if (!field.max || arr.length < field.max) {
+      const addBtn = document.createElement('button');
+      addBtn.className = 'list-add';
+      addBtn.type = 'button';
+      addBtn.textContent = '+ Add item';
+      addBtn.addEventListener('click', () => {
+        const newItem = {};
+        field.fields.forEach(f => {
+          if (f.widget === 'list') newItem[f.name] = [];
+          else if (f.default !== undefined) newItem[f.name] = f.default;
+          else newItem[f.name] = '';
+        });
+        arr.push(newItem);
+        markDirty();
+        draw();
+        // open the newly added item
+        setTimeout(() => {
+          const items = wrap.querySelectorAll('.list-item');
+          const last = items[items.length-1];
+          if (last) last.classList.add('open');
+        }, 0);
+      });
+      wrap.appendChild(addBtn);
+    }
+  };
+
+  draw();
+  return wrap;
+}
+
+function renderSummary(template, item){
+  if (!template || !item) return '';
+  return template.replace(/\{\{(\w+)\}\}/g, (_, k) => String(item[k] || '').trim()).trim();
+}
+
+// ════════════════════════════════════════════════════════════════════
+// 10. COLLECTION LISTS (News / Social / Vault)
+// ════════════════════════════════════════════════════════════════════
+
+async function renderCollectionList(collId){
+  const schema = COLLECTIONS[collId];
+  if (!schema) return;
+  editorData = null; editorMeta = null; editorDirty = false;
+
+  const ed = document.getElementById('ed');
+  ed.innerHTML = `
+    <div class="ed-header">
+      <div class="ed-title">${esc(schema.label)}</div>
+      <div class="ed-sub">${esc(schema.folder)}</div>
+    </div>
+    <div class="ed-body"><div class="loading"><div class="spin"></div> Loading items</div></div>`;
+
+  try {
+    // Read live items (from public site) + draft items (from git)
+    const [live, draftDir] = await Promise.all([
+      readPublic(schema.folder + '/index.json').then(idx => Promise.all(((idx && idx.files) || []).map(async f => {
+        const data = await readPublic(schema.folder + '/' + f);
+        return data ? Object.assign({}, data, { __file: f, __state: 'live' }) : null;
+      }))).then(r => r.filter(Boolean)).catch(()=>[]),
+      gitListDir(`_data/_drafts/${collId}`).catch(()=>[]),
+    ]);
+
+    // Load each draft file
+    const draftItems = await Promise.all(draftDir.filter(d => d.type==='file' && d.name.endsWith('.json')).map(async d => {
+      const f = await gitGetFile(`_data/_drafts/${collId}/${d.name}`);
+      if (!f) return null;
+      try { return Object.assign({}, JSON.parse(f.content), { __file: d.name, __state: 'draft' }); } catch(e){ return null; }
+    }));
+
+    // Merge: drafts override live by filename
+    const byFile = new Map();
+    live.forEach(it => byFile.set(it.__file, it));
+    draftItems.filter(Boolean).forEach(it => {
+      const existing = byFile.get(it.__file);
+      it.__state = existing ? 'edited' : 'new-draft';
+      byFile.set(it.__file, it);
+    });
+    const items = Array.from(byFile.values()).sort((a,b) => {
+      // newest first by date if available
+      const da = new Date(a.date || 0), db = new Date(b.date || 0);
+      return db - da;
+    });
+
+    const body = document.createElement('div');
+    body.className = 'coll';
+    const grid = document.createElement('div');
+    grid.className = 'coll-grid';
+
+    items.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'coll-card';
+      const ident = item[schema.identifier] || item.title || item.name || item.caption || '(untitled)';
+      const date = item.date ? new Date(item.date).toLocaleDateString('en-GB') : '';
+      const statusPill = item.status ? `<span class="pill ${item.status}">${esc(item.status)}</span>` : '';
+      const draftPill = item.__state === 'draft' ? '<span class="pill draft">draft only</span>'
+                      : item.__state === 'edited' ? '<span class="pill draft">edited</span>'
+                      : item.__state === 'new-draft' ? '<span class="pill draft">new draft</span>'
+                      : '';
+      card.innerHTML = `
+        <div class="coll-card-title">${esc(ident)}</div>
+        <div class="coll-card-meta">
+          ${date ? `<span>${esc(date)}</span>` : ''}
+          ${item.platform ? `<span class="pill">${esc(item.platform)}</span>` : ''}
+          ${item.type ? `<span class="pill">${esc(item.type)}</span>` : ''}
+          ${item.category ? `<span class="pill">${esc(item.category)}</span>` : ''}
+          ${statusPill}
+          ${draftPill}
+        </div>`;
+      card.addEventListener('click', () => navigate(`item:${collId}/${item.__file.replace(/\.json$/,'')}`));
+      grid.appendChild(card);
+    });
+
+    const addCard = document.createElement('button');
+    addCard.className = 'coll-add';
+    addCard.innerHTML = `+ New ${esc(schema.label.replace(/&.*/, '').trim())} item`;
+    addCard.addEventListener('click', () => createNewCollectionItem(collId));
+    grid.appendChild(addCard);
+
+    body.appendChild(grid);
+    ed.querySelector('.ed-body').replaceWith(body);
+  } catch (e) {
+    ed.querySelector('.ed-body').innerHTML = `<div class="empty"><div class="empty-title">Couldn't load ${esc(schema.label)}</div><div class="empty-sub">${esc(e.message)}</div></div>`;
+  }
+  updatePreviewFor(schema.previewUrl);
+}
+
+function createNewCollectionItem(collId){
+  const schema = COLLECTIONS[collId];
+  const fresh = {};
+  schema.fields.forEach(f => {
+    if (f.widget === 'list') fresh[f.name] = [];
+    else if (f.default !== undefined) fresh[f.name] = f.default;
+    else if (f.widget === 'date') fresh[f.name] = new Date().toISOString().slice(0,10);
+    else fresh[f.name] = '';
+  });
+  editorData = fresh;
+  editorMeta = { collId, schema, slug: null, file: null, draftFile: null, hasDraft: false, hasLive: false, initial: deepClone(fresh), isNew: true };
+  editorDirty = true;
+  route = { kind:'item', coll: collId, slug: '__new__' };
+  drawItemEditor();
+  updatePreviewFor(schema.previewUrl);
+}
+
+async function renderCollectionItem(collId, slug){
+  const schema = COLLECTIONS[collId];
+  if (!schema) return;
+  const filename = slug + '.json';
+  const livePath = `${schema.folder}/${filename}`;
+  const draftPath = `_data/_drafts/${collId}/${filename}`;
+
+  document.getElementById('ed').innerHTML = `<div class="ed-header"><div class="ed-title">${esc(schema.label)}</div><div class="ed-sub">Loading…</div></div><div class="ed-body"><div class="loading"><div class="spin"></div> Loading item</div></div>`;
+
+  const [draftFile, liveData] = await Promise.all([
+    gitGetFile(draftPath),
+    readPublic(livePath),
+  ]);
+  let draftData = null;
+  if (draftFile) { try { draftData = JSON.parse(draftFile.content); } catch(e){} }
+
+  const data = draftData || liveData || {};
+  editorData = deepClone(data);
+  editorMeta = {
+    collId, schema, slug, filename, file: livePath, draftFile: draftPath,
+    hasDraft: !!draftData, hasLive: !!liveData,
+    liveSnapshot: liveData ? deepClone(liveData) : null,
+    initial: deepClone(editorData),
+    isNew: false,
+  };
+  editorDirty = false;
+  drawItemEditor();
+  updatePreviewFor(schema.previewUrl);
+}
+
+function drawItemEditor(){
+  const m = editorMeta;
+  const ed = document.getElementById('ed');
+  const ident = editorData[m.schema.identifier] || '(new item)';
+  const badge = m.isNew
+    ? '<span class="badge draft">New</span>'
+    : (m.hasDraft ? '<span class="badge draft">Draft</span>' : '<span class="badge live">Live</span>');
+
+  ed.innerHTML = `
+    <div class="ed-header">
+      <div class="ed-title">${esc(ident || m.schema.label)} ${badge}</div>
+      <div class="ed-sub">${esc(m.schema.label)} · ${esc(m.file || '(unsaved)')}</div>
+      <div class="ed-actions">
+        <button class="btn btn-ghost" onclick="navigate('coll:${m.collId}')">← Back</button>
+        <button class="btn btn-blue" onclick="saveItemDraft()">💾 Save draft</button>
+        <button class="btn btn-green" onclick="publishItem()">↗ Publish</button>
+        ${m.hasDraft && !m.isNew ? '<button class="btn btn-danger" onclick="discardItemDraft()">Discard draft</button>' : ''}
+        ${m.hasLive && !m.isNew ? '<button class="btn btn-danger" onclick="deleteItem()" style="margin-left:auto">🗑 Delete</button>' : ''}
+      </div>
+    </div>
+    <div class="ed-body" id="edBody"></div>`;
+  renderFields(m.schema.fields, editorData, document.getElementById('edBody'));
+}
+
+async function saveItemDraft(){
+  const m = editorMeta;
+  if (m.isNew && !editorData[m.schema.identifier]) {
+    toast(`Please fill in "${m.schema.identifier}" before saving`, 'err'); return;
+  }
+  try {
+    const slug = m.slug && m.slug !== '__new__' ? m.slug : m.schema.slug(editorData);
+    const filename = slug + '.json';
+    const draftPath = `_data/_drafts/${m.collId}/${filename}`;
+    const content = JSON.stringify(editorData, null, 2);
+    await gitPutFile(draftPath, content, `Draft: ${m.collId}/${filename} (${currentUser.email})`);
+    m.slug = slug;
+    m.filename = filename;
+    m.file = `${m.schema.folder}/${filename}`;
+    m.draftFile = draftPath;
+    m.hasDraft = true;
+    m.initial = deepClone(editorData);
+    m.isNew = false;
+    editorDirty = false;
+    route = { kind:'item', coll: m.collId, slug };
+    drawItemEditor();
+    toast('Draft saved ✓', 'ok');
+  } catch (e) {
+    toast(e.message || 'Save failed', 'err');
+  }
+}
+
+async function publishItem(){
+  const m = editorMeta;
+  if (!editorData[m.schema.identifier]) { toast(`Please fill in "${m.schema.identifier}" first`, 'err'); return; }
+  const ok = await modal('Publish item?', `Publish "${editorData[m.schema.identifier]}" to the live site?`, 'Publish', false);
+  if (!ok) return;
+  try {
+    const slug = m.slug && m.slug !== '__new__' ? m.slug : m.schema.slug(editorData);
+    const filename = slug + '.json';
+    const livePath = `${m.schema.folder}/${filename}`;
+    const draftPath = `_data/_drafts/${m.collId}/${filename}`;
+    const content = JSON.stringify(editorData, null, 2);
+    await gitPutFile(livePath, content, `Publish ${m.collId}: ${editorData[m.schema.identifier]} (${currentUser.email})`);
+    // Clear draft if any
+    if (m.hasDraft) await gitDeleteFile(draftPath, `Clear draft for ${m.collId}/${filename}`).catch(()=>{});
+    // Rebuild the collection's index.json
+    await rebuildCollectionIndex(m.collId);
+    m.slug = slug; m.filename = filename; m.file = livePath; m.draftFile = draftPath;
+    m.hasDraft = false; m.hasLive = true;
+    m.liveSnapshot = deepClone(editorData);
+    m.initial = deepClone(editorData);
+    m.isNew = false; editorDirty = false;
+    route = { kind:'item', coll: m.collId, slug };
+    drawItemEditor();
+    toast('Published ✓ Site rebuilds in ~30s', 'ok');
+  } catch (e) {
+    toast(e.message || 'Publish failed', 'err');
+  }
+}
+
+async function discardItemDraft(){
+  const m = editorMeta;
+  const ok = await modal('Discard draft?', 'Live version stays unchanged.', 'Discard', true);
+  if (!ok) return;
+  try {
+    await gitDeleteFile(m.draftFile, `Discard draft: ${m.collId}/${m.filename}`);
+    m.hasDraft = false;
+    editorData = m.liveSnapshot ? deepClone(m.liveSnapshot) : {};
+    m.initial = deepClone(editorData);
+    editorDirty = false;
+    drawItemEditor();
+    toast('Draft discarded', 'ok');
+  } catch (e) {
+    toast(e.message || 'Discard failed', 'err');
+  }
+}
+
+async function deleteItem(){
+  const m = editorMeta;
+  const ok = await modal('Delete item?', `This permanently removes "${editorData[m.schema.identifier]}" from the live site. The site will rebuild.`, 'Delete', true);
+  if (!ok) return;
+  try {
+    if (m.hasLive) await gitDeleteFile(m.file, `Delete ${m.collId}: ${editorData[m.schema.identifier]} (${currentUser.email})`);
+    if (m.hasDraft) await gitDeleteFile(m.draftFile, `Delete draft: ${m.collId}/${m.filename}`).catch(()=>{});
+    await rebuildCollectionIndex(m.collId);
+    toast('Deleted ✓', 'ok');
+    navigate('coll:' + m.collId);
+  } catch (e) {
+    toast(e.message || 'Delete failed', 'err');
+  }
+}
+
+// Rebuild _data/<coll>/index.json to list current files
+async function rebuildCollectionIndex(collId){
+  const schema = COLLECTIONS[collId];
+  const items = await gitListDir(schema.folder);
+  const files = items
+    .filter(i => i.type === 'file' && i.name.endsWith('.json') && i.name !== 'index.json')
+    .map(i => i.name)
+    .sort()
+    .reverse(); // newest filename first (date-prefixed)
+  const indexPath = `${schema.folder}/index.json`;
+  await gitPutFile(indexPath, JSON.stringify({ files }, null, 2), `Rebuild ${collId} index`);
+}
+
+// ════════════════════════════════════════════════════════════════════
+// 11. PREVIEW PANE
+// ════════════════════════════════════════════════════════════════════
+
+function setVp(vp){
+  pvVp = vp;
+  document.querySelectorAll('.pv-vp button').forEach(b => b.classList.toggle('on', b.getAttribute('data-vp') === vp));
+  const frame = document.getElementById('pvFrame');
+  frame.className = 'pv-frame vp-' + vp;
+}
+function setPvMode(mode){
+  pvMode = mode;
+  document.querySelectorAll('.pv-mode button').forEach(b => b.classList.toggle('on', b.getAttribute('data-mode') === mode));
+  updatePreview();
+}
+function refreshPreview(){ updatePreview(true); }
+function openPreviewWindow(){
+  const url = currentPreviewUrl();
+  if (url) window.open(url, '_blank');
+}
+function currentPreviewUrl(){
+  let path = '/index.html';
+  if (route && route.kind === 'page' && PAGES[route.id]) path = PAGES[route.id].previewUrl;
+  else if (route && (route.kind === 'coll' || route.kind === 'item')) path = COLLECTIONS[(route.coll||route.id)].previewUrl;
+  const draftParam = pvMode === 'draft' ? (path.includes('?') ? '&_draft=1' : '?_draft=1') : '';
+  return SITE_ORIGIN + path + draftParam;
+}
+
+function updatePreview(force){
+  const url = currentPreviewUrl();
+  document.getElementById('pvUrl').textContent = url.replace(SITE_ORIGIN,'');
+  const iframe = document.getElementById('pvIframe');
+  if (force || iframe.src !== url) {
+    iframe.src = url;
+  }
+}
+
+function updatePreviewFor(path){
+  // Used by collection views
+  const url = SITE_ORIGIN + path + (pvMode === 'draft' ? '?_draft=1' : '');
+  document.getElementById('pvUrl').textContent = url.replace(SITE_ORIGIN,'');
+  document.getElementById('pvIframe').src = url;
+}
+
+// Live preview of in-progress edits.
+// The iframe runs cms.js which listens for `orion-cms-preview` postMessage and
+// reapplies content without a rebuild. This means edits are reflected in the
+// preview within ~600ms of typing, regardless of Netlify build state.
+let _previewReady = false;
+window.addEventListener('message', (ev) => {
+  if (ev.data && ev.data.type === 'orion-cms-ready') {
+    _previewReady = true;
+    pushPreviewData();
+  }
+});
+function pushPreviewData(){
+  const iframe = document.getElementById('pvIframe');
+  if (!iframe || !iframe.contentWindow || !_previewReady) return;
+  if (!editorData || !route) return;
+  const msg = { type: 'orion-cms-preview' };
+  if (route.kind === 'page') {
+    if (route.id === 'homepage') msg.homepage = editorData;
+    else if (route.id === 'global') msg.global = editorData;
+    else msg.page = editorData;
+  }
+  try { iframe.contentWindow.postMessage(msg, SITE_ORIGIN); } catch(e){}
+}
+function updatePreviewWithLocalData(){
+  pushPreviewData();
+}
+// Re-push whenever iframe finishes loading
+document.addEventListener('DOMContentLoaded', () => {
+  const iframe = document.getElementById('pvIframe');
+  if (iframe) iframe.addEventListener('load', () => {
+    _previewReady = false; // wait for the new page's ready ping
+  });
+});
+
+// ════════════════════════════════════════════════════════════════════
+// 12. MOBILE / RESPONSIVE
+// ════════════════════════════════════════════════════════════════════
+
+function toggleSidebar(force){
+  const sb = document.getElementById('sb');
+  const ov = document.getElementById('sbOverlay');
+  const open = force === undefined ? !sb.classList.contains('open') : force;
+  sb.classList.toggle('open', open);
+  ov.classList.toggle('show', open);
+}
+function mobileView(which){
+  mobileMode = which;
+  document.getElementById('ed').classList.toggle('show', which === 'ed');
+  document.getElementById('pv').classList.toggle('show', which === 'pv');
+  document.getElementById('mtEdit').classList.toggle('on', which === 'ed');
+  document.getElementById('mtPv').classList.toggle('on', which === 'pv');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// 13. BEFORE-UNLOAD GUARD
+// ════════════════════════════════════════════════════════════════════
+window.addEventListener('beforeunload', (e) => {
+  if (editorDirty) { e.preventDefault(); e.returnValue = ''; }
+});
+
 </script>
 </body>
 </html>

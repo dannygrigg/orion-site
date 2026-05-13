@@ -1,9 +1,19 @@
 // ── ORION CMS LOADER ─────────────────────────────────────
+// Reads structured _data/homepage.json + _data/pages/<page>.json
+// Falls back to legacy _data/pages.json if structured files are absent.
+// Supports both array-shape (stats:[{...}]) and flat-shape (stat1_label) data.
 (function(){
   'use strict';
 
   const BASE = window.location.pathname.includes('/orion-site') ? '/orion-site' : '';
   const PAGE = window.location.pathname.split('/').pop().replace('.html','') || 'index';
+
+  // ─── Draft preview support ─────────────────────────────
+  // When loaded inside the admin preview iframe with ?_draft=1, fetch
+  // from _data/_drafts/ instead of _data/ so editors can preview unpublished
+  // changes without going live.
+  const USE_DRAFTS = new URLSearchParams(window.location.search).has('_draft');
+  const DATA_DIR = USE_DRAFTS ? '/_data/_drafts' : '/_data';
 
   function getJSON(path) {
     return fetch(BASE + path + '?v=' + Date.now()).then(r => r.ok ? r.json() : null).catch(() => null);
@@ -46,6 +56,53 @@
     document.querySelectorAll(selector).forEach(el => setVal(el, val));
   }
 
+  // ─── Shape normaliser ──────────────────────────────────
+  // Take a page data object that may use either:
+  //   array shape:  { stats: [{label,number,note}, ...], features: [...], specs: [...], proof: [...], solutions: [...] }
+  //   flat shape:   { stat1_label, stat1_number, ..., feat1_title, ..., spec1_key, ..., proof1_number, ..., sol1_tag, ... }
+  // ...and return a single flat object containing both, so the existing apply*
+  // functions (which expect the flat keys) keep working unchanged.
+  function flatten(d) {
+    if (!d) return {};
+    const out = Object.assign({}, d);
+
+    const expand = (arr, prefix, keys) => {
+      if (!Array.isArray(arr)) return;
+      arr.forEach((item, i) => {
+        const n = i + 1;
+        keys.forEach(k => {
+          const flatKey = `${prefix}${n}_${k}`;
+          if (out[flatKey] === undefined && item && item[k] !== undefined) {
+            out[flatKey] = item[k];
+          }
+        });
+      });
+    };
+
+    expand(d.stats,     'stat',  ['label','number','note']);
+    expand(d.features,  'feat',  ['title','desc']);
+    expand(d.specs,     'spec',  ['key','val']);
+    expand(d.proof,     'proof', ['number','label','desc']);
+    expand(d.solutions, 'sol',   ['tag','title','desc','image','anchor']);
+
+    // Client logos on About — array of {url, alt, link} → client_logo_1, client_logo_2, ...
+    if (Array.isArray(d.client_logos)) {
+      d.client_logos.forEach((logo, i) => {
+        const n = i + 1;
+        if (out[`client_logo_${n}`] === undefined && logo && logo.url) {
+          out[`client_logo_${n}`] = logo.url;
+        }
+      });
+    }
+
+    // Gallery on helix-product — array of {url, alt} → renders[] shape used by applyRenders
+    if (Array.isArray(d.gallery) && !Array.isArray(out.renders)) {
+      out.renders = d.gallery.map(g => ({ src: g.url || g.src || '', alt: g.alt || '', title: '' }));
+    }
+
+    return out;
+  }
+
   function applyAnnouncements(items) {
     const track = document.querySelector('.announcement-track');
     if (!track || !items || !items.length) return;
@@ -58,8 +115,8 @@
 
   function applyGlobal(settings) {
     if (!settings) return;
-    document.querySelectorAll('a[href^="tel:"]').forEach(a => { if (settings.phone) { a.href = 'tel:' + settings.phone.replace(/\s+/g,''); a.lastChild.textContent = settings.phone; } });
-    document.querySelectorAll('a[href^="mailto:"]').forEach(a => { if (settings.email) { a.href = 'mailto:' + settings.email; a.lastChild.textContent = settings.email; } });
+    document.querySelectorAll('a[href^="tel:"]').forEach(a => { if (settings.phone) { a.href = 'tel:' + settings.phone.replace(/\s+/g,''); if (a.lastChild) a.lastChild.textContent = settings.phone; } });
+    document.querySelectorAll('a[href^="mailto:"]').forEach(a => { if (settings.email) { a.href = 'mailto:' + settings.email; if (a.lastChild) a.lastChild.textContent = settings.email; } });
   }
 
   function applyHeroVideo(url) {
@@ -151,8 +208,8 @@
   }
 
   function applyRenders(renders) {
-    const items = (renders || []).filter(r => r && r.src);
-    const galleryImgs = document.querySelectorAll('#cms-gallery img[data-cms]');
+    const galleryImgs = document.querySelectorAll('#cms-gallery img, .helix-gallery img, [data-cms-gallery] img');
+    const items = (renders || []).filter(Boolean).map(r => ({ src: r.src || r.url || '', alt: r.alt || r.title || '' })).filter(r => r.src);
     if (galleryImgs.length) {
       galleryImgs.forEach((img, i) => {
         const item = items[i];
@@ -195,6 +252,7 @@
 
   function applySharedPage(d) {
     if (!d) return;
+    d = flatten(d);
     applyHeroVideo(d.hero_video_url);
     const h1 = document.querySelector('.page-header h1, .page-hero h1, h1');
     if (h1 && d.hero_h1) h1.innerHTML = d.hero_h1;
@@ -221,6 +279,7 @@
 
   function applyHomepage(d) {
     if (!d) return;
+    d = flatten(d);
     applyHeroVideo(d.hero_video_url);
     const h1 = document.querySelector('.hero h1');
     if (h1 && d.hero_line1) h1.innerHTML = d.hero_line1 + (d.hero_line2 ? `<br><em>${d.hero_line2}</em>` : '');
@@ -254,13 +313,13 @@
     const vaultList = document.getElementById('cms-vault-list');
 
     if (newsFeed) {
-      getJSON('/_data/news/index.json').then(idx => Promise.all(((idx && idx.files) || []).map(f => getJSON('/_data/news/' + f))).then(items => {
+      getJSON(DATA_DIR + '/news/index.json').then(idx => Promise.all(((idx && idx.files) || []).map(f => getJSON(DATA_DIR + '/news/' + f))).then(items => {
         const news = items.filter(Boolean).filter(n => n.status !== 'draft').sort((a,b) => new Date(b.date) - new Date(a.date));
         newsFeed.innerHTML = news.length ? news.map(n => newsCard(n, n.type || 'news', 'Read story →')).join('') : '<p style="color:var(--mid-gray);font-weight:300">No news items yet.</p>';
       }));
     }
 
-    getJSON('/_data/social/index.json').then(idx => Promise.all(((idx && idx.files) || []).map(f => getJSON('/_data/social/' + f))).then(items => {
+    getJSON(DATA_DIR + '/social/index.json').then(idx => Promise.all(((idx && idx.files) || []).map(f => getJSON(DATA_DIR + '/social/' + f))).then(items => {
       const posts = items.filter(Boolean).sort((a,b) => new Date(b.date) - new Date(a.date));
       if (ytFeed) {
         const vids = posts.filter(p => String(p.platform).toLowerCase() === 'youtube');
@@ -280,26 +339,68 @@
     }));
 
     if (vaultList) {
-      getJSON('/_data/vault/index.json').then(idx => Promise.all(((idx && idx.files) || []).map(f => getJSON('/_data/vault/' + f))).then(items => {
+      getJSON(DATA_DIR + '/vault/index.json').then(idx => Promise.all(((idx && idx.files) || []).map(f => getJSON(DATA_DIR + '/vault/' + f))).then(items => {
         const docs = items.filter(Boolean).filter(v => v.access !== 'internal');
         vaultList.innerHTML = docs.map(v => `<a href="${esc(v.url)}" target="_blank" style="display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:white;margin-bottom:8px;text-decoration:none;color:inherit"><div style="width:34px;height:34px;border-radius:8px;background:var(--blue-bg);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">📄</div><div><div style="font-size:13px;font-weight:500">${esc(v.name)}</div><div style="font-size:11px;color:var(--mid-gray)">${esc(v.category || '')}</div></div></a>`).join('');
       }));
     }
   }
 
+  // ─── Boot ──────────────────────────────────────────────
+  // Strategy:
+  //   1. Always load global.json.
+  //   2. For homepage: try homepage.json (new) first, then fall back to
+  //      pages.json[.homepage] (legacy).
+  //   3. For inner pages: try pages/<page>.json (new) first, then fall back
+  //      to pages.json[<page>] (legacy).
+  //   4. Announcements always come from whichever homepage source is found,
+  //      since they render on every page.
   function boot() {
     const isHome = PAGE === 'index' || PAGE === '' || window.location.pathname.endsWith('/orion-site/');
     const isHub = PAGE === 'hub';
-    Promise.all([getJSON('/_data/pages.json'), getJSON('/_data/global.json')]).then(([pages, global]) => {
-      if (!pages) return;
-      applyGlobal(global || {});
-      if (pages.homepage && pages.homepage.announcements) applyAnnouncements(pages.homepage.announcements);
-      if (isHome) applyHomepage(pages.homepage || {});
-      else if (pages[PAGE]) applySharedPage(pages[PAGE]);
+
+    const tasks = [
+      getJSON(DATA_DIR + '/global.json'),
+      getJSON(DATA_DIR + '/homepage.json'),
+      getJSON(DATA_DIR + '/pages.json'),
+      isHome ? Promise.resolve(null) : getJSON(DATA_DIR + '/pages/' + PAGE + '.json')
+    ];
+
+    Promise.all(tasks).then(([global, homepage, legacy, pageData]) => {
+      applyGlobal(global || (legacy && legacy.global) || {});
+
+      const homepageData = homepage || (legacy && legacy.homepage) || null;
+      if (homepageData && homepageData.announcements) applyAnnouncements(homepageData.announcements);
+
+      if (isHome) {
+        applyHomepage(homepageData || {});
+      } else {
+        const inner = pageData || (legacy && legacy[PAGE]) || null;
+        if (inner) applySharedPage(inner);
+      }
+
       if (isHub) loadHubCollections();
     });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
+
+  // ─── Live preview bridge for admin iframe ──────────────
+  // When this page is loaded inside the admin's preview iframe, the admin
+  // can send a postMessage with shape:
+  //   { type: 'orion-cms-preview', homepage: {...}, page: {...}, global: {...} }
+  // to instantly apply the editor's current data without waiting for a rebuild.
+  window.addEventListener('message', function(ev){
+    const msg = ev.data;
+    if (!msg || msg.type !== 'orion-cms-preview') return;
+    const isHome = PAGE === 'index' || PAGE === '' || window.location.pathname.endsWith('/orion-site/');
+    if (msg.global) applyGlobal(msg.global);
+    if (msg.homepage && msg.homepage.announcements) applyAnnouncements(msg.homepage.announcements);
+    if (isHome && msg.homepage) applyHomepage(msg.homepage);
+    else if (!isHome && msg.page) applySharedPage(msg.page);
+  });
+
+  // Tell the parent (admin) that we're ready to receive preview data.
+  try { if (window.parent !== window) window.parent.postMessage({ type: 'orion-cms-ready', page: PAGE }, '*'); } catch(e){}
 })();
