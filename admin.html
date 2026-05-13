@@ -6,7 +6,6 @@
 <title>Orion MIS — Admin</title>
 <meta name="robots" content="noindex, nofollow">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -23,13 +22,24 @@ body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--dark);-
 
 /* ── LOGIN GATE ── */
 #gate{position:fixed;inset:0;background:var(--dark);display:flex;align-items:center;justify-content:center;z-index:9999;padding:24px}
-.gate-card{background:white;border-radius:20px;padding:44px;width:100%;max-width:380px;text-align:center}
-.gate-logo{font-family:'DM Serif Display',serif;font-size:32px;letter-spacing:-0.02em;margin-bottom:4px}
-.gate-sub{font-size:13px;color:var(--mid);font-weight:300;margin-bottom:24px}
-.gate-btn{width:100%;background:var(--dark);color:white;border:none;border-radius:980px;padding:13px;font-family:inherit;font-size:15px;font-weight:500;cursor:pointer}
+.gate-card{background:white;border-radius:20px;padding:36px 36px 32px;width:100%;max-width:380px}
+.gate-logo{font-family:'DM Serif Display',serif;font-size:32px;letter-spacing:-0.02em;text-align:center}
+.gate-sub{font-size:13px;color:var(--mid);font-weight:300;text-align:center;margin-bottom:24px}
+.gate-row{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;text-align:left}
+.gate-row label{font-size:11px;font-weight:500;color:var(--mid);text-transform:uppercase;letter-spacing:0.05em}
+.gate-row input{padding:10px 13px;border:1.5px solid var(--border);border-radius:var(--r);font-family:inherit;font-size:14px;outline:none;transition:border 0.2s;width:100%;background:white;color:var(--dark)}
+.gate-row input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,102,204,0.1)}
+.gate-btn{width:100%;background:var(--dark);color:white;border:none;border-radius:980px;padding:13px;font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;margin-top:6px}
 .gate-btn:hover{background:#333}
-.gate-hint{font-size:11px;color:var(--mid);margin-top:18px;line-height:1.5}
-.gate-err{font-size:12px;color:var(--red);margin-top:12px;display:none}
+.gate-btn:disabled{opacity:0.5;cursor:not-allowed}
+.gate-msg{font-size:12px;margin-top:10px;text-align:center;min-height:18px;line-height:1.45}
+.gate-msg.err{color:var(--red)}
+.gate-msg.ok{color:var(--green)}
+.gate-msg.info{color:var(--mid)}
+.gate-links{display:flex;justify-content:center;gap:14px;margin-top:14px;font-size:12px}
+.gate-links a{color:var(--blue);text-decoration:none}
+.gate-links a:hover{text-decoration:underline}
+.gate-hint{font-size:11px;color:var(--mid);text-align:center;margin-top:16px;line-height:1.5}
 
 /* ── APP SHELL ── */
 #app{display:none;height:100vh;overflow:hidden;background:var(--dark)}
@@ -226,9 +236,31 @@ select.fi{cursor:pointer}
   <div class="gate-card">
     <div class="gate-logo">Orion MIS</div>
     <div class="gate-sub">Content admin</div>
-    <button class="gate-btn" onclick="netlifyIdentity.open()">Sign in</button>
+
+    <!-- Mode: signin (default) | recovery (set new password) | invite (accept invite) | forgot (request reset) -->
+    <form id="gateForm" onsubmit="return false">
+      <div class="gate-row" id="gateRowEmail">
+        <label>Email</label>
+        <input type="email" id="gEmail" autocomplete="username" required>
+      </div>
+      <div class="gate-row" id="gateRowPass">
+        <label id="gPassLabel">Password</label>
+        <input type="password" id="gPass" autocomplete="current-password" required>
+      </div>
+      <div class="gate-row" id="gateRowPass2" style="display:none">
+        <label>Confirm password</label>
+        <input type="password" id="gPass2" autocomplete="new-password">
+      </div>
+      <button type="submit" class="gate-btn" id="gateBtn" onclick="gateSubmit()">Sign in</button>
+      <div class="gate-msg" id="gateMsg"></div>
+    </form>
+
+    <div class="gate-links">
+      <a href="#" id="gateForgot" onclick="setGateMode('forgot');return false">Forgot password?</a>
+      <a href="#" id="gateBackLink" style="display:none" onclick="setGateMode('signin');return false">← Back to sign in</a>
+    </div>
+
     <div class="gate-hint">Access is invite-only. If you haven't received an invitation, ask Danny.</div>
-    <div class="gate-err" id="gateErr"></div>
   </div>
 </div>
 
@@ -346,7 +378,6 @@ const SITE_ORIGIN = window.location.origin; // https://uksortation.netlify.app
 const GIT_GW = '/.netlify/git/github'; // Git Gateway proxy to GitHub Contents API
 const BRANCH = 'main';
 
-let identity = null;     // netlifyIdentity widget
 let currentUser = null;  // logged-in user
 let route = null;        // current route, e.g. {kind:'page', id:'homepage'} or {kind:'coll', id:'news'} or {kind:'item', coll:'news', slug:'...'}
 let editorData = null;   // current edited object
@@ -642,34 +673,220 @@ function b64encode(str){return btoa(unescape(encodeURIComponent(str)))}
 function b64decode(str){return decodeURIComponent(escape(atob(str)))}
 
 // ════════════════════════════════════════════════════════════════════
-// 4. AUTH — Netlify Identity
+// 4. AUTH — direct Netlify Identity (GoTrue) API, no widget
 // ════════════════════════════════════════════════════════════════════
 
-window.addEventListener('DOMContentLoaded', () => {
-  if (typeof netlifyIdentity === 'undefined') {
-    document.getElementById('gateErr').style.display = 'block';
-    document.getElementById('gateErr').textContent = 'Netlify Identity script failed to load. Refresh the page or check your network.';
-    return;
-  }
-  identity = netlifyIdentity;
-  identity.on('init', user => {
-    if (user) { handleLogin(user); }
-  });
-  identity.on('login', user => { handleLogin(user); identity.close(); });
-  identity.on('logout', () => { handleLogout(); });
-  identity.on('error', err => {
-    document.getElementById('gateErr').style.display = 'block';
-    document.getElementById('gateErr').textContent = 'Sign-in error: ' + (err.message || err);
-  });
-  identity.init();
-});
+const ID_API = '/.netlify/identity';       // Identity endpoint on this site
+const TOKEN_KEY = 'orion_identity_v1';     // localStorage key for tokens
 
-function handleLogin(user){
+let gateMode = 'signin';                   // 'signin' | 'forgot' | 'recovery' | 'invite'
+let pendingToken = null;                   // recovery/invite token from URL hash
+
+// ── Token storage ────────────────────────────────────────────────
+function saveTokens(tok){
+  // tok = { access_token, refresh_token, expires_at, ... }
+  localStorage.setItem(TOKEN_KEY, JSON.stringify(tok));
+}
+function loadTokens(){
+  try { return JSON.parse(localStorage.getItem(TOKEN_KEY) || 'null'); } catch(e){ return null; }
+}
+function clearTokens(){ localStorage.removeItem(TOKEN_KEY); }
+
+// ── Low-level Identity API call ──────────────────────────────────
+async function idFetch(path, opts={}){
+  const headers = Object.assign({'Content-Type':'application/json'}, opts.headers||{});
+  const res = await fetch(ID_API + path, Object.assign({}, opts, {headers}));
+  let data = null;
+  try { data = await res.json(); } catch(e){}
+  if (!res.ok) {
+    const msg = (data && (data.error_description || data.msg || data.error)) || res.statusText;
+    const err = new Error(msg);
+    err.status = res.status; err.body = data;
+    throw err;
+  }
+  return data;
+}
+
+// ── Sign in with email/password ──────────────────────────────────
+async function apiSignIn(email, password){
+  // GoTrue token endpoint expects form-encoded body
+  const body = new URLSearchParams({grant_type:'password', username:email, password:password});
+  const res = await fetch(ID_API + '/token', {
+    method:'POST',
+    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body: body.toString(),
+  });
+  const data = await res.json().catch(()=>({}));
+  if (!res.ok) {
+    const msg = data.error_description || data.error_message || data.msg || data.error || 'Sign-in failed';
+    throw new Error(msg);
+  }
+  // Compute absolute expiry timestamp
+  if (data.expires_in) data.expires_at = Date.now() + (data.expires_in * 1000);
+  saveTokens(data);
+  return data;
+}
+
+// ── Refresh access token ─────────────────────────────────────────
+async function apiRefresh(refreshToken){
+  const body = new URLSearchParams({grant_type:'refresh_token', refresh_token: refreshToken});
+  const res = await fetch(ID_API + '/token', {
+    method:'POST',
+    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body: body.toString(),
+  });
+  const data = await res.json().catch(()=>({}));
+  if (!res.ok) throw new Error(data.error_description || data.error || 'Refresh failed');
+  if (data.expires_in) data.expires_at = Date.now() + (data.expires_in * 1000);
+  saveTokens(data);
+  return data;
+}
+
+// ── Get current user profile ─────────────────────────────────────
+async function apiGetUser(accessToken){
+  return await idFetch('/user', {
+    headers: {'Authorization':'Bearer ' + accessToken},
+  });
+}
+
+// ── Forgot password (request reset email) ────────────────────────
+async function apiRequestReset(email){
+  return await idFetch('/recover', {
+    method:'POST',
+    body: JSON.stringify({email}),
+  });
+}
+
+// ── Verify recovery / invite token → returns an access_token ─────
+async function apiVerifyToken(type, token){
+  // type is 'recovery' or 'invite' or 'signup'
+  return await idFetch('/verify', {
+    method:'POST',
+    body: JSON.stringify({type, token}),
+  });
+}
+
+// ── Update password (must be authenticated) ──────────────────────
+async function apiUpdatePassword(accessToken, password){
+  return await idFetch('/user', {
+    method:'PUT',
+    headers: {'Authorization':'Bearer ' + accessToken},
+    body: JSON.stringify({password}),
+  });
+}
+
+// ── Sign out ─────────────────────────────────────────────────────
+async function apiLogout(accessToken){
+  try {
+    await fetch(ID_API + '/logout', {
+      method:'POST',
+      headers: {'Authorization':'Bearer ' + accessToken},
+    });
+  } catch(e){}
+}
+
+// ════════════════════════════════════════════════════════════════════
+// Gate UI — switches between sign-in / forgot / recovery / invite modes
+// ════════════════════════════════════════════════════════════════════
+
+function setGateMode(mode){
+  gateMode = mode;
+  const lbl = document.getElementById('gPassLabel');
+  const rowEmail = document.getElementById('gateRowEmail');
+  const rowPass = document.getElementById('gateRowPass');
+  const rowPass2 = document.getElementById('gateRowPass2');
+  const btn = document.getElementById('gateBtn');
+  const forgot = document.getElementById('gateForgot');
+  const back = document.getElementById('gateBackLink');
+  const msg = document.getElementById('gateMsg');
+  msg.textContent = ''; msg.className = 'gate-msg';
+
+  if (mode === 'signin') {
+    rowEmail.style.display = ''; rowPass.style.display = ''; rowPass2.style.display = 'none';
+    lbl.textContent = 'Password'; btn.textContent = 'Sign in';
+    forgot.style.display = ''; back.style.display = 'none';
+  } else if (mode === 'forgot') {
+    rowEmail.style.display = ''; rowPass.style.display = 'none'; rowPass2.style.display = 'none';
+    btn.textContent = 'Send reset email';
+    forgot.style.display = 'none'; back.style.display = '';
+  } else if (mode === 'recovery' || mode === 'invite') {
+    rowEmail.style.display = 'none'; rowPass.style.display = ''; rowPass2.style.display = '';
+    lbl.textContent = 'New password';
+    btn.textContent = mode === 'invite' ? 'Set password & continue' : 'Set new password';
+    forgot.style.display = 'none'; back.style.display = '';
+    msg.className = 'gate-msg info';
+    msg.textContent = mode === 'invite' ? 'Welcome! Set a password to finish setting up your account.' : 'Set a new password for your account.';
+  }
+}
+
+async function gateSubmit(){
+  const msg = document.getElementById('gateMsg');
+  const btn = document.getElementById('gateBtn');
+  const originalLabel = btn.textContent;
+  msg.textContent = ''; msg.className = 'gate-msg';
+  btn.disabled = true; btn.textContent = 'Please wait…';
+
+  try {
+    if (gateMode === 'signin') {
+      const email = document.getElementById('gEmail').value.trim();
+      const password = document.getElementById('gPass').value;
+      if (!email || !password) throw new Error('Enter your email and password');
+      const tok = await apiSignIn(email, password);
+      const user = await apiGetUser(tok.access_token);
+      handleLogin(user, tok);
+    }
+    else if (gateMode === 'forgot') {
+      const email = document.getElementById('gEmail').value.trim();
+      if (!email) throw new Error('Enter your email');
+      await apiRequestReset(email);
+      msg.className = 'gate-msg ok';
+      msg.textContent = 'If that email is registered, a reset link has been sent. Check inbox & spam.';
+    }
+    else if (gateMode === 'recovery' || gateMode === 'invite') {
+      const p1 = document.getElementById('gPass').value;
+      const p2 = document.getElementById('gPass2').value;
+      if (!p1 || p1.length < 8) throw new Error('Password must be at least 8 characters');
+      if (p1 !== p2) throw new Error('Passwords do not match');
+      // Verify the token → returns an access token granting permission to update the user
+      const tok = await apiVerifyToken(gateMode, pendingToken);
+      await apiUpdatePassword(tok.access_token, p1);
+      // The access_token from /verify is short-lived; trade it for a proper session by signing in with the
+      // refresh_token (GoTrue returns one alongside the access_token)
+      if (tok.expires_in) tok.expires_at = Date.now() + tok.expires_in*1000;
+      saveTokens(tok);
+      const user = await apiGetUser(tok.access_token);
+      // Clean the URL
+      history.replaceState(null, '', window.location.pathname);
+      pendingToken = null;
+      handleLogin(user, tok);
+    }
+  } catch (e) {
+    msg.className = 'gate-msg err';
+    msg.textContent = (e.message || 'Something went wrong').replace(/^Error:\s*/,'');
+  } finally {
+    btn.disabled = false; btn.textContent = originalLabel;
+  }
+}
+
+// Allow Enter to submit on any field
+function _attachGateEnter(){
+  ['gEmail','gPass','gPass2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); gateSubmit(); }});
+  });
+}
+
+// ────────────────────────────────────────────────────────────────────
+// Login / logout / session restore
+// ────────────────────────────────────────────────────────────────────
+
+function handleLogin(user, tokens){
   currentUser = user;
+  if (tokens) saveTokens(tokens);
   document.getElementById('gate').style.display = 'none';
   document.getElementById('app').style.display = 'block';
 
-  const name = user.user_metadata && user.user_metadata.full_name || user.email.split('@')[0];
+  const name = (user.user_metadata && user.user_metadata.full_name) || user.email.split('@')[0];
   document.getElementById('sbName').textContent = name;
   document.getElementById('sbEmail').textContent = user.email;
   document.getElementById('sbAv').textContent = name.charAt(0).toUpperCase();
@@ -682,16 +899,85 @@ function handleLogin(user){
 }
 function handleLogout(){
   currentUser = null;
+  clearTokens();
   document.getElementById('gate').style.display = 'flex';
   document.getElementById('app').style.display = 'none';
+  setGateMode('signin');
 }
-function signOut(){ if (identity) identity.logout(); }
+async function signOut(){
+  const tok = loadTokens();
+  if (tok && tok.access_token) await apiLogout(tok.access_token);
+  handleLogout();
+}
 
+// jwt() returns a valid access_token, refreshing if needed
 async function jwt(){
-  if (!currentUser) throw new Error('Not signed in');
-  // jwt() refreshes the token if needed
-  return await currentUser.jwt();
+  let tok = loadTokens();
+  if (!tok || !tok.access_token) throw new Error('Not signed in');
+  // Refresh if expiring within 60s
+  if (tok.expires_at && Date.now() > tok.expires_at - 60000 && tok.refresh_token) {
+    tok = await apiRefresh(tok.refresh_token);
+  }
+  return tok.access_token;
 }
+
+// ────────────────────────────────────────────────────────────────────
+// On page load: detect URL hash tokens, restore session, or show gate
+// ────────────────────────────────────────────────────────────────────
+
+window.addEventListener('DOMContentLoaded', async () => {
+  _attachGateEnter();
+
+  // 1. URL hash contains invite_token / recovery_token / confirmation_token / access_token
+  const hash = window.location.hash || '';
+  if (hash.includes('invite_token=') || hash.includes('recovery_token=') || hash.includes('confirmation_token=')) {
+    const params = new URLSearchParams(hash.slice(1));
+    if (params.get('invite_token')) {
+      pendingToken = params.get('invite_token');
+      setGateMode('invite');
+      return;
+    }
+    if (params.get('recovery_token')) {
+      pendingToken = params.get('recovery_token');
+      setGateMode('recovery');
+      return;
+    }
+    if (params.get('confirmation_token')) {
+      // Confirm signup (rare with invite-only) — just sign in after
+      try {
+        await apiVerifyToken('signup', params.get('confirmation_token'));
+        history.replaceState(null, '', window.location.pathname);
+        document.getElementById('gateMsg').className = 'gate-msg ok';
+        document.getElementById('gateMsg').textContent = 'Email confirmed. Please sign in.';
+      } catch(e) {
+        document.getElementById('gateMsg').className = 'gate-msg err';
+        document.getElementById('gateMsg').textContent = 'Confirmation link expired or invalid.';
+      }
+      setGateMode('signin');
+      return;
+    }
+  }
+
+  // 2. Existing session?
+  const tok = loadTokens();
+  if (tok && tok.access_token) {
+    try {
+      // If expired and we have a refresh token, refresh first
+      if (tok.expires_at && Date.now() > tok.expires_at - 60000 && tok.refresh_token) {
+        await apiRefresh(tok.refresh_token);
+      }
+      const accessToken = loadTokens().access_token;
+      const user = await apiGetUser(accessToken);
+      handleLogin(user, null);
+      return;
+    } catch (e) {
+      clearTokens();
+    }
+  }
+
+  // 3. Default to sign-in gate
+  setGateMode('signin');
+});
 
 // ════════════════════════════════════════════════════════════════════
 // 5. GIT GATEWAY — file read/write through Netlify-proxied GitHub API
